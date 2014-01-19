@@ -6,21 +6,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
+    <width>500</width>
     <height>400</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string notr="true">dmut</string>
   </property>
-  <widget class="QWidget" name="centralWidget">
-   <widget class="QGraphicsView" name="characterView">
+  <widget class="QWidget" name="characterWidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <widget class="DmutViewport" name="characterView">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>596</width>
-      <height>310</height>
+      <width>0</width>
+      <height>16</height>
      </rect>
     </property>
    </widget>
@@ -30,8 +36,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>600</width>
-     <height>22</height>
+     <width>500</width>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -87,6 +93,13 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>DmutViewport</class>
+   <extends>QGraphicsView</extends>
+   <header>src/dmutviewport.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

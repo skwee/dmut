@@ -3,27 +3,23 @@
 
 NewCharacterDialog::NewCharacterDialog(QWidget *parent, const QString &characterName) :
     QDialog(parent),
-    ui(new Ui::NewCharacterDialog)
+    mUi(new Ui::NewCharacterDialog)
 {
-    ui->setupUi(this);
-    ui->characterNameEdit->setText(characterName);
+    mUi->setupUi(this);
+    mUi->characterNameEdit->setText(characterName);
 }
 
 NewCharacterDialog::~NewCharacterDialog()
 {
-    delete ui;
+    delete mUi;
 }
 
-NewCharacterDialog::NewCharacterCreationData NewCharacterDialog::getCharacterCreationData() const {
-    NewCharacterCreationData nccd;
+Dmut::Data NewCharacterDialog::getCharacterCreationData() const {
+    Dmut::Data d;
 
-    nccd.name = ui->characterNameEdit->text();
-    nccd.frame.w = ui->frameWidthBox->value();
-    nccd.frame.h = ui->frameHeightBox->value();
-    nccd.margin.x = ui->marginXBox->value();
-    nccd.margin.y = ui->marginYBox->value();
-    nccd.spacing.x = ui->xSpacingBox->value();
-    nccd.spacing.y = ui->ySpacingBox->value();
+    d.name = mUi->characterNameEdit->text();
+    d.frame.w = mUi->frameWidthBox->value();
+    d.frame.h = mUi->frameHeightBox->value();
 
-    return nccd;
+    return d;
 }
