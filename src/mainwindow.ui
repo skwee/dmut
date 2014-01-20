@@ -6,37 +6,43 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
-    <height>400</height>
+    <width>506</width>
+    <height>493</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string notr="true">dmut</string>
   </property>
-  <widget class="QWidget" name="characterWidget">
+  <widget class="QWidget" name="frameWidget">
    <property name="sizePolicy">
     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <widget class="DmutViewport" name="characterView">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>0</width>
-      <height>16</height>
-     </rect>
-    </property>
-   </widget>
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
+      <item>
+       <widget class="FrameViewport" name="frameViewport">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="FrameDetailsWidget" name="frameDetailsWidget" native="true"/>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>500</width>
+     <width>506</width>
      <height>19</height>
     </rect>
    </property>
@@ -50,19 +56,10 @@
    <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <widget class="QToolBar" name="toolBar">
-   <property name="windowTitle">
-    <string>toolBar</string>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-   <addaction name="actionNew"/>
-  </widget>
   <action name="actionNew">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset theme="document-new">
      <normaloff/>
@@ -95,9 +92,18 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>DmutViewport</class>
+   <class>FrameViewport</class>
    <extends>QGraphicsView</extends>
-   <header>src/dmutviewport.h</header>
+   <header>src/frameviewport.h</header>
+   <slots>
+    <signal>frameSelectionChanged(Frame*)</signal>
+   </slots>
+  </customwidget>
+  <customwidget>
+   <class>FrameDetailsWidget</class>
+   <extends>QWidget</extends>
+   <header>src/framedetailswidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

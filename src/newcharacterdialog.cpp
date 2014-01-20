@@ -14,12 +14,15 @@ NewCharacterDialog::~NewCharacterDialog()
     delete mUi;
 }
 
-Dmut::Data NewCharacterDialog::getCharacterCreationData() const {
-    Dmut::Data d;
+Frame::Options NewCharacterDialog::getCharacterFrameOptions() const {
+    Frame::Options o;
 
-    d.name = mUi->characterNameEdit->text();
-    d.frame.w = mUi->frameWidthBox->value();
-    d.frame.h = mUi->frameHeightBox->value();
+    o.width = mUi->frameWidthBox->value();
+    o.height = mUi->frameHeightBox->value();
 
-    return d;
+    return o;
+}
+
+QString NewCharacterDialog::getCharacterName() const {
+    return mUi->characterNameEdit->text();
 }

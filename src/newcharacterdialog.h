@@ -2,7 +2,7 @@
 #define NEWCHARACTERDIALOG_H
 
 #include <QDialog>
-#include "dmut.h"
+#include "frame.h"
 
 namespace Ui {
 class NewCharacterDialog;
@@ -16,7 +16,8 @@ public:
     explicit NewCharacterDialog(QWidget *parent, const QString &characterName);
     ~NewCharacterDialog();
 
-    Dmut::Data getCharacterCreationData() const;
+    QString getCharacterName() const;
+    Frame::Options getCharacterFrameOptions() const;
 
 private:
     Ui::NewCharacterDialog *mUi;

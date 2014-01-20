@@ -16,14 +16,19 @@ CONFIG	+= c++11
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
     src/newcharacterdialog.cpp \
-    src/dmut.cpp \
-    src/dmutviewport.cpp
+    src/frameviewport.cpp \
+    src/frame.cpp \
+    src/frameset.cpp \
+    src/framedetailswidget.cpp
 
 HEADERS  += \
     src/mainwindow.h \
     src/newcharacterdialog.h \
-    src/dmut.h \
-    src/dmutviewport.h
+    src/frameviewport.h \
+    src/frame.h \
+    src/frameset.h \
+    src/framedetailswidget.h
 
 FORMS    += src/mainwindow.ui \
-    src/newcharacterdialog.ui
+    src/newcharacterdialog.ui \
+    src/framedetailswidget.ui

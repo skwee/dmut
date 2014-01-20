@@ -37,7 +37,7 @@ void MainWindow::on_actionNew_triggered()
     NewCharacterDialog ncDialog(this, fileInfo.baseName());
     auto ret = ncDialog.exec();
     if(ret == QDialog::Accepted) {
-        mUi->characterView->startNewSession(file, ncDialog.getCharacterCreationData());
+        mUi->frameViewport->startNewSession(file, ncDialog.getCharacterFrameOptions());
     } else if(ret == QDialog::Rejected) {
         return;
     }
