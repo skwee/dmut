@@ -4,7 +4,7 @@
 #include <QMouseEvent>
 
 FrameViewport::FrameViewport(QWidget *parent) :
-    QGraphicsView(parent), mFrameSet(nullptr), mSelectionRect(nullptr)
+    QGraphicsView(parent), mFrameSet(nullptr), mSelectionRect(nullptr), mActiveFrame(nullptr)
 {
     mScene = new QGraphicsScene();
     setScene(mScene);
@@ -15,10 +15,10 @@ FrameViewport::FrameViewport(QWidget *parent) :
 }
 
 FrameViewport::~FrameViewport() {
-//    if(mSelectionRect != nullptr) {
-//        mScene->removeItem(mSelectionRect);
-//        delete mSelectionRect;
-//    }
+    //    if(mSelectionRect != nullptr) {
+    //        mScene->removeItem(mSelectionRect);
+    //        delete mSelectionRect;
+    //    }
 
     if(mScene != nullptr) delete mScene;
 }
@@ -94,5 +94,7 @@ void FrameViewport::keyPressEvent(QKeyEvent *e) {
 }
 
 void FrameViewport::yeildFrameSelectionChanged() {
-    emit frameSelectionChanged(mFrameSet->getFrameAt(mSelectionRect->pos()));
+    Frame* previous = mActiveFrame;
+    mActiveFrame = mFrameSet->getFrameAt(mSelectionRect->pos());
+    emit selectedFrameChanged(previous, mActiveFrame);
 }

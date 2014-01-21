@@ -9,9 +9,6 @@ class Frame
 public:
     static unsigned int idx;
 
-    const QBrush VALID_BRUSH = QBrush(QColor(128, 255, 128, 128));
-    const QBrush NOT_VALID_BRUSH = QBrush(QColor(255, 128, 128, 128));
-
     typedef struct {
         unsigned int width;
         unsigned int height;
@@ -24,9 +21,11 @@ public:
 
     const QString& getGroupName() const { return mGroupName; }
     const QString& getName() const { return mName;}
+    unsigned int getIndex() const { return mIndex; }
 
     void setGroupName(const QString& name) { mGroupName = name; }
     void setName(const QString& name) { mName = name; }
+    void setIndex(unsigned int index) { mIndex = index; }
 
 private:
     QGraphicsPixmapItem* mPixmap;
@@ -34,6 +33,7 @@ private:
     bool mAddedToScene;
 
     QString mGroupName, mName;
+    unsigned int mIndex;
 };
 
 #endif // FRAME_H

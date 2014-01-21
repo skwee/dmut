@@ -19,7 +19,7 @@ SOURCES += src/main.cpp \
     src/frameviewport.cpp \
     src/frame.cpp \
     src/frameset.cpp \
-    src/framedetailswidget.cpp
+    src/animationeditor.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -27,8 +27,11 @@ HEADERS  += \
     src/frameviewport.h \
     src/frame.h \
     src/frameset.h \
-    src/framedetailswidget.h
+    src/animationeditor.h
 
 FORMS    += src/mainwindow.ui \
     src/newcharacterdialog.ui \
-    src/framedetailswidget.ui
+    src/animationeditor.ui
+
+RESOURCES += \
+    iconset.qrc

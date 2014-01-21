@@ -3,17 +3,17 @@
 unsigned int Frame::idx = 0;
 
 Frame::Frame(const QPixmap &pixmap, qreal x, qreal y) :
-    mPixmap(nullptr), mStatusRect(nullptr), mAddedToScene(false)
+    mPixmap(nullptr), mStatusRect(nullptr), mAddedToScene(false),
+    mGroupName(""), mName(""), mIndex(0)
 {
     mPixmap = new QGraphicsPixmapItem();
     mPixmap->setPixmap(pixmap);
     mPixmap->setPos(x, y);
 
     mStatusRect = new QGraphicsRectItem();
-    mStatusRect->setBrush(NOT_VALID_BRUSH);
+    mStatusRect->setRect(0, 0, pixmap.width(), pixmap.height());
+    mStatusRect->setPen(QPen(QColor(0, 0, 0)));
     mStatusRect->setPos(x, y);
-
-    mGroupName = QString("group %d").arg(idx++);
 }
 
 Frame::~Frame() {

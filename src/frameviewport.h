@@ -15,7 +15,7 @@ public:
     void startNewSession(const QString& spriteFileName, const Frame::Options& options);
 
 signals:
-    void frameSelectionChanged(Frame* frame);
+    void selectedFrameChanged(Frame* previous, Frame* current);
 
 public slots:
     void mousePressEvent(QMouseEvent* e);
@@ -27,6 +27,7 @@ private:
     QGraphicsScene* mScene;
     FrameSet* mFrameSet;
     QGraphicsRectItem* mSelectionRect;
+    Frame* mActiveFrame;
 };
 
 #endif // FRAMEVIEWPORT_H
