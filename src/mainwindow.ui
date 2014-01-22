@@ -20,7 +20,7 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <layout class="QGridLayout" name="gridLayout" rowstretch="2,1">
+   <layout class="QGridLayout" name="gridLayout" rowstretch="2">
     <item row="0" column="0">
      <widget class="QGroupBox" name="viewportGroupBox">
       <property name="title">
@@ -47,56 +47,6 @@
          <property name="enabled">
           <bool>true</bool>
          </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QGroupBox" name="animationGroupBox">
-      <property name="title">
-       <string>Animation Editor</string>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="AnimationEditor" name="animationEditor" native="true"/>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="1" column="0" colspan="2">
-     <widget class="QGroupBox" name="animationPlayerGroupBox">
-      <property name="title">
-       <string>Animation Player</string>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="QWidget" name="animationPlayer" native="true">
-         <layout class="QVBoxLayout" name="verticalLayout_2"/>
         </widget>
        </item>
       </layout>
@@ -160,12 +110,6 @@
    <class>FrameViewport</class>
    <extends>QGraphicsView</extends>
    <header>src/frameviewport.h</header>
-  </customwidget>
-  <customwidget>
-   <class>AnimationEditor</class>
-   <extends>QWidget</extends>
-   <header>src/animationeditor.h</header>
-   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

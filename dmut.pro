@@ -18,20 +18,17 @@ SOURCES += src/main.cpp \
     src/newcharacterdialog.cpp \
     src/frameviewport.cpp \
     src/frame.cpp \
-    src/frameset.cpp \
-    src/animationeditor.cpp
+    src/frameset.cpp
 
 HEADERS  += \
     src/mainwindow.h \
     src/newcharacterdialog.h \
     src/frameviewport.h \
     src/frame.h \
-    src/frameset.h \
-    src/animationeditor.h
+    src/frameset.h
 
 FORMS    += src/mainwindow.ui \
-    src/newcharacterdialog.ui \
-    src/animationeditor.ui
+    src/newcharacterdialog.ui
 
 RESOURCES += \
     iconset.qrc
