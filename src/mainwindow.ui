@@ -20,7 +20,7 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <layout class="QGridLayout" name="gridLayout" rowstretch="2">
+   <layout class="QGridLayout" name="gridLayout" rowstretch="2" columnstretch="2,1">
     <item row="0" column="0">
      <widget class="QGroupBox" name="viewportGroupBox">
       <property name="title">
@@ -48,6 +48,30 @@
           <bool>true</bool>
          </property>
         </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QGroupBox" name="animationListGroupBox">
+      <property name="title">
+       <string>Animations</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="AnimationListWidget" name="animationList" native="true"/>
        </item>
       </layout>
      </widget>
@@ -110,6 +134,12 @@
    <class>FrameViewport</class>
    <extends>QGraphicsView</extends>
    <header>src/frameviewport.h</header>
+  </customwidget>
+  <customwidget>
+   <class>AnimationListWidget</class>
+   <extends>QWidget</extends>
+   <header>src/animationlistwidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

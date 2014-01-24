@@ -4,36 +4,40 @@
 #include <QGraphicsPixmapItem>
 #include <QGraphicsScene>
 
-class Frame
+class Frame: public QObject
 {
-public:
-    static unsigned int idx;
+    Q_OBJECT
 
+private:
+    static unsigned int sFrameIndex;
+
+public:
     typedef struct {
         unsigned int width;
         unsigned int height;
     }Options;
 
     Frame(const QPixmap& pixmap, qreal x, qreal y);
-    ~Frame();
+    virtual ~Frame();
 
     void addToScene(QGraphicsScene* const scene);
 
-    const QString& getGroupName() const { return mGroupName; }
     const QString& getName() const { return mName;}
-    unsigned int getIndex() const { return mIndex; }
+    void setName(const QString& name);
 
-    void setGroupName(const QString& name) { mGroupName = name; }
-    void setName(const QString& name) { mName = name; }
-    void setIndex(unsigned int index) { mIndex = index; }
+    QGraphicsView* getView() const {return mPixmap->scene()->views().first(); }
+    QPointF getPosition() const { return mPixmap->mapToScene(mPixmap->boundingRect().bottomRight()); }
+    QRectF getDimensions() const { return mPixmap->boundingRect(); }
+
+signals:
+    void nameChanged(Frame* frame);
 
 private:
     QGraphicsPixmapItem* mPixmap;
     QGraphicsRectItem* mStatusRect;
     bool mAddedToScene;
 
-    QString mGroupName, mName;
-    unsigned int mIndex;
+    QString mName;
 };
 
 #endif // FRAME_H

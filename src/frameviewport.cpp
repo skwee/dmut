@@ -2,6 +2,9 @@
 
 #include <QStyle>
 #include <QMouseEvent>
+#include <QMenu>
+
+#include "framecontextmenu.h"
 
 FrameViewport::FrameViewport(QWidget *parent) :
     QGraphicsView(parent), mFrameSet(nullptr), mSelectionRect(nullptr), mActiveFrame(nullptr)
@@ -15,11 +18,6 @@ FrameViewport::FrameViewport(QWidget *parent) :
 }
 
 FrameViewport::~FrameViewport() {
-    //    if(mSelectionRect != nullptr) {
-    //        mScene->removeItem(mSelectionRect);
-    //        delete mSelectionRect;
-    //    }
-
     if(mScene != nullptr) delete mScene;
 }
 
@@ -59,6 +57,11 @@ void FrameViewport::mousePressEvent(QMouseEvent *e) {
                 );
 
     yeildFrameSelectionChanged();
+
+    if((e->button() == Qt::RightButton) && (mActiveFrame != nullptr)) {
+        FrameContextMenu menu(mActiveFrame);
+        menu.execute();
+    }
 }
 
 void FrameViewport::keyPressEvent(QKeyEvent *e) {
