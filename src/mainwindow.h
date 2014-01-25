@@ -4,7 +4,7 @@
 #include "newcharacterdialog.h"
 
 #include <QMainWindow>
-#include <QGraphicsScene>
+#include <QListWidgetItem>
 
 namespace Ui {
 class MainWindow;
@@ -22,7 +22,18 @@ private slots:
     void on_actionQuit_triggered();
     void on_actionNew_triggered();
 
+    void on_frameListOptsChangeViewTypeButton_clicked();
+
+    void on_animationAddButton_clicked();
+
+    void on_animationsTree_itemSelectionChanged();
+
+    void on_animationRemoveButton_clicked();
+
 private:
+    void updateOptsChangeButton();
+    void startNewSession(const QString& spriteFileName, const Frame::Options& frameOptions);
+
     Ui::MainWindow *mUi;
 };
 

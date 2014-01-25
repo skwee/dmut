@@ -1,43 +1,39 @@
 #ifndef FRAME_H
 #define FRAME_H
 
-#include <QGraphicsPixmapItem>
-#include <QGraphicsScene>
+#include <QPixmap>
 
-class Frame: public QObject
-{
+class Frame: public QObject {
     Q_OBJECT
-
 private:
     static unsigned int sFrameIndex;
+    static unsigned int sTotalFrames;
+
+    static unsigned int getNumberOfFrames() {
+        return sTotalFrames > 0 ? (int) log10 ((double) sTotalFrames) + 1 : 1;
+    }
 
 public:
+    static void setTotalFrames(unsigned int total) { sTotalFrames = total; }
+
     typedef struct {
         unsigned int width;
         unsigned int height;
     }Options;
 
-    Frame(const QPixmap& pixmap, qreal x, qreal y);
-    virtual ~Frame();
+    Frame(QPixmap pixmap);
 
-    void addToScene(QGraphicsScene* const scene);
-
-    const QString& getName() const { return mName;}
+    const QString& getName() const { return mName; }
     void setName(const QString& name);
 
-    QGraphicsView* getView() const {return mPixmap->scene()->views().first(); }
-    QPointF getPosition() const { return mPixmap->mapToScene(mPixmap->boundingRect().bottomRight()); }
-    QRectF getDimensions() const { return mPixmap->boundingRect(); }
+    const QPixmap& getPixmap() const { return mPixmap; }
 
 signals:
-    void nameChanged(Frame* frame);
+    void nameChanged(const QString& name);
 
 private:
-    QGraphicsPixmapItem* mPixmap;
-    QGraphicsRectItem* mStatusRect;
-    bool mAddedToScene;
-
     QString mName;
+    QPixmap mPixmap;
 };
 
 #endif // FRAME_H

@@ -1,5 +1,7 @@
 #include "frameset.h"
 
+#include <QPixmap>
+
 FrameSet::FrameSet(const QString &frameFileName, const Frame::Options &options) :
     mFrameOptions(options)
 {
@@ -10,6 +12,8 @@ FrameSet::FrameSet(const QString &frameFileName, const Frame::Options &options) 
     mRows = spriteWidth / mFrameOptions.width;
     mCols = spriteHeight / mFrameOptions.height;
 
+    Frame::setTotalFrames(mRows * mCols);
+
     mFrames = new Frame*[mCols * mRows];
 
     for(unsigned int j = 0; j < mCols; ++j) {
@@ -17,10 +21,7 @@ FrameSet::FrameSet(const QString &frameFileName, const Frame::Options &options) 
             qreal x, y;
             x = i * mFrameOptions.width;
             y = j * mFrameOptions.height;
-            mFrames[j * mCols + i] = new Frame(
-                        sprite.copy(x, y, mFrameOptions.width, mFrameOptions.height),
-                        x, y
-                        );
+            mFrames[j * mCols + i] = new Frame(sprite.copy(x, y, mFrameOptions.width, mFrameOptions.height));
         }
     }
 }
@@ -35,24 +36,11 @@ FrameSet::~FrameSet() {
     }
 }
 
-void FrameSet::addSetToScene(QGraphicsScene * const scene) {
+bool FrameSet::isNameUnique(const QString &name, Frame* ignoreFrame) const {
     unsigned int total = mRows * mCols;
-    for(unsigned int i = 0; i < total; ++i) mFrames[i]->addToScene(scene);
-}
-
-QSize FrameSet::getSpriteSize() const {
-    QSize s;
-    s.setWidth(mRows * mFrameOptions.width);
-    s.setHeight(mCols * mFrameOptions.height);
-
-    return s;
-}
-
-Frame* FrameSet::getFrameAt(const QPointF &point) const {
-    unsigned int x = (static_cast<unsigned int>(point.x()) / mFrameOptions.width);
-    unsigned int y = (static_cast<unsigned int>(point.y()) / mFrameOptions.height);
-
-    if((x >= mRows) || (y >= mCols)) return  nullptr; //just in case
-
-    return mFrames[y * mCols + x];
+    for(unsigned int i = 0; i < total; ++i) {
+        if(mFrames[i] == ignoreFrame) continue;
+        if(mFrames[i]->getName().compare(name) == 0) return false;
+    }
+    return true;
 }

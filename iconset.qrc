@@ -4,5 +4,6 @@
         <file>src/icons/16x16/actions/list-add.png</file>
         <file>src/icons/16x16/actions/list-remove.png</file>
         <file>src/icons/16x16/actions/system-log-out.png</file>
+        <file>src/icons/16x16/actions/document-properties.png</file>
     </qresource>
 </RCC>

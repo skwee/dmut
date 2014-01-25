@@ -16,29 +16,21 @@ CONFIG	+= c++11
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
     src/newcharacterdialog.cpp \
-    src/frameviewport.cpp \
     src/frame.cpp \
     src/frameset.cpp \
-    src/framecontextmenu.cpp \
-    src/textinputdialog.cpp \
-    src/animationlistwidget.cpp \
-    src/animation.cpp
+    src/framelistwidget.cpp \
+    src/animationlistwidget.cpp
 
 HEADERS  += \
     src/mainwindow.h \
     src/newcharacterdialog.h \
-    src/frameviewport.h \
     src/frame.h \
     src/frameset.h \
-    src/framecontextmenu.h \
-    src/textinputdialog.h \
-    src/animationlistwidget.h \
-    src/animation.h
+    src/framelistwidget.h \
+    src/animationlistwidget.h
 
 FORMS    += src/mainwindow.ui \
-    src/newcharacterdialog.ui \
-    src/textinputdialog.ui \
-    src/animationlistwidget.ui
+    src/newcharacterdialog.ui
 
 RESOURCES += \
     iconset.qrc

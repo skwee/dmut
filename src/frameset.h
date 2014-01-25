@@ -9,12 +9,11 @@ public:
     FrameSet(const QString& frameFileName, const Frame::Options& options);
     ~FrameSet();
 
-    void addSetToScene(QGraphicsScene* const scene);
-
-    QSize getSpriteSize() const;
     const Frame::Options& getFrameOptions() const { return mFrameOptions; }
+    unsigned int totalItems() const { return mRows * mCols; }
+    Frame* frameAt(unsigned int index) const { return mFrames[index]; }
 
-    Frame* getFrameAt(const QPointF& point) const;
+    bool isNameUnique(const QString& name, Frame* ignoreFrame = nullptr) const;
 
 private:
     Frame** mFrames;

@@ -1,31 +1,51 @@
 #ifndef ANIMATIONLISTWIDGET_H
 #define ANIMATIONLISTWIDGET_H
 
-#include <QWidget>
-#include <QListWidgetItem>
+#include <QTreeWidget>
 
-namespace Ui {
-class AnimationListWidget;
-}
+#include "framelistwidget.h"
 
-class AnimationListWidget : public QWidget
-{
-    Q_OBJECT
+class AnimationListItem: public QTreeWidgetItem {
+private:
+    static unsigned int sIndex;
 
 public:
-    explicit AnimationListWidget(QWidget *parent = 0);
-    ~AnimationListWidget();
+    AnimationListItem();
 
-private slots:
-    void on_addAnimationButton_clicked();
-
-    void on_removeAnimationButton_clicked();
-
-    void on_animationsList_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
+    void resetName();
+    void updatePreviousName();
 
 private:
-    Ui::AnimationListWidget *mUi;
-    QListWidgetItem* mCurrentSelectedItem;
+    QString mPreviousName;
+};
+
+class FrameAnimationListItem: public QTreeWidgetItem {
+public:
+    FrameAnimationListItem(Frame* frame);
+
+    Frame* getFrame() const { return mFrame; }
+
+private:
+    Frame* mFrame;
+};
+
+class AnimationListWidget : public QTreeWidget
+{
+    Q_OBJECT
+public:
+    explicit AnimationListWidget(QWidget *parent = 0);
+
+    void addNewAnimation();
+    void removeSelectedAnimations();
+
+signals:
+
+public slots:
+    void onFrameAdd(QListWidgetItem* item);
+
+private slots:
+    void onItemChanged(QTreeWidgetItem* item, int column);
+    bool isNameUnique(const QString& name, int column, QTreeWidgetItem* ignore = nullptr);
 };
 
 #endif // ANIMATIONLISTWIDGET_H
