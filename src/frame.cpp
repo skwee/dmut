@@ -8,5 +8,3 @@ Frame::Frame(QPixmap pixmap)
 {
     setName(QString("Frame %1").arg(++sFrameIndex, getNumberOfFrames(), 10, QChar('0')));
 }
-
-void Frame::setName(const QString &name) { mName = name; }

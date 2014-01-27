@@ -49,8 +49,7 @@ void MainWindow::on_actionNew_triggered()
 void MainWindow::startNewSession(const QString &spriteFileName, const Frame::Options &frameOptions) {
     mUi->frameList->setDisabled(false);
     mUi->frameListOptsChangeViewTypeButton->setDisabled(false);
-
-    mUi->frameList->populate(spriteFileName, frameOptions);
+    mUi->frameList->createNewFrameList(spriteFileName, frameOptions);
 }
 
 void MainWindow::on_frameListOptsChangeViewTypeButton_clicked()

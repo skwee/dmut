@@ -15,10 +15,10 @@ FrameListView::~FrameListView() {
     if(mModel != nullptr) delete mModel;
 }
 
-void FrameListView::populate(const QString &spriteFileName, const Frame::Options& frameOptions) {
+void FrameListView::createNewFrameList(const QString &spriteFileName, const Frame::Options& frameOptions) {
     if(mModel != nullptr) delete mModel;
 
-    mModel = new FrameModel(new FrameSet(spriteFileName, frameOptions));
+    mModel = new FrameModel(spriteFileName, frameOptions);
 
     QObject::connect(
                 mModel, SIGNAL(invalidName(FrameModel::InvalidNameReason)),

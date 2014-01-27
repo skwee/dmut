@@ -1,12 +1,14 @@
 #include "framemodel.h"
 
-FrameModel::FrameModel(FrameSet* frameSet, QObject *parent) :
-    QAbstractListModel(parent), mFrameSet(frameSet)
+FrameModel::FrameModel(const QString& frameFileName, const Frame::Options& options, QObject *parent) :
+    QAbstractItemModel(parent), mFrameSet(nullptr)
 {
+    mFrameSet = new FrameSet(frameFileName, options);
 }
 
 FrameModel::~FrameModel() {
-    delete mFrameSet;
+    if(mFrameSet != nullptr)
+        delete mFrameSet;
 }
 
 int FrameModel::rowCount(const QModelIndex &parent) const {
@@ -45,7 +47,7 @@ bool FrameModel::setData(const QModelIndex &index, const QVariant &value, int ro
                 emit invalidName(InvalidNameReason::Duplicate);
                 return false;
             }
-            frame->setName(value.toString());
+            frame->setName(newName);
             return true;
         }
     }
@@ -72,10 +74,13 @@ QModelIndex FrameModel::index(int row, int column, const QModelIndex &parent) co
     return QModelIndex();
 }
 
+QModelIndex FrameModel::parent(const QModelIndex &child) const {
+    Q_UNUSED(child);
+    return QModelIndex();
+}
+
 Frame* FrameModel::frameAt(const QModelIndex &index) const {
     if(!index.isValid()) return nullptr;
     if(index.row() >= mFrameSet->totalItems()) return nullptr;
-
-    Frame* frame = mFrameSet->frameAt(index.row());
-    return frame;
+    return mFrameSet->frameAt(index.row());
 }

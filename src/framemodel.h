@@ -1,11 +1,11 @@
 #ifndef FRAMEMODEL_H
 #define FRAMEMODEL_H
 
-#include <QAbstractListModel>
+#include <QAbstractItemModel>
 
 #include "frameset.h"
 
-class FrameModel: public QAbstractListModel {
+class FrameModel: public QAbstractItemModel {
     Q_OBJECT
 public:
     enum class InvalidNameReason {
@@ -13,7 +13,7 @@ public:
         Duplicate
     };
 
-    FrameModel(FrameSet* frameSet, QObject* parent = 0);
+    FrameModel(const QString& frameFileName, const Frame::Options& options, QObject* parent = 0);
     ~FrameModel();
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
@@ -22,6 +22,7 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
     Qt::ItemFlags flags(const QModelIndex &index) const;
     QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
+    QModelIndex parent(const QModelIndex &child) const;
 
 signals:
     void invalidName(FrameModel::InvalidNameReason reason);

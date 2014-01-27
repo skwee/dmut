@@ -23,7 +23,7 @@ public:
 
     Frame(QPixmap pixmap);
 
-    void setName(const QString& name);
+    void setName(const QString& name) { mName = name; }
     QString getName() const { return mName; }
     const QPixmap& getPixmap() const { return mPixmap; }
 

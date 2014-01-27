@@ -15,7 +15,7 @@ public:
     explicit FrameListView(QWidget *parent = 0);
     virtual ~FrameListView();
 
-    void populate(const QString& spriteFileName, const Frame::Options& frameOptions);
+    void createNewFrameList(const QString& spriteFileName, const Frame::Options& frameOptions);
 
 private slots:
     void onInvalidNameSet(FrameModel::InvalidNameReason reason);
