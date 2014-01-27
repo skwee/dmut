@@ -18,16 +18,16 @@ SOURCES += src/main.cpp \
     src/newcharacterdialog.cpp \
     src/frame.cpp \
     src/frameset.cpp \
-    src/framelistwidget.cpp \
-    src/animationlistwidget.cpp
+    src/framelistview.cpp \
+    src/framemodel.cpp
 
 HEADERS  += \
     src/mainwindow.h \
     src/newcharacterdialog.h \
     src/frame.h \
     src/frameset.h \
-    src/framelistwidget.h \
-    src/animationlistwidget.h
+    src/framelistview.h \
+    src/framemodel.h
 
 FORMS    += src/mainwindow.ui \
     src/newcharacterdialog.ui

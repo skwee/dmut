@@ -1,10 +1,10 @@
 #ifndef FRAME_H
 #define FRAME_H
 
+#include <QAbstractItemModel>
 #include <QPixmap>
 
-class Frame: public QObject {
-    Q_OBJECT
+class Frame {
 private:
     static unsigned int sFrameIndex;
     static unsigned int sTotalFrames;
@@ -23,13 +23,9 @@ public:
 
     Frame(QPixmap pixmap);
 
-    const QString& getName() const { return mName; }
     void setName(const QString& name);
-
+    QString getName() const { return mName; }
     const QPixmap& getPixmap() const { return mPixmap; }
-
-signals:
-    void nameChanged(const QString& name);
 
 private:
     QString mName;

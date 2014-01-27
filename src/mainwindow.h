@@ -24,12 +24,6 @@ private slots:
 
     void on_frameListOptsChangeViewTypeButton_clicked();
 
-    void on_animationAddButton_clicked();
-
-    void on_animationsTree_itemSelectionChanged();
-
-    void on_animationRemoveButton_clicked();
-
 private:
     void updateOptsChangeButton();
     void startNewSession(const QString& spriteFileName, const Frame::Options& frameOptions);

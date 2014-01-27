@@ -78,7 +78,7 @@
          </layout>
         </item>
         <item>
-         <widget class="FrameListWidget" name="frameList"/>
+         <widget class="FrameListView" name="frameList"/>
         </item>
        </layout>
       </widget>
@@ -100,55 +100,7 @@
          <number>0</number>
         </property>
         <item>
-         <layout class="QHBoxLayout" name="animationSelectorLayout">
-          <item>
-           <widget class="QComboBox" name="animationDropdown"/>
-          </item>
-          <item>
-           <spacer name="animationActionsSpacer">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="animationAddButton">
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset resource="../iconset.qrc">
-              <normaloff>:/src/icons/16x16/actions/list-add.png</normaloff>:/src/icons/16x16/actions/list-add.png</iconset>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="animationRemoveButton">
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset resource="../iconset.qrc">
-              <normaloff>:/src/icons/16x16/actions/list-remove.png</normaloff>:/src/icons/16x16/actions/list-remove.png</iconset>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="AnimationListWidget" name="animationsTree">
-          <column>
-           <property name="text">
-            <string>Animation</string>
-           </property>
-          </column>
-         </widget>
+         <layout class="QHBoxLayout" name="animationSelectorLayout"/>
         </item>
        </layout>
       </widget>
@@ -209,14 +161,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>FrameListWidget</class>
-   <extends>QListWidget</extends>
-   <header>src/framelistwidget.h</header>
-  </customwidget>
-  <customwidget>
-   <class>AnimationListWidget</class>
-   <extends>QTreeWidget</extends>
-   <header>src/animationlistwidget.h</header>
+   <class>FrameListView</class>
+   <extends>QListView</extends>
+   <header>src/framelistview.h</header>
   </customwidget>
  </customwidgets>
  <resources>

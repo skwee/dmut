@@ -10,14 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
     mUi->setupUi(this);
     mUi->frameList->setDisabled(true);
     mUi->frameListOptsChangeViewTypeButton->setDisabled(true);
-    mUi->animationsTree->setDisabled(true);
-    mUi->animationAddButton->setDisabled(true);
-    mUi->animationRemoveButton->setDisabled(true);
 
     updateOptsChangeButton();
-
-    QObject::connect(mUi->frameList, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-                     mUi->animationsTree, SLOT(onFrameAdd(QListWidgetItem*)));
 }
 
 MainWindow::~MainWindow()
@@ -56,9 +50,6 @@ void MainWindow::startNewSession(const QString &spriteFileName, const Frame::Opt
     mUi->frameList->setDisabled(false);
     mUi->frameListOptsChangeViewTypeButton->setDisabled(false);
 
-    mUi->animationsTree->setDisabled(false);
-    mUi->animationAddButton->setDisabled(false);
-
     mUi->frameList->populate(spriteFileName, frameOptions);
 }
 
@@ -79,19 +70,4 @@ void MainWindow::updateOptsChangeButton() {
                 ? tr("Switch to Icon Mode")
                 : tr("Switch to List Mode")
                   );
-}
-
-void MainWindow::on_animationAddButton_clicked()
-{
-    mUi->animationsTree->addNewAnimation();
-}
-
-void MainWindow::on_animationsTree_itemSelectionChanged()
-{
-    mUi->animationRemoveButton->setEnabled(!mUi->animationsTree->selectedItems().empty());
-}
-
-void MainWindow::on_animationRemoveButton_clicked()
-{
-    mUi->animationsTree->removeSelectedAnimations();
 }
