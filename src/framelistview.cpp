@@ -18,13 +18,18 @@ FrameListView::~FrameListView() {
 void FrameListView::createNewFrameList(const QString &spriteFileName, const Frame::Options& frameOptions) {
     if(mModel != nullptr) delete mModel;
 
-    mModel = new FrameModel(spriteFileName, frameOptions);
+    mModel = new FrameModel(frameOptions);
 
     QObject::connect(
                 mModel, SIGNAL(invalidName(FrameModel::InvalidNameReason)),
                 this, SLOT(onInvalidNameSet(FrameModel::InvalidNameReason)));
 
     setModel(mModel);
+
+    SpriteToFrameFactory sff(spriteFileName, frameOptions);
+    for(unsigned int i = 0; i < sff.totalItems(); ++i) {
+        mModel->addFrame(sff.at(i));
+    }
 
     show();
 }

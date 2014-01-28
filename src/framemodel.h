@@ -2,8 +2,9 @@
 #define FRAMEMODEL_H
 
 #include <QAbstractItemModel>
+#include <memory>
 
-#include "frameset.h"
+#include "frame.h"
 
 class FrameModel: public QAbstractItemModel {
     Q_OBJECT
@@ -13,7 +14,9 @@ public:
         Duplicate
     };
 
-    FrameModel(const QString& frameFileName, const Frame::Options& options, QObject* parent = 0);
+    typedef std::shared_ptr<Frame> FramePtr;
+
+    FrameModel(const Frame::Options& frameOptions, QObject* parent = 0);
     ~FrameModel();
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
@@ -24,14 +27,16 @@ public:
     QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
     QModelIndex parent(const QModelIndex &child) const;
 
+    void addFrame(const QPixmap& pixmap);
+
 signals:
     void invalidName(FrameModel::InvalidNameReason reason);
 
 private:
-    Frame* frameAt(const QModelIndex& index) const;
+    bool isNameUnique(const QString& name, FramePtr ingore) const;
 
-private:
-    FrameSet* mFrameSet;
+    Frame::Options mFrameOptions;
+    QList<FramePtr> mFrameList;
 };
 
 #endif // FRAMEMODEL_H

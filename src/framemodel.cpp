@@ -1,19 +1,16 @@
 #include "framemodel.h"
 
-FrameModel::FrameModel(const QString& frameFileName, const Frame::Options& options, QObject *parent) :
-    QAbstractItemModel(parent), mFrameSet(nullptr)
+FrameModel::FrameModel(const Frame::Options& frameOptions, QObject *parent) :
+    QAbstractItemModel(parent), mFrameOptions(frameOptions)
 {
-    mFrameSet = new FrameSet(frameFileName, options);
 }
 
 FrameModel::~FrameModel() {
-    if(mFrameSet != nullptr)
-        delete mFrameSet;
 }
 
 int FrameModel::rowCount(const QModelIndex &parent) const {
     Q_UNUSED(parent);
-    return mFrameSet->totalItems();
+    return mFrameList.size();
 }
 
 int FrameModel::columnCount(const QModelIndex &parent) const {
@@ -22,10 +19,12 @@ int FrameModel::columnCount(const QModelIndex &parent) const {
 }
 
 QVariant FrameModel::data(const QModelIndex &index, int role) const {
-    Frame* frame = frameAt(index);
+    if(!index.isValid()) return QVariant();
 
-    if(frame != nullptr) {
-        if(role == Qt::DisplayRole) {
+    FramePtr frame = mFrameList.at(index.row());
+
+    if(frame) {
+        if((role == Qt::DisplayRole) || (role == Qt::EditRole)) {
             return frame->getName();
         } else if(role == Qt::DecorationRole) {
             return frame->getPixmap();
@@ -36,14 +35,17 @@ QVariant FrameModel::data(const QModelIndex &index, int role) const {
 }
 
 bool FrameModel::setData(const QModelIndex &index, const QVariant &value, int role) {
-    Frame* frame = frameAt(index);
-    if(frame != nullptr) {
+    if(!index.isValid()) return false;
+
+    FramePtr frame = mFrameList.at(index.row());
+
+    if(frame) {
         if(role == Qt::EditRole) {
             const QString newName = value.toString();
             if(newName.isEmpty()) {
                 emit invalidName(InvalidNameReason::Empty);
                 return false;
-            } else if(!mFrameSet->isNameUnique(newName, frame)) {
+            } else if(!isNameUnique(newName, frame)) {
                 emit invalidName(InvalidNameReason::Duplicate);
                 return false;
             }
@@ -56,7 +58,11 @@ bool FrameModel::setData(const QModelIndex &index, const QVariant &value, int ro
 }
 
 Qt::ItemFlags FrameModel::flags(const QModelIndex &index) const {
-    Q_UNUSED(index);
+    if(!index.isValid())
+        return Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+
+    FramePtr frame = mFrameList.at(index.row());
+    //@TODO
     return Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 }
 
@@ -67,9 +73,9 @@ QModelIndex FrameModel::index(int row, int column, const QModelIndex &parent) co
     if(!parent.isValid())
         return createIndex(row, column);
 
-    Frame* frame = frameAt(parent);
-    if(frame != nullptr)
-        return createIndex(row, column, frame);
+    FramePtr frame = mFrameList.at(row);
+    if(frame)
+        return createIndex(row, column, frame.get());
 
     return QModelIndex();
 }
@@ -79,8 +85,18 @@ QModelIndex FrameModel::parent(const QModelIndex &child) const {
     return QModelIndex();
 }
 
-Frame* FrameModel::frameAt(const QModelIndex &index) const {
-    if(!index.isValid()) return nullptr;
-    if(index.row() >= mFrameSet->totalItems()) return nullptr;
-    return mFrameSet->frameAt(index.row());
+void FrameModel::addFrame(const QPixmap& pixmap) {
+    int l = mFrameList.size();
+    beginInsertRows(QModelIndex(), l, l);
+    mFrameList.append(FramePtr(new Frame(pixmap)));
+    endInsertRows();
+}
+
+bool FrameModel::isNameUnique(const QString &name, FramePtr ingore) const {
+    for(const FramePtr f : mFrameList) {
+        if(f == ingore) continue;
+        if(f->getName().compare(name) == 0) return false;
+    }
+
+    return true;
 }

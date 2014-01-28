@@ -5,7 +5,7 @@
 #include <QStandardItemModel>
 
 #include "frame.h"
-#include "frameset.h"
+#include "spritetoframefactory.h"
 #include "framemodel.h"
 
 class FrameListView : public QListView

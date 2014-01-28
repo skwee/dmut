@@ -17,17 +17,17 @@ SOURCES += src/main.cpp \
     src/mainwindow.cpp \
     src/newcharacterdialog.cpp \
     src/frame.cpp \
-    src/frameset.cpp \
     src/framelistview.cpp \
-    src/framemodel.cpp
+    src/framemodel.cpp \
+    src/spritetoframefactory.cpp
 
 HEADERS  += \
     src/mainwindow.h \
     src/newcharacterdialog.h \
     src/frame.h \
-    src/frameset.h \
     src/framelistview.h \
-    src/framemodel.h
+    src/framemodel.h \
+    src/spritetoframefactory.h
 
 FORMS    += src/mainwindow.ui \
     src/newcharacterdialog.ui
