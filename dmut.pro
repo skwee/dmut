@@ -19,7 +19,11 @@ SOURCES += src/main.cpp \
     src/frame.cpp \
     src/framelistview.cpp \
     src/framemodel.cpp \
-    src/spritetoframefactory.cpp
+    src/spritetoframefactory.cpp \
+    src/animation.cpp \
+    src/animationmodel.cpp \
+    src/animationlistview.cpp \
+    src/framelistframe.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -27,10 +31,15 @@ HEADERS  += \
     src/frame.h \
     src/framelistview.h \
     src/framemodel.h \
-    src/spritetoframefactory.h
+    src/spritetoframefactory.h \
+    src/animation.h \
+    src/animationmodel.h \
+    src/animationlistview.h \
+    src/framelistframe.h
 
 FORMS    += src/mainwindow.ui \
-    src/newcharacterdialog.ui
+    src/newcharacterdialog.ui \
+    src/framelistframe.ui
 
 RESOURCES += \
     iconset.qrc

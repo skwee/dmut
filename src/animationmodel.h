@@ -1,12 +1,12 @@
-#ifndef FRAMEMODEL_H
-#define FRAMEMODEL_H
+#ifndef ANIMATIONMODEL_H
+#define ANIMATIONMODEL_H
 
 #include <QAbstractItemModel>
 #include <vector>
 
-#include "frame.h"
+#include "animation.h"
 
-class FrameModel: public QAbstractItemModel {
+class AnimationModel: public QAbstractItemModel {
     Q_OBJECT
 public:
     enum class InvalidNameReason {
@@ -14,8 +14,8 @@ public:
         Duplicate
     };
 
-    FrameModel(const Frame::Options& frameOptions, QObject* parent = 0);
-    ~FrameModel();
+    AnimationModel(QObject* parent = 0);
+    ~AnimationModel();
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
@@ -25,16 +25,16 @@ public:
     QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
     QModelIndex parent(const QModelIndex &child) const;
 
-    void addFrame(const QPixmap& pixmap);
+    void addAnimation();
+    void removeAnimation(Animation::Ptr animation);
 
 signals:
-    void invalidName(FrameModel::InvalidNameReason reason);
+    void invalidName(AnimationModel::InvalidNameReason reason);
 
 private:
-    bool isNameUnique(const QString& name, Frame::Ptr ingore) const;
+    bool isNameUnique(const QString& name, Animation::Ptr ingore) const;
 
-    Frame::Options mFrameOptions;
-    std::vector<Frame::Ptr> mFrameList;
+    std::vector<Animation::Ptr> mAnimationList;
 };
 
-#endif // FRAMEMODEL_H
+#endif // ANIMATIONMODEL_H

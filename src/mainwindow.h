@@ -22,10 +22,7 @@ private slots:
     void on_actionQuit_triggered();
     void on_actionNew_triggered();
 
-    void on_frameListOptsChangeViewTypeButton_clicked();
-
 private:
-    void updateOptsChangeButton();
     void startNewSession(const QString& spriteFileName, const Frame::Options& frameOptions);
 
     Ui::MainWindow *mUi;

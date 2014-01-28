@@ -2,9 +2,7 @@
 #define FRAMELISTWIDGET_H
 
 #include <QListView>
-#include <QStandardItemModel>
 
-#include "frame.h"
 #include "spritetoframefactory.h"
 #include "framemodel.h"
 
@@ -13,12 +11,12 @@ class FrameListView : public QListView
     Q_OBJECT
 public:
     explicit FrameListView(QWidget *parent = 0);
-    virtual ~FrameListView();
+    ~FrameListView();
 
     void createNewFrameList(const QString& spriteFileName, const Frame::Options& frameOptions);
 
 private slots:
-    void onInvalidNameSet(FrameModel::InvalidNameReason reason);
+    void onInvalidName(FrameModel::InvalidNameReason reason);
 
 private:
     FrameModel* mModel;

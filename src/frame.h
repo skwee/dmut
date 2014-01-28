@@ -3,6 +3,7 @@
 
 #include <QAbstractItemModel>
 #include <QPixmap>
+#include <memory>
 
 class Frame {
 private:
@@ -14,6 +15,8 @@ private:
     }
 
 public:
+    typedef std::shared_ptr<Frame> Ptr;
+
     static void setTotalFrames(unsigned int total) { sTotalFrames = total; }
 
     typedef struct {

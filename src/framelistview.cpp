@@ -12,17 +12,17 @@ FrameListView::FrameListView(QWidget *parent) :
 }
 
 FrameListView::~FrameListView() {
-    if(mModel != nullptr) delete mModel;
+    if(mModel) delete mModel;
 }
 
 void FrameListView::createNewFrameList(const QString &spriteFileName, const Frame::Options& frameOptions) {
     if(mModel != nullptr) delete mModel;
 
-    mModel = new FrameModel(frameOptions);
+    mModel = new FrameModel(frameOptions, this);
 
     QObject::connect(
                 mModel, SIGNAL(invalidName(FrameModel::InvalidNameReason)),
-                this, SLOT(onInvalidNameSet(FrameModel::InvalidNameReason)));
+                this, SLOT(onInvalidName(FrameModel::InvalidNameReason)));
 
     setModel(mModel);
 
@@ -34,7 +34,7 @@ void FrameListView::createNewFrameList(const QString &spriteFileName, const Fram
     show();
 }
 
-void FrameListView::onInvalidNameSet(FrameModel::InvalidNameReason reason) {
+void FrameListView::onInvalidName(FrameModel::InvalidNameReason reason) {
     if(reason == FrameModel::InvalidNameReason::Empty) {
         QMessageBox::warning(this, tr("Empty name"), tr("Frame name can not be empty"));
     } else if(reason == FrameModel::InvalidNameReason::Duplicate) {

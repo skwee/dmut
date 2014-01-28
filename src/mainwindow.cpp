@@ -8,10 +8,8 @@ MainWindow::MainWindow(QWidget *parent) :
     mUi(new Ui::MainWindow)
 {
     mUi->setupUi(this);
-    mUi->frameList->setDisabled(true);
-    mUi->frameListOptsChangeViewTypeButton->setDisabled(true);
 
-    updateOptsChangeButton();
+    mUi->frameListFrame->setDisabled(true);
 }
 
 MainWindow::~MainWindow()
@@ -47,26 +45,6 @@ void MainWindow::on_actionNew_triggered()
 }
 
 void MainWindow::startNewSession(const QString &spriteFileName, const Frame::Options &frameOptions) {
-    mUi->frameList->setDisabled(false);
-    mUi->frameListOptsChangeViewTypeButton->setDisabled(false);
-    mUi->frameList->createNewFrameList(spriteFileName, frameOptions);
-}
-
-void MainWindow::on_frameListOptsChangeViewTypeButton_clicked()
-{
-    if(mUi->frameList->viewMode() == QListView::IconMode) {
-        mUi->frameList->setViewMode(QListView::ListMode);
-    } else {
-        mUi->frameList->setViewMode(QListView::IconMode);
-    }
-
-    updateOptsChangeButton();
-}
-
-void MainWindow::updateOptsChangeButton() {
-    mUi->frameListOptsChangeViewTypeButton->setToolTip(
-                mUi->frameList->viewMode() == QListView::ListMode
-                ? tr("Switch to Icon Mode")
-                : tr("Switch to List Mode")
-                  );
+    mUi->frameListFrame->setDisabled(false);
+    mUi->frameListFrame->createFrameList(spriteFileName, frameOptions);
 }

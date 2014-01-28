@@ -26,83 +26,22 @@
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <property name="opaqueResize">
-       <bool>true</bool>
-      </property>
-      <property name="childrenCollapsible">
-       <bool>false</bool>
-      </property>
-      <widget class="QGroupBox" name="frameListGroupBox">
-       <property name="title">
-        <string>Frames</string>
+      <widget class="FrameListFrame" name="frameListFrame">
+       <property name="autoFillBackground">
+        <bool>false</bool>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-        <item>
-         <layout class="QHBoxLayout" name="frameListOptsLayout">
-          <item>
-           <spacer name="frameListOptsSpacer">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="frameListOptsChangeViewTypeButton">
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset resource="../iconset.qrc">
-              <normaloff>:/src/icons/16x16/actions/document-properties.png</normaloff>:/src/icons/16x16/actions/document-properties.png</iconset>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="FrameListView" name="frameList"/>
-        </item>
-       </layout>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
       </widget>
-      <widget class="QGroupBox" name="animationListGroupBox">
-       <property name="title">
-        <string>Animations</string>
+      <widget class="QFrame" name="animationsFramesListFrame">
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-        <item>
-         <layout class="QHBoxLayout" name="animationSelectorLayout"/>
-        </item>
-       </layout>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <zorder>frameListFrame</zorder>
       </widget>
      </widget>
     </item>
@@ -161,9 +100,10 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>FrameListView</class>
-   <extends>QListView</extends>
-   <header>src/framelistview.h</header>
+   <class>FrameListFrame</class>
+   <extends>QFrame</extends>
+   <header>src/framelistframe.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>
