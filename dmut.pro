@@ -23,7 +23,11 @@ SOURCES += src/main.cpp \
     src/animation.cpp \
     src/animationmodel.cpp \
     src/animationlistview.cpp \
-    src/framelistframe.cpp
+    src/framelistframe.cpp \
+    src/animationsframeframe.cpp \
+    src/animationframe.cpp \
+    src/animationframemodel.cpp \
+    src/animationsframelistview.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -35,11 +39,16 @@ HEADERS  += \
     src/animation.h \
     src/animationmodel.h \
     src/animationlistview.h \
-    src/framelistframe.h
+    src/framelistframe.h \
+    src/animationsframeframe.h \
+    src/animationframe.h \
+    src/animationframemodel.h \
+    src/animationsframelistview.h
 
 FORMS    += src/mainwindow.ui \
     src/newcharacterdialog.ui \
-    src/framelistframe.ui
+    src/framelistframe.ui \
+    src/animationsframeframe.ui
 
 RESOURCES += \
     iconset.qrc

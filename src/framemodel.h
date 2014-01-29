@@ -25,6 +25,8 @@ public:
     QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
     QModelIndex parent(const QModelIndex &child) const;
 
+    Frame::Ptr frameAt(const QModelIndex &index) const;
+
     void addFrame(const QPixmap& pixmap);
 
 signals:

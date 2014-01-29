@@ -20,7 +20,7 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QHBoxLayout" name="horizontalLayout" stretch="0">
     <item>
      <widget class="QSplitter" name="splitter">
       <property name="orientation">
@@ -34,14 +34,13 @@
         <string notr="true"/>
        </property>
       </widget>
-      <widget class="QFrame" name="animationsFramesListFrame">
+      <widget class="AnimationsFrameFrame" name="animationsFramesListFrame">
        <property name="frameShape">
         <enum>QFrame::NoFrame</enum>
        </property>
        <property name="frameShadow">
         <enum>QFrame::Raised</enum>
        </property>
-       <zorder>frameListFrame</zorder>
       </widget>
      </widget>
     </item>
@@ -103,6 +102,12 @@
    <class>FrameListFrame</class>
    <extends>QFrame</extends>
    <header>src/framelistframe.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>AnimationsFrameFrame</class>
+   <extends>QFrame</extends>
+   <header>src/animationsframeframe.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

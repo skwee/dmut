@@ -24,6 +24,11 @@ void FrameListView::createNewFrameList(const QString &spriteFileName, const Fram
                 mModel, SIGNAL(invalidName(FrameModel::InvalidNameReason)),
                 this, SLOT(onInvalidName(FrameModel::InvalidNameReason)));
 
+    QObject::connect(
+                this, SIGNAL(doubleClicked(QModelIndex)),
+                this, SLOT(onDoubleClicked(const QModelIndex))
+                );
+
     setModel(mModel);
 
     SpriteToFrameFactory sff(spriteFileName, frameOptions);
@@ -39,5 +44,11 @@ void FrameListView::onInvalidName(FrameModel::InvalidNameReason reason) {
         QMessageBox::warning(this, tr("Empty name"), tr("Frame name can not be empty"));
     } else if(reason == FrameModel::InvalidNameReason::Duplicate) {
         QMessageBox::warning(this, tr("Duplicate name"), tr("Frame with such name already exists"));
+    }
+}
+
+void FrameListView::onDoubleClicked(const QModelIndex &index) {
+    if(Frame::Ptr frame = mModel->frameAt(index)) {
+        emit onFrameDoubleClicked(frame);
     }
 }

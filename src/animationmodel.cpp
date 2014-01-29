@@ -55,7 +55,6 @@ bool AnimationModel::setData(const QModelIndex &index, const QVariant &value, in
 }
 
 Qt::ItemFlags AnimationModel::flags(const QModelIndex &index) const {
-    Q_UNUSED(index);
     return Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 }
 
@@ -94,6 +93,22 @@ void AnimationModel::removeAnimation(Animation::Ptr animation) {
     beginRemoveRows(QModelIndex(), idx, idx);
     mAnimationList.erase(mAnimationList.begin() + idx);
     endRemoveRows();
+}
+
+void AnimationModel::removeAnimation(const QModelIndex &index) {
+    if(!index.isValid()) return;
+    if(index.row() >= mAnimationList.size()) return;
+
+    removeAnimation(mAnimationList.at(index.row()));
+}
+
+void AnimationModel::addFrame(const QModelIndex &index, Frame::Ptr frame) {
+    if(!index.isValid()) return;
+    if(index.row() >= mAnimationList.size()) return;
+
+    Animation::Ptr a = mAnimationList.at(index.row());
+    a->addFrame(frame);
+    emit onFrameAdded(a, frame);
 }
 
 bool AnimationModel::isNameUnique(const QString &name, Animation::Ptr ingore) const {

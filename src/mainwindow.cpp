@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     mUi->setupUi(this);
 
     mUi->frameListFrame->setDisabled(true);
+    mUi->animationsFramesListFrame->setDisabled(true);
 }
 
 MainWindow::~MainWindow()
@@ -46,5 +47,11 @@ void MainWindow::on_actionNew_triggered()
 
 void MainWindow::startNewSession(const QString &spriteFileName, const Frame::Options &frameOptions) {
     mUi->frameListFrame->setDisabled(false);
+    mUi->animationsFramesListFrame->setDisabled(false);
     mUi->frameListFrame->createFrameList(spriteFileName, frameOptions);
+
+    QObject::connect(
+                mUi->frameListFrame, SIGNAL(onFrameDoubleClicked(Frame::Ptr)),
+                mUi->animationsFramesListFrame, SLOT(onFrameAboutToBeAdded(Frame::Ptr))
+                );
 }

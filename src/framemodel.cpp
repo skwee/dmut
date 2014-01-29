@@ -62,8 +62,10 @@ Qt::ItemFlags FrameModel::flags(const QModelIndex &index) const {
         return Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 
     Frame::Ptr frame = mFrameList.at(index.row());
-    //@TODO
-    return Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+    if(frame->isActive())
+        return Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+
+    return Qt::ItemFlags();
 }
 
 QModelIndex FrameModel::index(int row, int column, const QModelIndex &parent) const {
@@ -83,6 +85,12 @@ QModelIndex FrameModel::index(int row, int column, const QModelIndex &parent) co
 QModelIndex FrameModel::parent(const QModelIndex &child) const {
     Q_UNUSED(child);
     return QModelIndex();
+}
+
+Frame::Ptr FrameModel::frameAt(const QModelIndex &index) const {
+    if(!index.isValid() || (index.row() >= mFrameList.size())) return Frame::Ptr();
+
+    return mFrameList.at(index.row());
 }
 
 void FrameModel::addFrame(const QPixmap& pixmap) {

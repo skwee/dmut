@@ -3,6 +3,8 @@
 
 #include "frame.h"
 
+#include "animationframe.h"
+
 class Animation
 {
 private:
@@ -16,8 +18,13 @@ public:
     void setName(const QString& name) { mName = name; }
     QString getName() const { return mName; }
 
+    void addFrame(Frame::Ptr frame);
+
+    const AnimationFrame::List* getList() const { return &mFrameList; }
+
 private:
     QString mName;
+    AnimationFrame::List mFrameList;
 };
 
 #endif // ANIMATION_H

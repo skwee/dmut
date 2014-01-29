@@ -15,8 +15,12 @@ public:
 
     void createNewFrameList(const QString& spriteFileName, const Frame::Options& frameOptions);
 
+signals:
+    void onFrameDoubleClicked(Frame::Ptr frme);
+
 private slots:
     void onInvalidName(FrameModel::InvalidNameReason reason);
+    void onDoubleClicked(const QModelIndex& index);
 
 private:
     FrameModel* mModel;

@@ -30,9 +30,13 @@ public:
     QString getName() const { return mName; }
     const QPixmap& getPixmap() const { return mPixmap; }
 
+    bool isActive() const { return mActive; }
+    void setActive(bool active) { mActive = active; }
+
 private:
     QString mName;
     QPixmap mPixmap;
+    bool mActive;
 };
 
 #endif // FRAME_H

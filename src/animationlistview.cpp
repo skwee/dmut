@@ -6,7 +6,6 @@ AnimationListView::AnimationListView(QWidget *parent) :
     QListView(parent), mModel(nullptr)
 {
     setViewMode(QListView::ListMode);
-    setAcceptDrops(false);
     setUniformItemSizes(true);
     setEditTriggers(QAbstractItemView::SelectedClicked | QAbstractItemView::EditKeyPressed);
 

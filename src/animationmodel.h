@@ -27,8 +27,12 @@ public:
 
     void addAnimation();
     void removeAnimation(Animation::Ptr animation);
+    void removeAnimation(const QModelIndex& index);
+
+    void addFrame(const QModelIndex& index, Frame::Ptr frame);
 
 signals:
+    void onFrameAdded(Animation::Ptr toAnimation, Frame::Ptr frame);
     void invalidName(AnimationModel::InvalidNameReason reason);
 
 private:
