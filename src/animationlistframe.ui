@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AnimationsFrameFrame</class>
- <widget class="QFrame" name="AnimationsFrameFrame">
+ <class>AnimationListFrame</class>
+ <widget class="QFrame" name="AnimationListFrame">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>270</width>
-    <height>405</height>
+    <width>400</width>
+    <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Frame</string>
   </property>
   <property name="frameShape">
-   <enum>QFrame::StyledPanel</enum>
+   <enum>QFrame::NoFrame</enum>
   </property>
   <property name="frameShadow">
    <enum>QFrame::Raised</enum>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3">
+  <layout class="QVBoxLayout" name="verticalLayout">
    <property name="leftMargin">
     <number>0</number>
    </property>
@@ -37,17 +37,20 @@
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
+     <property name="handleWidth">
+      <number>8</number>
+     </property>
      <property name="childrenCollapsible">
       <bool>false</bool>
      </property>
-     <widget class="QFrame" name="animationsFrame">
+     <widget class="QFrame" name="animationListFrame">
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
       </property>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout">
+      <layout class="QVBoxLayout" name="verticalLayout_3">
        <property name="leftMargin">
         <number>0</number>
        </property>
@@ -61,16 +64,16 @@
         <number>0</number>
        </property>
        <item>
-        <layout class="QHBoxLayout" name="animationsTitleLayout">
+        <layout class="QHBoxLayout" name="animationListTitleLayout">
          <item>
-          <widget class="QLabel" name="animationsTitle">
+          <widget class="QLabel" name="animationListTitleLabel">
            <property name="text">
             <string>Animations</string>
            </property>
           </widget>
          </item>
          <item>
-          <spacer name="animationsTitleSpacer">
+          <spacer name="animationListTitleSpacer">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -83,10 +86,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="animationsAddButton">
-           <property name="toolTip">
-            <string>Add new animation</string>
-           </property>
+          <widget class="QPushButton" name="addAnimationButton">
            <property name="text">
             <string/>
            </property>
@@ -97,10 +97,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="animationsRemoveButton">
-           <property name="toolTip">
-            <string>Remove current animation</string>
-           </property>
+          <widget class="QPushButton" name="removeAnimationButton">
            <property name="text">
             <string/>
            </property>
@@ -113,65 +110,22 @@
         </layout>
        </item>
        <item>
-        <widget class="AnimationListView" name="animationsList"/>
+        <widget class="QTreeView" name="animationList"/>
        </item>
       </layout>
      </widget>
-     <widget class="QFrame" name="animationsFrameFrame">
+     <widget class="QFrame" name="frame_2">
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
       </property>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <item>
-        <layout class="QHBoxLayout" name="animationsFrameTitleLayout">
-         <item>
-          <widget class="QLabel" name="animationsFrametitle">
-           <property name="text">
-            <string>Animations Frames</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="AnimationsFrameListView" name="animationsFramesList"/>
-       </item>
-      </layout>
-      <zorder>animationsFramesList</zorder>
-      <zorder>animationsFramesList</zorder>
-      <zorder>horizontalLayoutWidget_2</zorder>
      </widget>
     </widget>
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>AnimationListView</class>
-   <extends>QListView</extends>
-   <header>src/animationlistview.h</header>
-  </customwidget>
-  <customwidget>
-   <class>AnimationsFrameListView</class>
-   <extends>QListView</extends>
-   <header>src/animationsframelistview.h</header>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="../iconset.qrc"/>
  </resources>

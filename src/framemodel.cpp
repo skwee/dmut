@@ -1,11 +1,12 @@
 #include "framemodel.h"
 
-FrameModel::FrameModel(const Frame::Options& frameOptions, QObject *parent) :
-    QAbstractItemModel(parent), mFrameOptions(frameOptions)
+FrameModel::FrameModel(QObject *parent) :
+    QAbstractItemModel(parent)
 {
 }
 
 FrameModel::~FrameModel() {
+    qDeleteAll(mFrameList);
 }
 
 int FrameModel::rowCount(const QModelIndex &parent) const {
@@ -21,7 +22,7 @@ int FrameModel::columnCount(const QModelIndex &parent) const {
 QVariant FrameModel::data(const QModelIndex &index, int role) const {
     if(!index.isValid()) return QVariant();
 
-    Frame::Ptr frame = mFrameList.at(index.row());
+    Frame* frame = mFrameList.at(index.row());
 
     if(frame) {
         if((role == Qt::DisplayRole) || (role == Qt::EditRole)) {
@@ -37,20 +38,29 @@ QVariant FrameModel::data(const QModelIndex &index, int role) const {
 bool FrameModel::setData(const QModelIndex &index, const QVariant &value, int role) {
     if(!index.isValid()) return false;
 
-    Frame::Ptr frame = mFrameList.at(index.row());
+    Frame* frame = mFrameList.at(index.row());
 
     if(frame) {
         if(role == Qt::EditRole) {
             const QString newName = value.toString();
-            if(newName.isEmpty()) {
-                emit invalidName(InvalidNameReason::Empty);
-                return false;
+            bool status = true;
+            Frame::Namer::NameValidity nv = Frame::Namer::validate(newName);
+
+            if(nv != Frame::Namer::NameValidity::Valid) {
+                status = false;
             } else if(!isNameUnique(newName, frame)) {
-                emit invalidName(InvalidNameReason::Duplicate);
-                return false;
+                nv = Frame::Namer::NameValidity::Duplicate;
+                status = false;
+            } else {
+                nv = Frame::Namer::NameValidity::Valid;
             }
-            frame->setName(newName);
-            return true;
+
+            if(status) {
+                frame->setName(newName);
+            }
+
+            emit nameChangeAttempt(status, nv);
+            return status;
         }
     }
 
@@ -58,14 +68,8 @@ bool FrameModel::setData(const QModelIndex &index, const QVariant &value, int ro
 }
 
 Qt::ItemFlags FrameModel::flags(const QModelIndex &index) const {
-    if(!index.isValid())
-        return Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
-
-    Frame::Ptr frame = mFrameList.at(index.row());
-    if(frame->isActive())
-        return Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
-
-    return Qt::ItemFlags();
+    Q_UNUSED(index);
+    return Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 }
 
 QModelIndex FrameModel::index(int row, int column, const QModelIndex &parent) const {
@@ -75,9 +79,9 @@ QModelIndex FrameModel::index(int row, int column, const QModelIndex &parent) co
     if(!parent.isValid())
         return createIndex(row, column);
 
-    Frame::Ptr frame = mFrameList.at(row);
+    Frame* frame = mFrameList.at(row);
     if(frame)
-        return createIndex(row, column, frame.get());
+        return createIndex(row, column, frame);
 
     return QModelIndex();
 }
@@ -87,21 +91,28 @@ QModelIndex FrameModel::parent(const QModelIndex &child) const {
     return QModelIndex();
 }
 
-Frame::Ptr FrameModel::frameAt(const QModelIndex &index) const {
-    if(!index.isValid() || (index.row() >= mFrameList.size())) return Frame::Ptr();
+Frame* FrameModel::at(const QModelIndex &index) const {
+    if(!index.isValid() || (index.row() >= mFrameList.size())) return nullptr;
 
     return mFrameList.at(index.row());
 }
 
-void FrameModel::addFrame(const QPixmap& pixmap) {
+void FrameModel::add(const QPixmap& pixmap) {
     int l = mFrameList.size();
     beginInsertRows(QModelIndex(), l, l);
-    mFrameList.push_back(Frame::Ptr(new Frame(pixmap)));
+    mFrameList.push_back(new Frame(pixmap));
     endInsertRows();
 }
 
-bool FrameModel::isNameUnique(const QString &name, Frame::Ptr ingore) const {
-    for(const Frame::Ptr f : mFrameList) {
+void FrameModel::removeAll() {
+    beginRemoveRows(QModelIndex(), 0, mFrameList.size());
+    qDeleteAll(mFrameList);
+    mFrameList.clear();
+    endRemoveRows();
+}
+
+bool FrameModel::isNameUnique(const QString &name, const Frame* const ingore) const {
+    for(const Frame* const f : mFrameList) {
         if(f == ingore) continue;
         if(f->getName().compare(name) == 0) return false;
     }

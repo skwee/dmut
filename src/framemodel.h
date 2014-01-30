@@ -2,19 +2,13 @@
 #define FRAMEMODEL_H
 
 #include <QAbstractItemModel>
-#include <vector>
 
 #include "frame.h"
 
 class FrameModel: public QAbstractItemModel {
     Q_OBJECT
 public:
-    enum class InvalidNameReason {
-        Empty,
-        Duplicate
-    };
-
-    FrameModel(const Frame::Options& frameOptions, QObject* parent = 0);
+    FrameModel(QObject* parent = 0);
     ~FrameModel();
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
@@ -25,18 +19,17 @@ public:
     QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
     QModelIndex parent(const QModelIndex &child) const;
 
-    Frame::Ptr frameAt(const QModelIndex &index) const;
-
-    void addFrame(const QPixmap& pixmap);
+    Frame* at(const QModelIndex &index) const;
+    void add(const QPixmap& pixmap);
+    void removeAll();
 
 signals:
-    void invalidName(FrameModel::InvalidNameReason reason);
+    void nameChangeAttempt(bool succeed, Frame::Namer::NameValidity reason);
 
 private:
-    bool isNameUnique(const QString& name, Frame::Ptr ingore) const;
+    bool isNameUnique(const QString& name, const Frame* const ingore) const;
 
-    Frame::Options mFrameOptions;
-    std::vector<Frame::Ptr> mFrameList;
+    QList<Frame*> mFrameList;
 };
 
 #endif // FRAMEMODEL_H

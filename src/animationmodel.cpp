@@ -1,53 +1,94 @@
 #include "animationmodel.h"
 
-AnimationModel::AnimationModel(QObject* parent) :
+AnimationModel::AnimationModel(QObject *parent) :
     QAbstractItemModel(parent)
 {
 }
 
-AnimationModel::~AnimationModel() {}
+AnimationModel::~AnimationModel() {
+    qDeleteAll(mAnimationList);
+}
 
 int AnimationModel::rowCount(const QModelIndex &parent) const {
-    Q_UNUSED(parent);
+    if(parent.isValid() && (parent.row() < mAnimationList.size())) {
+        return mAnimationList.at(parent.row())->totalFrames();
+    }
+
     return mAnimationList.size();
 }
 
 int AnimationModel::columnCount(const QModelIndex &parent) const {
     Q_UNUSED(parent);
-    return 1;
+    return 2;
 }
 
 QVariant AnimationModel::data(const QModelIndex &index, int role) const {
     if(!index.isValid()) return QVariant();
 
-    Animation::Ptr animation = mAnimationList.at(index.row());
+    if(index.parent().isValid() && index.parent().row() < mAnimationList.size()) {
+        const AnimationFrame* af = mAnimationList.at(index.parent().row())->frameAt(index.row());
+        if(af) {
+            if((role == Qt::DisplayRole) || (role == Qt::EditRole)) {
+                if(index.column() == 0) {
+                    return af->frame()->getName();
+                }
+            }
+        }
+    } else {
+        Animation* animation = mAnimationList.at(index.row());
 
-    if(animation) {
-        if((role == Qt::DisplayRole) || (role == Qt::EditRole)) {
-            return animation->getName();
+        if(animation) {
+            if((role == Qt::DisplayRole) || (role == Qt::EditRole)) {
+                switch(index.column()) {
+                case 0:
+                    return animation->getName();
+                    break;
+                case 1:
+                    return QString::number(animation->getFramesPerSecond());
+                    break;
+                }
+            }
         }
     }
+
 
     return QVariant();
 }
 
 bool AnimationModel::setData(const QModelIndex &index, const QVariant &value, int role) {
-    if(!index.isValid()) return false;
+    if(!index.isValid() || index.parent().isValid()) return false;
 
-    Animation::Ptr animation = mAnimationList.at(index.row());
+    Animation* animation = mAnimationList.at(index.row());
 
     if(animation) {
         if(role == Qt::EditRole) {
-            const QString newName = value.toString();
-            if(newName.isEmpty()) {
-                emit invalidName(InvalidNameReason::Empty);
-                return false;
-            } else if(!isNameUnique(newName, animation)) {
-                emit invalidName(InvalidNameReason::Duplicate);
-                return false;
+            if(index.column() == 0) { //name
+                const QString newName = value.toString();
+                bool status = true;
+
+                Animation::Namer::NameValidity nv = Animation::Namer::validate(newName);
+
+                if(nv != Animation::Namer::NameValidity::Valid) {
+                    status = false;
+                } else if(!isNameUnique(newName, animation)) {
+                    nv = Animation::Namer::NameValidity::Duplicate;
+                    status = false;
+                } else {
+                    nv = Animation::Namer::NameValidity::Valid;
+                }
+
+                if(status) {
+                    animation->setName(newName);
+                }
+
+                emit nameChangeAttempt(status, nv);
+                return status;
+            } else if(index.column() == 1) { //fps
+                Animation::FramesPerSecond fps = static_cast<Animation::FramesPerSecond>(value.toInt());
+                animation->setFramesPerSecond(fps);
+                emit framePerSecondChanged(animation, fps);
+                return true;
             }
-            animation->setName(newName);
-            return true;
         }
     }
 
@@ -55,6 +96,8 @@ bool AnimationModel::setData(const QModelIndex &index, const QVariant &value, in
 }
 
 Qt::ItemFlags AnimationModel::flags(const QModelIndex &index) const {
+    Q_UNUSED(index);
+    //@TODo
     return Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 }
 
@@ -63,56 +106,59 @@ QModelIndex AnimationModel::index(int row, int column, const QModelIndex &parent
         return QModelIndex();
 
     if(!parent.isValid())
-        return createIndex(row, column);
+        return createIndex(row, column, mAnimationList.at(row));
 
-    Animation::Ptr animation = mAnimationList.at(row);
-    if(animation)
-        return createIndex(row, column, animation.get());
+    Animation* animation = mAnimationList.at(parent.row());
+    AnimationFrame* af = animation->frameAt(row);
+    if(af) return createIndex(row, column, af);
 
     return QModelIndex();
 }
 
+#include <QDebug>
+
 QModelIndex AnimationModel::parent(const QModelIndex &child) const {
-    Q_UNUSED(child);
+    Animation* animation = static_cast<Animation*>(child.internalPointer());
+    if(child.row() < animation->totalFrames()) qDebug() << animation->frameAt(child.row());
+    if(animation) {
+//        return createIndex(child.row(), child.column(), animation->frameAt(child.row()));
+    }
     return QModelIndex();
+}
+
+QVariant AnimationModel::headerData(int section, Qt::Orientation orientation, int role) const {
+    if((orientation == Qt::Horizontal) && (role == Qt::DisplayRole)) {
+        return (section == 0) ? tr("Name") : tr("Frames per second");
+    }
+    return QVariant();
 }
 
 void AnimationModel::addAnimation() {
-    int l = mAnimationList.size();
-    beginInsertRows(QModelIndex(), l, l);
-    mAnimationList.push_back(Animation::Ptr(new Animation));
+    int s = mAnimationList.size();
+    beginInsertRows(QModelIndex(), s, s);
+    mAnimationList.push_back(new Animation());
     endInsertRows();
 }
 
-void AnimationModel::removeAnimation(Animation::Ptr animation) {
-    unsigned int idx = 0;
-    for(Animation::Ptr a : mAnimationList) {
-        if(a == animation) break;
-        idx++;
-    }
-    beginRemoveRows(QModelIndex(), idx, idx);
-    mAnimationList.erase(mAnimationList.begin() + idx);
-    endRemoveRows();
-}
-
 void AnimationModel::removeAnimation(const QModelIndex &index) {
-    if(!index.isValid()) return;
-    if(index.row() >= mAnimationList.size()) return;
-
-    removeAnimation(mAnimationList.at(index.row()));
+    if(index.isValid() && (index.row() < mAnimationList.size())) {
+        beginRemoveRows(QModelIndex(), index.row(), index.row());
+        mAnimationList.removeAt(index.row());
+        endRemoveRows();
+    }
 }
 
-void AnimationModel::addFrame(const QModelIndex &index, Frame::Ptr frame) {
-    if(!index.isValid()) return;
-    if(index.row() >= mAnimationList.size()) return;
-
-    Animation::Ptr a = mAnimationList.at(index.row());
-    a->addFrame(frame);
-    emit onFrameAdded(a, frame);
+void AnimationModel::addFrameToAnimation(const QModelIndex &animIndex, Frame * sprite) {
+    if(animIndex.isValid() && (animIndex.row() < mAnimationList.size())) {
+        Animation* a = mAnimationList.at(animIndex.row());
+        beginInsertRows(animIndex, a->totalFrames(), a->totalFrames());
+        a->addFrame(sprite);
+        endInsertRows();
+    }
 }
 
-bool AnimationModel::isNameUnique(const QString &name, Animation::Ptr ingore) const {
-    for(const Animation::Ptr a : mAnimationList) {
+bool AnimationModel::isNameUnique(const QString &name, const Animation* const ingore) const {
+    for(const Animation* const a : mAnimationList) {
         if(a == ingore) continue;
         if(a->getName().compare(name) == 0) return false;
     }

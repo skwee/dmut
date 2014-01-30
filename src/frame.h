@@ -1,23 +1,31 @@
 #ifndef FRAME_H
 #define FRAME_H
 
-#include <QAbstractItemModel>
 #include <QPixmap>
-#include <memory>
 
 class Frame {
-private:
-    static unsigned int sFrameIndex;
-    static unsigned int sTotalFrames;
-
-    static unsigned int getNumberOfFrames() {
-        return sTotalFrames > 0 ? (int) log10 ((double) sTotalFrames) + 1 : 1;
-    }
-
 public:
-    typedef std::shared_ptr<Frame> Ptr;
+    class Namer {
+    private:
+        static unsigned int sFrameIndex;
+        static unsigned int sTotalFrames;
+        static unsigned int getNumberOfFrames();
 
-    static void setTotalFrames(unsigned int total) { sTotalFrames = total; }
+    public:
+        static const int MAX_LENGTH = 32;
+
+        enum class NameValidity {
+            Valid,
+            Empty,
+            TooLong,
+            Duplicate
+        };
+
+        static void initialize(unsigned int total);
+        static QString generate();
+        static NameValidity validate(const QString& name);
+
+    };
 
     typedef struct {
         unsigned int width;
@@ -28,15 +36,12 @@ public:
 
     void setName(const QString& name) { mName = name; }
     QString getName() const { return mName; }
-    const QPixmap& getPixmap() const { return mPixmap; }
 
-    bool isActive() const { return mActive; }
-    void setActive(bool active) { mActive = active; }
+    const QPixmap& getPixmap() const { return mPixmap; }
 
 private:
     QString mName;
     QPixmap mPixmap;
-    bool mActive;
 };
 
 #endif // FRAME_H

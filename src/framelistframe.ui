@@ -71,17 +71,10 @@
     </layout>
    </item>
    <item>
-    <widget class="FrameListView" name="frameList"/>
+    <widget class="QListView" name="frameList"/>
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>FrameListView</class>
-   <extends>QListView</extends>
-   <header>src/framelistview.h</header>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="../iconset.qrc"/>
  </resources>

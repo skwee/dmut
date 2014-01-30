@@ -16,39 +16,29 @@ CONFIG	+= c++11
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
     src/newcharacterdialog.cpp \
-    src/frame.cpp \
-    src/framelistview.cpp \
-    src/framemodel.cpp \
-    src/spritetoframefactory.cpp \
+    src/animationlistframe.cpp \
     src/animation.cpp \
     src/animationmodel.cpp \
-    src/animationlistview.cpp \
+    src/spritefactory.cpp \
+    src/frame.cpp \
     src/framelistframe.cpp \
-    src/animationsframeframe.cpp \
-    src/animationframe.cpp \
-    src/animationframemodel.cpp \
-    src/animationsframelistview.cpp
+    src/framemodel.cpp
 
 HEADERS  += \
     src/mainwindow.h \
     src/newcharacterdialog.h \
-    src/frame.h \
-    src/framelistview.h \
-    src/framemodel.h \
-    src/spritetoframefactory.h \
+    src/animationlistframe.h \
     src/animation.h \
     src/animationmodel.h \
-    src/animationlistview.h \
+    src/spritefactory.h \
+    src/frame.h \
     src/framelistframe.h \
-    src/animationsframeframe.h \
-    src/animationframe.h \
-    src/animationframemodel.h \
-    src/animationsframelistview.h
+    src/framemodel.h
 
 FORMS    += src/mainwindow.ui \
     src/newcharacterdialog.ui \
-    src/framelistframe.ui \
-    src/animationsframeframe.ui
+    src/animationlistframe.ui \
+    src/framelistframe.ui
 
 RESOURCES += \
     iconset.qrc

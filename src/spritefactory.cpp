@@ -1,16 +1,14 @@
-#include "spritetoframefactory.h"
+#include "spritefactory.h"
 
-SpriteToFrameFactory::SpriteToFrameFactory(const QString &frameFileName, const Frame::Options &options) :
+SpriteFactory::SpriteFactory(const QString &spriteFileName, const Frame::Options &options) :
     mPixmaps(nullptr)
 {
-    QPixmap sprite(frameFileName);
+    QPixmap sprite(spriteFileName);
     unsigned int spriteWidth = sprite.width();
     unsigned int spriteHeight = sprite.height();
 
     mRows = spriteWidth / options.width;
     mCols = spriteHeight / options.height;
-
-    Frame::setTotalFrames(mRows * mCols);
 
     mPixmaps = new QPixmap[mCols * mRows];
 
@@ -24,7 +22,7 @@ SpriteToFrameFactory::SpriteToFrameFactory(const QString &frameFileName, const F
     }
 }
 
-SpriteToFrameFactory::~SpriteToFrameFactory() {
+SpriteFactory::~SpriteFactory() {
     if(mPixmaps) {
         delete[] mPixmaps;
     }

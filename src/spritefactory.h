@@ -1,15 +1,15 @@
-#ifndef SPRITETOFRAMEFACTORY_H
-#define SPRITETOFRAMEFACTORY_H
+#ifndef SPRITEFACTORY_H
+#define SPRITEFACTORY_H
 
 #include <QPixmap>
 
 #include "frame.h"
 
-class SpriteToFrameFactory
+class SpriteFactory
 {
 public:
-    SpriteToFrameFactory(const QString& frameFileName, const Frame::Options& frameOptions);
-    ~SpriteToFrameFactory();
+    SpriteFactory(const QString& spriteFileName, const Frame::Options& options);
+    ~SpriteFactory();
 
     unsigned int totalItems() const { return mRows * mCols; }
     const QPixmap& at(unsigned int index) const { return mPixmaps[index]; }
@@ -19,4 +19,4 @@ private:
     unsigned int mRows, mCols;
 };
 
-#endif // SPRITETOFRAMEFACTORY_H
+#endif // SPRITEFACTORY_H

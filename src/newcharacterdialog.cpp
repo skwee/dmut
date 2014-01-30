@@ -14,7 +14,7 @@ NewCharacterDialog::~NewCharacterDialog()
     delete mUi;
 }
 
-Frame::Options NewCharacterDialog::getCharacterFrameOptions() const {
+Frame::Options NewCharacterDialog::getCharacterSpriteOptions() const {
     Frame::Options o;
 
     o.width = mUi->frameWidthBox->value();

@@ -17,7 +17,7 @@ public:
     ~NewCharacterDialog();
 
     QString getCharacterName() const;
-    Frame::Options getCharacterFrameOptions() const;
+    Frame::Options getCharacterSpriteOptions() const;
 
 private:
     Ui::NewCharacterDialog *mUi;

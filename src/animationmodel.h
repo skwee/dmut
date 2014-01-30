@@ -2,19 +2,14 @@
 #define ANIMATIONMODEL_H
 
 #include <QAbstractItemModel>
-#include <vector>
 
 #include "animation.h"
 
-class AnimationModel: public QAbstractItemModel {
+class AnimationModel : public QAbstractItemModel
+{
     Q_OBJECT
 public:
-    enum class InvalidNameReason {
-        Empty,
-        Duplicate
-    };
-
-    AnimationModel(QObject* parent = 0);
+    explicit AnimationModel(QObject *parent = 0);
     ~AnimationModel();
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
@@ -24,21 +19,21 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const;
     QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
     QModelIndex parent(const QModelIndex &child) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
     void addAnimation();
-    void removeAnimation(Animation::Ptr animation);
     void removeAnimation(const QModelIndex& index);
 
-    void addFrame(const QModelIndex& index, Frame::Ptr frame);
+    void addFrameToAnimation(const QModelIndex& animIndex, Frame* sprite);
 
 signals:
-    void onFrameAdded(Animation::Ptr toAnimation, Frame::Ptr frame);
-    void invalidName(AnimationModel::InvalidNameReason reason);
+    void nameChangeAttempt(bool succeed, Animation::Namer::NameValidity reason);
+    void framePerSecondChanged(const Animation* const animation, Animation::FramesPerSecond fps);
 
 private:
-    bool isNameUnique(const QString& name, Animation::Ptr ingore) const;
+    bool isNameUnique(const QString& name, const Animation* const ingore) const;
 
-    std::vector<Animation::Ptr> mAnimationList;
+    QList<Animation*> mAnimationList;
 };
 
 #endif // ANIMATIONMODEL_H
