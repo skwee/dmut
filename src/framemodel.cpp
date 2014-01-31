@@ -1,17 +1,18 @@
 #include "framemodel.h"
 
 FrameModel::FrameModel(QObject *parent) :
-    QAbstractItemModel(parent)
+    QAbstractItemModel(parent), mRootItem(nullptr)
 {
+    mRootItem = new Item("FrameListRoot");
 }
 
 FrameModel::~FrameModel() {
-    qDeleteAll(mFrameList);
+    if(mRootItem) delete mRootItem;
 }
 
 int FrameModel::rowCount(const QModelIndex &parent) const {
     Q_UNUSED(parent);
-    return mFrameList.size();
+    return mRootItem->childCount();
 }
 
 int FrameModel::columnCount(const QModelIndex &parent) const {
@@ -22,13 +23,13 @@ int FrameModel::columnCount(const QModelIndex &parent) const {
 QVariant FrameModel::data(const QModelIndex &index, int role) const {
     if(!index.isValid()) return QVariant();
 
-    Frame* frame = mFrameList.at(index.row());
+    Item* frame = mRootItem->childAt(index.row());
 
     if(frame) {
         if((role == Qt::DisplayRole) || (role == Qt::EditRole)) {
-            return frame->getName();
+            return frame->display();
         } else if(role == Qt::DecorationRole) {
-            return frame->getPixmap();
+            return frame->decoration();
         }
     }
 
@@ -38,29 +39,16 @@ QVariant FrameModel::data(const QModelIndex &index, int role) const {
 bool FrameModel::setData(const QModelIndex &index, const QVariant &value, int role) {
     if(!index.isValid()) return false;
 
-    Frame* frame = mFrameList.at(index.row());
+    Item* frame = mRootItem->childAt(index.row());
 
     if(frame) {
         if(role == Qt::EditRole) {
             const QString newName = value.toString();
-            bool status = true;
-            Frame::Namer::NameValidity nv = Frame::Namer::validate(newName);
 
-            if(nv != Frame::Namer::NameValidity::Valid) {
-                status = false;
-            } else if(!isNameUnique(newName, frame)) {
-                nv = Frame::Namer::NameValidity::Duplicate;
-                status = false;
-            } else {
-                nv = Frame::Namer::NameValidity::Valid;
-            }
+            Item::RenameResult r = frame->rename(newName);
 
-            if(status) {
-                frame->setName(newName);
-            }
-
-            emit nameChangeAttempt(status, nv);
-            return status;
+            emit onNameChange(r);
+            return (r == Item::RenameResult::Ok) ? true : false;
         }
     }
 
@@ -79,7 +67,7 @@ QModelIndex FrameModel::index(int row, int column, const QModelIndex &parent) co
     if(!parent.isValid())
         return createIndex(row, column);
 
-    Frame* frame = mFrameList.at(row);
+    Item* frame = mRootItem->childAt(row);
     if(frame)
         return createIndex(row, column, frame);
 
@@ -92,30 +80,18 @@ QModelIndex FrameModel::parent(const QModelIndex &child) const {
 }
 
 Frame* FrameModel::at(const QModelIndex &index) const {
-    if(!index.isValid() || (index.row() >= mFrameList.size())) return nullptr;
-
-    return mFrameList.at(index.row());
+    if(!index.isValid()) return nullptr;
+    return static_cast<Frame*>(mRootItem->childAt(index.row()));
 }
 
 void FrameModel::add(const QPixmap& pixmap) {
-    int l = mFrameList.size();
-    beginInsertRows(QModelIndex(), l, l);
-    mFrameList.push_back(new Frame(pixmap));
+    beginInsertRows(QModelIndex(), mRootItem->childCount(), mRootItem->childCount());
+    mRootItem->childAdd(new Frame(pixmap, mRootItem));
     endInsertRows();
 }
 
 void FrameModel::removeAll() {
-    beginRemoveRows(QModelIndex(), 0, mFrameList.size());
-    qDeleteAll(mFrameList);
-    mFrameList.clear();
+    beginRemoveRows(QModelIndex(), 0, mRootItem->childCount());
+    mRootItem->childRemoveAll();
     endRemoveRows();
-}
-
-bool FrameModel::isNameUnique(const QString &name, const Frame* const ingore) const {
-    for(const Frame* const f : mFrameList) {
-        if(f == ingore) continue;
-        if(f->getName().compare(name) == 0) return false;
-    }
-
-    return true;
 }

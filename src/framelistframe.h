@@ -26,7 +26,7 @@ signals:
 private slots:
     void on_changeLayoutButton_clicked();
 
-    void onNameChangeAttemp(bool succeed, Frame::Namer::NameValidity reason);
+    void onNameChanged(Item::RenameResult result);
     void onItemDoubleClicked(const QModelIndex& index);
 
 private:

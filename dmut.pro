@@ -22,7 +22,8 @@ SOURCES += src/main.cpp \
     src/spritefactory.cpp \
     src/frame.cpp \
     src/framelistframe.cpp \
-    src/framemodel.cpp
+    src/framemodel.cpp \
+    src/item.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -33,7 +34,8 @@ HEADERS  += \
     src/spritefactory.h \
     src/frame.h \
     src/framelistframe.h \
-    src/framemodel.h
+    src/framemodel.h \
+    src/item.h
 
 FORMS    += src/mainwindow.ui \
     src/newcharacterdialog.ui \

@@ -3,7 +3,9 @@
 
 #include <QPixmap>
 
-class Frame {
+#include "item.h"
+
+class Frame: public Item {
 public:
     class Namer {
     private:
@@ -12,19 +14,8 @@ public:
         static unsigned int getNumberOfFrames();
 
     public:
-        static const int MAX_LENGTH = 32;
-
-        enum class NameValidity {
-            Valid,
-            Empty,
-            TooLong,
-            Duplicate
-        };
-
         static void initialize(unsigned int total);
         static QString generate();
-        static NameValidity validate(const QString& name);
-
     };
 
     typedef struct {
@@ -32,15 +23,11 @@ public:
         unsigned int height;
     }Options;
 
-    Frame(QPixmap pixmap);
+    Frame(QPixmap pixmap, Item* parent = nullptr);
 
-    void setName(const QString& name) { mName = name; }
-    QString getName() const { return mName; }
-
-    const QPixmap& getPixmap() const { return mPixmap; }
+    virtual QVariant decoration() const override;
 
 private:
-    QString mName;
     QPixmap mPixmap;
 };
 

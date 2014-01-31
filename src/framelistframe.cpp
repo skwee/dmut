@@ -17,8 +17,8 @@ FrameListFrame::FrameListFrame(QWidget *parent) :
     mUi->frameList->setEditTriggers(QAbstractItemView::SelectedClicked | QAbstractItemView::EditKeyPressed);
 
     QObject::connect(
-                mFrameModel, SIGNAL(nameChangeAttempt(bool,Frame::Namer::NameValidity)),
-                this, SLOT(onNameChangeAttemp(bool,Frame::Namer::NameValidity))
+                mFrameModel, SIGNAL(onNameChange(Item::RenameResult)),
+                this, SLOT(onNameChanged(Item::RenameResult))
                 );
 
     QObject::connect(
@@ -65,21 +65,19 @@ void FrameListFrame::on_changeLayoutButton_clicked()
     updateButtons();
 }
 
-void FrameListFrame::onNameChangeAttemp(bool succeed, Frame::Namer::NameValidity reason) {
-    if(!succeed) {
-        switch(reason) {
-        case Frame::Namer::NameValidity::Empty:
-            QMessageBox::warning(this, tr("Name is empty"), tr("Sprite name can not be empty"));
-            break;
-        case Frame::Namer::NameValidity::TooLong:
-            QMessageBox::warning(this, tr("Name too long"), tr(QString("Sprite name can not be longer than %1 characters").arg(Frame::Namer::MAX_LENGTH).toUtf8()));
-            break;
-        case Frame::Namer::NameValidity::Duplicate:
-            QMessageBox::warning(this, tr("Name already exists"), tr("Sprite with such name already exists"));
-            break;
-        case Frame::Namer::NameValidity::Valid:
-            break;
-        }
+void FrameListFrame::onNameChanged(Item::RenameResult result) {
+    switch(result) {
+    case Item::RenameResult::Empty:
+        QMessageBox::warning(this, tr("Name is empty"), tr("Sprite name can not be empty"));
+        break;
+    case Item::RenameResult::TooLong:
+        QMessageBox::warning(this, tr("Name too long"), tr(QString("Sprite name can not be longer than %1 characters").arg(Item::MAX_NAME_LENGTH).toUtf8()));
+        break;
+    case Item::RenameResult::Duplicate:
+        QMessageBox::warning(this, tr("Name already exists"), tr("Sprite with such name already exists"));
+        break;
+    case Item::RenameResult::Ok:
+        break;
     }
 }
 

@@ -28,7 +28,7 @@ private slots:
     void on_removeAnimationButton_clicked();
 
     void onAnimationSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
-    void onAnimationNameChanged(bool succeed, Animation::Namer::NameValidity reason);
+    void onAnimationNameChanged(Item::RenameResult result);
 
 private:
     void updateButtonsState();

@@ -20,20 +20,18 @@ public:
     QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
     QModelIndex parent(const QModelIndex &child) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+    bool hasChildren(const QModelIndex &parent = QModelIndex()) const;
 
     void addAnimation();
     void removeAnimation(const QModelIndex& index);
-
-    void addFrameToAnimation(const QModelIndex& animIndex, Frame* sprite);
+//    void addFrameToAnimation(const QModelIndex& animIndex, Frame* sprite);
 
 signals:
-    void nameChangeAttempt(bool succeed, Animation::Namer::NameValidity reason);
+    void onNameChanged(Item::RenameResult result);
     void framePerSecondChanged(const Animation* const animation, Animation::FramesPerSecond fps);
 
 private:
-    bool isNameUnique(const QString& name, const Animation* const ingore) const;
-
-    QList<Animation*> mAnimationList;
+    Item* mRootItem;
 };
 
 #endif // ANIMATIONMODEL_H

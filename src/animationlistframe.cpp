@@ -17,8 +17,8 @@ AnimationListFrame::AnimationListFrame(QWidget *parent) :
                 );
 
     QObject::connect(
-                mAnimationModel, SIGNAL(nameChangeAttempt(bool,Animation::Namer::NameValidity)),
-                this, SLOT(onAnimationNameChanged(bool,Animation::Namer::NameValidity))
+                mAnimationModel, SIGNAL(onNameChanged(Item::RenameResult)),
+                this, SLOT(onAnimationNameChanged(Item::RenameResult))
                 );
 }
 
@@ -34,10 +34,10 @@ void AnimationListFrame::setDisabled(bool disabled) {
 }
 
 void AnimationListFrame::tryAddSprite(Frame * frame) {
-    const QItemSelection s = mUi->animationList->selectionModel()->selection();
-    if(s.indexes().length() > 0 && !s.indexes().first().parent().isValid()) {
-        mAnimationModel->addFrameToAnimation(s.indexes().first(), frame);
-    }
+//    const QItemSelection s = mUi->animationList->selectionModel()->selection();
+//    if(s.indexes().length() > 0 && !s.indexes().first().parent().isValid()) {
+//        mAnimationModel->addFrameToAnimation(s.indexes().first(), frame);
+//    }
 }
 
 void AnimationListFrame::updateButtonsState() {
@@ -61,20 +61,18 @@ void AnimationListFrame::onAnimationSelectionChanged(const QItemSelection &selec
     updateButtonsState();
 }
 
-void AnimationListFrame::onAnimationNameChanged(bool succeed, Animation::Namer::NameValidity reason) {
-    if(!succeed) {
-        switch(reason) {
-        case Animation::Namer::NameValidity::Empty:
-            QMessageBox::warning(this, tr("Name is empty"), tr("Animation name can not be empty"));
-            break;
-        case Animation::Namer::NameValidity::TooLong:
-            QMessageBox::warning(this, tr("Name too long"), tr(QString("Animation name can not be longer than %1 characters").arg(Animation::Namer::MAX_LENGTH).toUtf8()));
-            break;
-        case Animation::Namer::NameValidity::Duplicate:
-            QMessageBox::warning(this, tr("Name already exists"), tr("Animation with such name already exists"));
-            break;
-        case Animation::Namer::NameValidity::Valid:
-            break;
-        }
+void AnimationListFrame::onAnimationNameChanged(Item::RenameResult result) {
+    switch(result) {
+    case Item::RenameResult::Empty:
+        QMessageBox::warning(this, tr("Name is empty"), tr("Animation name can not be empty"));
+        break;
+    case Item::RenameResult::TooLong:
+        QMessageBox::warning(this, tr("Name too long"), tr(QString("Animation name can not be longer than %1 characters").arg(Item::MAX_NAME_LENGTH).toUtf8()));
+        break;
+    case Item::RenameResult::Duplicate:
+        QMessageBox::warning(this, tr("Name already exists"), tr("Animation with such name already exists"));
+        break;
+    case Item::RenameResult::Ok:
+        break;
     }
 }

@@ -21,7 +21,7 @@ private:
     FrameHold mHold;
 };
 
-class Animation
+class Animation: public Item
 {
 public:
     typedef unsigned char FramesPerSecond;
@@ -33,37 +33,16 @@ public:
         static unsigned int sIndex;
 
     public:
-        static const int MAX_LENGTH = 32;
-
-        enum class NameValidity {
-            Valid,
-            Empty,
-            TooLong,
-            Duplicate
-        };
-
         static QString generate();
-        static NameValidity validate(const QString& name);
     };
 
-    Animation();
-    ~Animation();
-
-    void setName(const QString& name) { mName = name; }
-    QString getName() const { return mName; }
+    Animation(Item* parent);
 
     void setFramesPerSecond(FramesPerSecond fps) { mFramesPerSecond = fps; }
     FramesPerSecond getFramesPerSecond() const { return mFramesPerSecond; }
 
-    void addFrame(Frame* frame);
-    AnimationFrame* frameAt(int index) const;
-    void removeFrame(int index);
-    int totalFrames() const { return mFrames.size(); }
-
 private:
-    QString mName;
     FramesPerSecond mFramesPerSecond;
-    QList<AnimationFrame*> mFrames;
 };
 
 #endif // ANIMATION_H

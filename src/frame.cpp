@@ -16,16 +16,12 @@ QString Frame::Namer::generate() {
     return QString("Sprite %1").arg(++sFrameIndex, getNumberOfFrames(), 10, QChar('0'));
 }
 
-Frame::Namer::NameValidity Frame::Namer::validate(const QString &name) {
-    int l = name.length();
-    if(l == 0) return NameValidity::Empty;
-    if(l > MAX_LENGTH) return NameValidity::TooLong;
-    return NameValidity::Valid;
+
+Frame::Frame(QPixmap pixmap, Item* parent)
+    : Item(Namer::generate(), parent, Item::None, Item::ItemType::Frame), mPixmap(pixmap)
+{
 }
 
-
-Frame::Frame(QPixmap pixmap)
-    :mPixmap(pixmap)
-{
-    setName(Namer::generate());
+QVariant Frame::decoration() const {
+    return mPixmap;
 }

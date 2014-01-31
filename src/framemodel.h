@@ -24,12 +24,10 @@ public:
     void removeAll();
 
 signals:
-    void nameChangeAttempt(bool succeed, Frame::Namer::NameValidity reason);
+    void onNameChange(Item::RenameResult result);
 
 private:
-    bool isNameUnique(const QString& name, const Frame* const ingore) const;
-
-    QList<Frame*> mFrameList;
+    Item* mRootItem;
 };
 
 #endif // FRAMEMODEL_H
