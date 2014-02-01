@@ -3,9 +3,9 @@
 
 #include <QPixmap>
 
-#include "item.h"
+#include "block.h"
 
-class Frame: public Item {
+class Frame: public Block {
 public:
     class Namer {
     private:
@@ -23,9 +23,9 @@ public:
         unsigned int height;
     }Options;
 
-    Frame(QPixmap pixmap, Item* parent = nullptr);
+    Frame(QPixmap pixmap);
 
-    virtual QVariant decoration() const override;
+    QVariant decoration() const override;
 
 private:
     QPixmap mPixmap;

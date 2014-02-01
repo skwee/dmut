@@ -21,7 +21,7 @@ private:
     FrameHold mHold;
 };
 
-class Animation: public Item
+class Animation: public Block
 {
 public:
     typedef unsigned char FramesPerSecond;
@@ -36,7 +36,7 @@ public:
         static QString generate();
     };
 
-    Animation(Item* parent);
+    Animation();
 
     void setFramesPerSecond(FramesPerSecond fps) { mFramesPerSecond = fps; }
     FramesPerSecond getFramesPerSecond() const { return mFramesPerSecond; }

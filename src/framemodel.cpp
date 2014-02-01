@@ -3,7 +3,7 @@
 FrameModel::FrameModel(QObject *parent) :
     QAbstractItemModel(parent), mRootItem(nullptr)
 {
-    mRootItem = new Item("FrameListRoot");
+    mRootItem = new Item(Block::ptr(), nullptr);
 }
 
 FrameModel::~FrameModel() {
@@ -12,7 +12,7 @@ FrameModel::~FrameModel() {
 
 int FrameModel::rowCount(const QModelIndex &parent) const {
     Q_UNUSED(parent);
-    return mRootItem->childCount();
+    return mRootItem->total();
 }
 
 int FrameModel::columnCount(const QModelIndex &parent) const {
@@ -23,13 +23,13 @@ int FrameModel::columnCount(const QModelIndex &parent) const {
 QVariant FrameModel::data(const QModelIndex &index, int role) const {
     if(!index.isValid()) return QVariant();
 
-    Item* frame = mRootItem->childAt(index.row());
+    Item* item = mRootItem->at(index.row());
 
-    if(frame) {
+    if(item) {
         if((role == Qt::DisplayRole) || (role == Qt::EditRole)) {
-            return frame->display();
+            return item->display();
         } else if(role == Qt::DecorationRole) {
-            return frame->decoration();
+            return item->decoration();
         }
     }
 
@@ -39,14 +39,12 @@ QVariant FrameModel::data(const QModelIndex &index, int role) const {
 bool FrameModel::setData(const QModelIndex &index, const QVariant &value, int role) {
     if(!index.isValid()) return false;
 
-    Item* frame = mRootItem->childAt(index.row());
+    Item* item = mRootItem->at(index.row());
 
-    if(frame) {
+    if(item) {
         if(role == Qt::EditRole) {
             const QString newName = value.toString();
-
-            Item::RenameResult r = frame->rename(newName);
-
+            Item::RenameResult r = item->rename(newName);
             emit onNameChange(r);
             return (r == Item::RenameResult::Ok) ? true : false;
         }
@@ -67,9 +65,9 @@ QModelIndex FrameModel::index(int row, int column, const QModelIndex &parent) co
     if(!parent.isValid())
         return createIndex(row, column);
 
-    Item* frame = mRootItem->childAt(row);
-    if(frame)
-        return createIndex(row, column, frame);
+    Item* item = mRootItem->at(row);
+    if(item)
+        return createIndex(row, column, item);
 
     return QModelIndex();
 }
@@ -79,19 +77,25 @@ QModelIndex FrameModel::parent(const QModelIndex &child) const {
     return QModelIndex();
 }
 
-Frame* FrameModel::at(const QModelIndex &index) const {
-    if(!index.isValid()) return nullptr;
-    return static_cast<Frame*>(mRootItem->childAt(index.row()));
+Block::ptr FrameModel::at(const QModelIndex &index) const {
+    if(index.isValid()) {
+        Item* item = mRootItem->at(index.row());
+        if(item) {
+            return item->block();
+        }
+    }
+
+    return Block::ptr();
 }
 
 void FrameModel::add(const QPixmap& pixmap) {
-    beginInsertRows(QModelIndex(), mRootItem->childCount(), mRootItem->childCount());
-    mRootItem->childAdd(new Frame(pixmap, mRootItem));
+    beginInsertRows(QModelIndex(), mRootItem->total(), mRootItem->total());
+    mRootItem->add(new Item(Block::ptr(new Frame(pixmap))));
     endInsertRows();
 }
 
 void FrameModel::removeAll() {
-    beginRemoveRows(QModelIndex(), 0, mRootItem->childCount());
-    mRootItem->childRemoveAll();
+    beginRemoveRows(QModelIndex(), 0, mRootItem->total());
+    mRootItem->removeAll();
     endRemoveRows();
 }

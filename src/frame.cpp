@@ -17,8 +17,8 @@ QString Frame::Namer::generate() {
 }
 
 
-Frame::Frame(QPixmap pixmap, Item* parent)
-    : Item(Namer::generate(), parent, Item::None, Item::ItemType::Frame), mPixmap(pixmap)
+Frame::Frame(QPixmap pixmap)
+    : Block(Namer::generate(), Block::Type::Frame), mPixmap(pixmap)
 {
 }
 

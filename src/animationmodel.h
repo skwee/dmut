@@ -4,6 +4,7 @@
 #include <QAbstractItemModel>
 
 #include "animation.h"
+#include "item.h"
 
 class AnimationModel : public QAbstractItemModel
 {
@@ -24,11 +25,15 @@ public:
 
     void addAnimation();
     void removeAnimation(const QModelIndex& index);
-//    void addFrameToAnimation(const QModelIndex& animIndex, Frame* sprite);
+    void addFrameToAnimation(const QModelIndex& animIndex, Block::ptr frame);
+    void remove(const QModelIndex& index);
+
+    void removeAll();
 
 signals:
     void onNameChanged(Item::RenameResult result);
     void framePerSecondChanged(const Animation* const animation, Animation::FramesPerSecond fps);
+    void frameAddFailedDuplicate();
 
 private:
     Item* mRootItem;

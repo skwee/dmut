@@ -4,6 +4,7 @@
 #include <QAbstractItemModel>
 
 #include "frame.h"
+#include "item.h"
 
 class FrameModel: public QAbstractItemModel {
     Q_OBJECT
@@ -19,7 +20,7 @@ public:
     QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
     QModelIndex parent(const QModelIndex &child) const;
 
-    Frame* at(const QModelIndex &index) const;
+    Block::ptr at(const QModelIndex& index) const;
     void add(const QPixmap& pixmap);
     void removeAll();
 

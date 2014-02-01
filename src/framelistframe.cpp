@@ -77,13 +77,15 @@ void FrameListFrame::onNameChanged(Item::RenameResult result) {
         QMessageBox::warning(this, tr("Name already exists"), tr("Sprite with such name already exists"));
         break;
     case Item::RenameResult::Ok:
+        emit pleaseRefreshOtherElements();
+        break;
+    case Item::RenameResult::NotValid:
         break;
     }
 }
 
 void FrameListFrame::onItemDoubleClicked(const QModelIndex &index) {
-    Frame* sprite = nullptr;
-    if(index.isValid() && (sprite = mFrameModel->at(index))) {
-        emit spriteToBeAddedToAnimation(sprite);
-    }
+    Block::ptr frame = mFrameModel->at(index);
+    if(frame)
+        emit addFrameToAnimation(frame);
 }

@@ -3,7 +3,7 @@
 AnimationModel::AnimationModel(QObject *parent) :
     QAbstractItemModel(parent), mRootItem(nullptr)
 {
-    mRootItem = new Item("AnimationsRootItem");
+    mRootItem = new Item(Block::ptr(), nullptr);
 }
 
 AnimationModel::~AnimationModel() {
@@ -18,7 +18,7 @@ int AnimationModel::rowCount(const QModelIndex &parent) const {
         if(!item) item = mRootItem;
     }
 
-    return item->childCount();
+    return item->total();
 }
 
 int AnimationModel::columnCount(const QModelIndex &parent) const {
@@ -33,6 +33,8 @@ QVariant AnimationModel::data(const QModelIndex &index, int role) const {
 
     if((role == Qt::DisplayRole) || (role == Qt::EditRole))
         return item->display();
+    else if(role == Qt::DecorationRole)
+        return item->decoration();
 
     return QVariant();
 }
@@ -45,7 +47,6 @@ bool AnimationModel::setData(const QModelIndex &index, const QVariant &value, in
     if(role == Qt::EditRole) {
         const QString newName = value.toString();
         Item::RenameResult r = item->rename(newName);
-
         emit onNameChanged(r);
         return (r == Item::RenameResult::Ok) ? true : false;
     }
@@ -54,9 +55,21 @@ bool AnimationModel::setData(const QModelIndex &index, const QVariant &value, in
 }
 
 Qt::ItemFlags AnimationModel::flags(const QModelIndex &index) const {
-    Q_UNUSED(index);
-    //@TODO
-    return Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+    if(!index.isValid()) return Qt::ItemFlags();
+
+    Item* item = static_cast<Item*>(index.internalPointer());
+    if(item) {
+        Block::ptr block = item->block();
+        if(block) {
+            if(block->type() == Block::Type::Frame) {
+                return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+            } else if(block->type() == Block::Type::Animation) {
+                return Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+            }
+        }
+    }
+
+    return Qt::ItemFlags();
 }
 
 QModelIndex AnimationModel::index(int row, int column, const QModelIndex &parent) const {
@@ -69,7 +82,7 @@ QModelIndex AnimationModel::index(int row, int column, const QModelIndex &parent
     else
         root = mRootItem;
 
-    Item* child = root->childAt(row);
+    Item* child = root->at(row);
 
     if(child)
         return createIndex(row, column, child);
@@ -105,17 +118,49 @@ bool AnimationModel::hasChildren(const QModelIndex &parent) const {
         if(!item) item = mRootItem;
     }
 
-    return item->childCount() > 0;
+    return item->total() > 0;
 }
 
 void AnimationModel::addAnimation() {
-    beginInsertRows(QModelIndex(), mRootItem->childCount(), mRootItem->childCount());
-    mRootItem->childAdd(new Animation(mRootItem));
+    beginInsertRows(QModelIndex(), mRootItem->total(), mRootItem->total());
+    mRootItem->add(new Item(Block::ptr(new Animation)));
     endInsertRows();
 }
 
 void AnimationModel::removeAnimation(const QModelIndex &index) {
-    beginRemoveRows(QModelIndex(), index.row(), index.row());
-    mRootItem->childRemove(index.row());
+    beginRemoveRows(index.parent(), index.row(), index.row());
+    mRootItem->remove(index.row());
+    endRemoveRows();
+}
+
+void AnimationModel::addFrameToAnimation(const QModelIndex &animIndex, Block::ptr frame) {
+    Item* item = mRootItem->at(animIndex.row());
+    if(item) {
+        if(item->contains(frame)) {
+            emit frameAddFailedDuplicate();
+            return;
+        }
+
+        beginInsertRows(animIndex, item->total(), item->total());
+        item->add(new Item(frame));
+        endInsertRows();
+    }
+}
+
+void AnimationModel::remove(const QModelIndex &index) {
+    Item* item = static_cast<Item*>(index.internalPointer());
+    if(item) {
+        int idx = item->indexOfSelf();
+        if(idx >= 0) {
+            beginRemoveRows(index.parent(), idx, idx);
+            item->removeSelf();
+            endRemoveRows();
+        }
+    }
+}
+
+void AnimationModel::removeAll() {
+    beginRemoveRows(QModelIndex(), mRootItem->total(), mRootItem->total());
+    mRootItem->removeAll();
     endRemoveRows();
 }

@@ -16,8 +16,13 @@ MainWindow::MainWindow(QWidget *parent) :
     mUi->splitter->setStretchFactor(1, 2);
 
     QObject::connect(
-                mUi->frameListFrame, SIGNAL(spriteToBeAddedToAnimation(Frame*)),
-                mUi->animationListFrame, SLOT(tryAddSprite(Frame*))
+                mUi->frameListFrame, SIGNAL(addFrameToAnimation(Block::ptr)),
+                mUi->animationListFrame, SLOT(addFrame(Block::ptr))
+                );
+
+    QObject::connect(
+                mUi->frameListFrame, SIGNAL(pleaseRefreshOtherElements()),
+                mUi->animationListFrame, SLOT(refresh())
                 );
 }
 
@@ -55,6 +60,7 @@ void MainWindow::on_actionNew_triggered()
 
 void MainWindow::startNewSession(const QString &spriteFileName, const Frame::Options &frameOptions) {
     mUi->frameListFrame->createSpriteList(spriteFileName, frameOptions);
+    mUi->animationListFrame->clear();
 
     mUi->frameListFrame->setDisabled(false);
     mUi->animationListFrame->setDisabled(false);

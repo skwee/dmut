@@ -11,6 +11,9 @@ AnimationListFrame::AnimationListFrame(QWidget *parent) :
     mAnimationModel = new AnimationModel(mUi->animationList);
     mUi->animationList->setModel(mAnimationModel);
 
+    mUi->animationList->setAcceptDrops(false);
+    mUi->animationList->setEditTriggers(QAbstractItemView::SelectedClicked | QAbstractItemView::EditKeyPressed);
+
     QObject::connect(
                 mUi->animationList->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
                 this, SLOT(onAnimationSelectionChanged(QItemSelection,QItemSelection))
@@ -19,6 +22,11 @@ AnimationListFrame::AnimationListFrame(QWidget *parent) :
     QObject::connect(
                 mAnimationModel, SIGNAL(onNameChanged(Item::RenameResult)),
                 this, SLOT(onAnimationNameChanged(Item::RenameResult))
+                );
+
+    QObject::connect(
+                mAnimationModel, SIGNAL(frameAddFailedDuplicate()),
+                this, SLOT(onAddedFrameIsDuplicate())
                 );
 }
 
@@ -33,11 +41,18 @@ void AnimationListFrame::setDisabled(bool disabled) {
     updateButtonsState();
 }
 
-void AnimationListFrame::tryAddSprite(Frame * frame) {
-//    const QItemSelection s = mUi->animationList->selectionModel()->selection();
-//    if(s.indexes().length() > 0 && !s.indexes().first().parent().isValid()) {
-//        mAnimationModel->addFrameToAnimation(s.indexes().first(), frame);
-//    }
+void AnimationListFrame::clear() {
+    mAnimationModel->removeAll();
+}
+
+void AnimationListFrame::addFrame(Block::ptr frame) {
+    const QItemSelection s = mUi->animationList->selectionModel()->selection();
+    if((s.indexes().length() > 0) && (!s.indexes().first().parent().isValid()))
+        mAnimationModel->addFrameToAnimation(s.indexes().first(), frame);
+}
+
+void AnimationListFrame::refresh() {
+    emit mUi->animationList->dataChanged(QModelIndex(), QModelIndex());
 }
 
 void AnimationListFrame::updateButtonsState() {
@@ -53,8 +68,10 @@ void AnimationListFrame::on_addAnimationButton_clicked() {
 
 void AnimationListFrame::on_removeAnimationButton_clicked() {
     const QItemSelection s = mUi->animationList->selectionModel()->selection();
-    if(s.indexes().length() > 0)
-        mAnimationModel->removeAnimation(s.indexes().first());
+    if(s.indexes().length() > 0) {
+        QModelIndex index = s.indexes().first();
+        mAnimationModel->remove(index);
+    }
 }
 
 void AnimationListFrame::onAnimationSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected) {
@@ -73,6 +90,11 @@ void AnimationListFrame::onAnimationNameChanged(Item::RenameResult result) {
         QMessageBox::warning(this, tr("Name already exists"), tr("Animation with such name already exists"));
         break;
     case Item::RenameResult::Ok:
+    case Item::RenameResult::NotValid:
         break;
     }
+}
+
+void AnimationListFrame::onAddedFrameIsDuplicate() {
+    QMessageBox::warning(this, tr("Duplicate frame"), tr("Failed to add frame to animation because this animation already contains that frame"));
 }

@@ -20,8 +20,11 @@ public:
 
     void setDisabled(bool disabled);
 
+    void clear();
+
 public slots:
-    void tryAddSprite(Frame* frame);
+    void addFrame(Block::ptr frame);
+    void refresh();
 
 private slots:
     void on_addAnimationButton_clicked();
@@ -29,6 +32,8 @@ private slots:
 
     void onAnimationSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
     void onAnimationNameChanged(Item::RenameResult result);
+
+    void onAddedFrameIsDuplicate();
 
 private:
     void updateButtonsState();

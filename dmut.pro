@@ -23,6 +23,7 @@ SOURCES += src/main.cpp \
     src/frame.cpp \
     src/framelistframe.cpp \
     src/framemodel.cpp \
+    src/block.cpp \
     src/item.cpp
 
 HEADERS  += \
@@ -35,6 +36,8 @@ HEADERS  += \
     src/frame.h \
     src/framelistframe.h \
     src/framemodel.h \
+    src/block.h \
+    src/iteminterface.h \
     src/item.h
 
 FORMS    += src/mainwindow.ui \

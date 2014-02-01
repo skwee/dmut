@@ -21,7 +21,8 @@ public:
     void createSpriteList(const QString &spriteFileName, const Frame::Options &options);
 
 signals:
-    void spriteToBeAddedToAnimation(Frame* sprite);
+    void addFrameToAnimation(Block::ptr frame);
+    void pleaseRefreshOtherElements();
 
 private slots:
     void on_changeLayoutButton_clicked();
