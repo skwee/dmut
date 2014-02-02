@@ -76,7 +76,44 @@
          </spacer>
         </item>
         <item>
+         <widget class="QPushButton" name="moveUpButton">
+          <property name="toolTip">
+           <string/>
+          </property>
+          <property name="statusTip">
+           <string/>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="../iconset.qrc">
+            <normaloff>:/src/icons/16x16/actions/go-up.png</normaloff>:/src/icons/16x16/actions/go-up.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="moveDownButton">
+          <property name="toolTip">
+           <string/>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="../iconset.qrc">
+            <normaloff>:/src/icons/16x16/actions/go-down.png</normaloff>:/src/icons/16x16/actions/go-down.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QPushButton" name="addAnimationButton">
+          <property name="toolTip">
+           <string>Add new animation</string>
+          </property>
+          <property name="statusTip">
+           <string/>
+          </property>
           <property name="text">
            <string/>
           </property>
@@ -88,6 +125,12 @@
         </item>
         <item>
          <widget class="QPushButton" name="removeAnimationButton">
+          <property name="toolTip">
+           <string>Remove selected animation or frame</string>
+          </property>
+          <property name="statusTip">
+           <string/>
+          </property>
           <property name="text">
            <string/>
           </property>

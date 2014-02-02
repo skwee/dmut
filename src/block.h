@@ -9,6 +9,7 @@ class Block: public ItemInterface
 {
 public:
     enum class Type {
+        None,
         Frame,
         Animation
     };

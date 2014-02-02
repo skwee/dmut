@@ -121,6 +121,27 @@ bool AnimationModel::hasChildren(const QModelIndex &parent) const {
     return item->total() > 0;
 }
 
+bool AnimationModel::moveRows(const QModelIndex &sourceParent, int sourceRow, int count, const QModelIndex &destinationParent, int destinationChild) {
+    if(sourceParent != destinationParent) return false;
+
+    QModelIndex p = QModelIndex();
+    Item* parent = mRootItem;
+
+    if(sourceParent.isValid()) {
+        parent = static_cast<Item*>(sourceParent.internalPointer());
+        if(!parent) return false;
+        p = sourceParent;
+    }
+
+    int destination = (destinationChild > sourceRow)
+                ? (destinationChild + 1) : destinationChild;
+
+    beginMoveRows(p, sourceRow, sourceRow, p, destination);
+    bool flag = parent->swapItems(sourceRow, destinationChild);
+    endMoveRows();
+    return flag;
+}
+
 void AnimationModel::addAnimation() {
     beginInsertRows(QModelIndex(), mRootItem->total(), mRootItem->total());
     mRootItem->add(new Item(Block::ptr(new Animation)));
@@ -163,4 +184,28 @@ void AnimationModel::removeAll() {
     beginRemoveRows(QModelIndex(), mRootItem->total(), mRootItem->total());
     mRootItem->removeAll();
     endRemoveRows();
+}
+
+bool AnimationModel::canBeMoved(const QModelIndex &index, int steps) const {
+    if(!index.isValid()) return false;
+
+    Item* item = static_cast<Item*>(index.internalPointer());
+    if(!item || !item->parent()) return false;
+
+    int itemIndex = item->indexOfSelf();
+
+    if((itemIndex + steps) < 0) return false;
+    if((itemIndex + steps) >= item->parent()->total()) return false;
+
+    return true;
+}
+
+Block::Type AnimationModel::getBlockType(const QModelIndex &index) const {
+    if(!index.isValid()) return Block::Type::None;
+
+    Item* item = static_cast<Item*>(index.internalPointer());
+    if(item && item->block()) {
+        return item->block()->type();
+    }
+    return Block::Type::None;
 }

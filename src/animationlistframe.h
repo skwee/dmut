@@ -35,6 +35,10 @@ private slots:
 
     void onAddedFrameIsDuplicate();
 
+    void on_moveUpButton_clicked();
+
+    void on_moveDownButton_clicked();
+
 private:
     void updateButtonsState();
 

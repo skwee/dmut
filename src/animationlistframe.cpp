@@ -56,14 +56,45 @@ void AnimationListFrame::refresh() {
 }
 
 void AnimationListFrame::updateButtonsState() {
-    if(mUi->animationList->selectionModel()->selection().indexes().length() == 0)
+    bool moveStateUp = true;
+    bool moveStateDown = true;
+    QString moveDownToolTip = "";
+    QString moveUpToolTip = "";
+
+    if(mUi->animationList->selectionModel()->selection().indexes().length() == 0) {
         mUi->removeAnimationButton->setDisabled(true);
-    else
+    } else {
         mUi->removeAnimationButton->setDisabled(false);
+
+        QModelIndex index = mUi->animationList->selectionModel()->selection().indexes().first();
+        moveStateUp = !mAnimationModel->canBeMoved(index, -1);
+        moveStateDown = !mAnimationModel->canBeMoved(index, +1);
+
+        Block::Type indexType = mAnimationModel->getBlockType(index);
+        switch(indexType) {
+        case Block::Type::None:
+            break;
+        case Block::Type::Frame:
+            moveDownToolTip = tr("Move frame down");
+            moveUpToolTip = tr("Move frame up");
+            break;
+        case Block::Type::Animation:
+            moveDownToolTip = tr("Move animation down");
+            moveUpToolTip = tr("Move animation up");
+            break;
+        }
+    }
+
+    mUi->moveUpButton->setDisabled(moveStateUp);
+    mUi->moveDownButton->setDisabled(moveStateDown);
+
+    mUi->moveDownButton->setToolTip(moveDownToolTip);
+    mUi->moveUpButton->setToolTip(moveUpToolTip);
 }
 
 void AnimationListFrame::on_addAnimationButton_clicked() {
     mAnimationModel->addAnimation();
+    updateButtonsState();
 }
 
 void AnimationListFrame::on_removeAnimationButton_clicked() {
@@ -71,6 +102,7 @@ void AnimationListFrame::on_removeAnimationButton_clicked() {
     if(s.indexes().length() > 0) {
         QModelIndex index = s.indexes().first();
         mAnimationModel->remove(index);
+        updateButtonsState();
     }
 }
 
@@ -97,4 +129,23 @@ void AnimationListFrame::onAnimationNameChanged(Item::RenameResult result) {
 
 void AnimationListFrame::onAddedFrameIsDuplicate() {
     QMessageBox::warning(this, tr("Duplicate frame"), tr("Failed to add frame to animation because this animation already contains that frame"));
+}
+
+void AnimationListFrame::on_moveUpButton_clicked() {
+    const QItemSelection s = mUi->animationList->selectionModel()->selection();
+    if(s.indexes().length() > 0) {
+        QModelIndex index = s.indexes().first();
+        mAnimationModel->moveRow(index.parent(), index.row(), index.parent(), index.row() - 1);
+    }
+
+    updateButtonsState();
+}
+
+void AnimationListFrame::on_moveDownButton_clicked() {
+    const QItemSelection s = mUi->animationList->selectionModel()->selection();
+    if(s.indexes().length() > 0) {
+        QModelIndex index = s.indexes().first();
+        mAnimationModel->moveRow(index.parent(), index.row(), index.parent(), index.row() + 1);
+    }
+    updateButtonsState();
 }

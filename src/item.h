@@ -19,6 +19,8 @@ public:
     int indexOfSelf();
     bool contains(Block::ptr block);
 
+    bool swapItems(int oldIndex, int newIndex);
+
     QString name() const override;
     Item::RenameResult rename(const QString &name);
 

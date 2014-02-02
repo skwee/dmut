@@ -46,6 +46,14 @@ bool Item::contains(Block::ptr block) {
     return false;
 }
 
+bool Item::swapItems(int oldIndex, int newIndex) {
+    if((oldIndex < 0) || (oldIndex >= mChildren.size())) return false;
+    if((newIndex < 0) || (newIndex >= mChildren.size())) return false;
+
+    mChildren.swap(oldIndex, newIndex);
+    return true;
+}
+
 QString Item::name() const {
     if(mBlock) return mBlock->name();
     return QString("UnNamedBlock");

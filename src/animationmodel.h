@@ -22,13 +22,17 @@ public:
     QModelIndex parent(const QModelIndex &child) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     bool hasChildren(const QModelIndex &parent = QModelIndex()) const;
+    bool moveRows(const QModelIndex &sourceParent, int sourceRow, int count, const QModelIndex &destinationParent, int destinationChild);
 
     void addAnimation();
     void removeAnimation(const QModelIndex& index);
     void addFrameToAnimation(const QModelIndex& animIndex, Block::ptr frame);
     void remove(const QModelIndex& index);
-
     void removeAll();
+
+    bool canBeMoved(const QModelIndex& index, int steps) const;
+
+    Block::Type getBlockType(const QModelIndex& index) const;
 
 signals:
     void onNameChanged(Item::RenameResult result);
