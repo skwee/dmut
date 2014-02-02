@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>407</width>
+    <height>366</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,119 +33,119 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QFrame" name="animationListFrame">
-     <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
      </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
+     <property name="handleWidth">
+      <number>8</number>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_3">
-      <property name="leftMargin">
-       <number>0</number>
+     <property name="childrenCollapsible">
+      <bool>false</bool>
+     </property>
+     <widget class="QFrame" name="animationListFrame">
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
       </property>
-      <property name="topMargin">
-       <number>0</number>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
       </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
-       <number>0</number>
-      </property>
-      <item>
-       <layout class="QHBoxLayout" name="animationListTitleLayout">
-        <item>
-         <widget class="QLabel" name="animationListTitleLabel">
-          <property name="text">
-           <string>Animations</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="animationListTitleSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="moveUpButton">
-          <property name="toolTip">
-           <string/>
-          </property>
-          <property name="statusTip">
-           <string/>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="../iconset.qrc">
-            <normaloff>:/src/icons/16x16/actions/go-up.png</normaloff>:/src/icons/16x16/actions/go-up.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="moveDownButton">
-          <property name="toolTip">
-           <string/>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="../iconset.qrc">
-            <normaloff>:/src/icons/16x16/actions/go-down.png</normaloff>:/src/icons/16x16/actions/go-down.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="addAnimationButton">
-          <property name="toolTip">
-           <string>Add new animation</string>
-          </property>
-          <property name="statusTip">
-           <string/>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="../iconset.qrc">
-            <normaloff>:/src/icons/16x16/actions/list-add.png</normaloff>:/src/icons/16x16/actions/list-add.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="removeAnimationButton">
-          <property name="toolTip">
-           <string>Remove selected animation or frame</string>
-          </property>
-          <property name="statusTip">
-           <string/>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="../iconset.qrc">
-            <normaloff>:/src/icons/16x16/actions/list-remove.png</normaloff>:/src/icons/16x16/actions/list-remove.png</iconset>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <widget class="QTreeView" name="animationList"/>
-      </item>
-     </layout>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" name="animationListTitleLayout">
+         <item>
+          <widget class="QLabel" name="animationListTitleLabel">
+           <property name="text">
+            <string>Animations</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="animationListTitleSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="moveUpButton">
+           <property name="icon">
+            <iconset resource="../iconset.qrc">
+             <normaloff>:/src/icons/16x16/actions/go-up.png</normaloff>:/src/icons/16x16/actions/go-up.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="moveDownButton">
+           <property name="icon">
+            <iconset resource="../iconset.qrc">
+             <normaloff>:/src/icons/16x16/actions/go-down.png</normaloff>:/src/icons/16x16/actions/go-down.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="addAnimationButton">
+           <property name="toolTip">
+            <string>Add new animation</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../iconset.qrc">
+             <normaloff>:/src/icons/16x16/actions/list-add.png</normaloff>:/src/icons/16x16/actions/list-add.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="removeAnimationButton">
+           <property name="toolTip">
+            <string>Remove selected animation or frame</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../iconset.qrc">
+             <normaloff>:/src/icons/16x16/actions/list-remove.png</normaloff>:/src/icons/16x16/actions/list-remove.png</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QTreeView" name="animationList"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QFrame" name="propertiesParentFrame">
+      <layout class="QVBoxLayout" name="verticalLayout_4" stretch="">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+      </layout>
+     </widget>
     </widget>
    </item>
   </layout>
