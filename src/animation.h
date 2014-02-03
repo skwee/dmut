@@ -38,8 +38,8 @@ public:
 
     Animation();
 
-    void setFramesPerSecond(FramesPerSecond fps) { mFramesPerSecond = fps; }
-    FramesPerSecond getFramesPerSecond() const { return mFramesPerSecond; }
+    void setFps(FramesPerSecond fps) { mFramesPerSecond = fps; }
+    FramesPerSecond fps() const { return mFramesPerSecond; }
 
 private:
     FramesPerSecond mFramesPerSecond;

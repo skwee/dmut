@@ -3,6 +3,7 @@
 
 #include <QFrame>
 #include <QItemSelection>
+#include <QDataWidgetMapper>
 
 #include "animationmodel.h"
 
@@ -44,6 +45,7 @@ private:
 
     Ui::AnimationListFrame *mUi;
     AnimationModel* mAnimationModel;
+    QDataWidgetMapper* mAnimationDataMapper;
 };
 
 #endif // ANIMATIONLISTFRAME_H

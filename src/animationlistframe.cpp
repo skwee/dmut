@@ -4,15 +4,24 @@
 #include "ui_animationlistframe.h"
 
 AnimationListFrame::AnimationListFrame(QWidget *parent) :
-    QFrame(parent), mUi(new Ui::AnimationListFrame), mAnimationModel(nullptr)
+    QFrame(parent), mUi(new Ui::AnimationListFrame), mAnimationModel(nullptr),
+    mAnimationDataMapper(nullptr)
 {
     mUi->setupUi(this);
+
+    mUi->animationList->setAcceptDrops(false);
+    mUi->animationList->setEditTriggers(QAbstractItemView::SelectedClicked | QAbstractItemView::EditKeyPressed);
 
     mAnimationModel = new AnimationModel(mUi->animationList);
     mUi->animationList->setModel(mAnimationModel);
 
-    mUi->animationList->setAcceptDrops(false);
-    mUi->animationList->setEditTriggers(QAbstractItemView::SelectedClicked | QAbstractItemView::EditKeyPressed);
+    mAnimationDataMapper = new QDataWidgetMapper(mUi->animationProps);
+    mAnimationDataMapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
+    mAnimationDataMapper->setModel(mAnimationModel);
+    mAnimationDataMapper->addMapping(mUi->animationNameTextArea, 0);
+    mAnimationDataMapper->addMapping(mUi->animationFpsSpinbox, 1);
+
+    mUi->animationProps->setVisible(false);
 
     QObject::connect(
                 mUi->animationList->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
@@ -32,6 +41,7 @@ AnimationListFrame::AnimationListFrame(QWidget *parent) :
 
 AnimationListFrame::~AnimationListFrame()
 {
+    if(mAnimationDataMapper) delete mAnimationDataMapper;
     if(mAnimationModel) delete mAnimationModel;
     delete mUi;
 }
@@ -107,6 +117,24 @@ void AnimationListFrame::on_removeAnimationButton_clicked() {
 }
 
 void AnimationListFrame::onAnimationSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected) {
+    bool showAnimProps = false;
+    if(selected.indexes().length() > 0) {
+        QModelIndex index = selected.indexes().first();
+        if(index.isValid()) {
+            Block::Type t = mAnimationModel->getBlockType(index);
+            if(t == Block::Type::Animation) {
+                showAnimProps = true;
+            }
+        }
+
+        if(showAnimProps) {
+            mAnimationDataMapper->setCurrentModelIndex(index);
+        } else {
+            mAnimationDataMapper->setCurrentModelIndex(QModelIndex());
+        }
+    }
+
+    mUi->animationProps->setVisible(showAnimProps);
     updateButtonsState();
 }
 
@@ -122,6 +150,7 @@ void AnimationListFrame::onAnimationNameChanged(Item::RenameResult result) {
         QMessageBox::warning(this, tr("Name already exists"), tr("Animation with such name already exists"));
         break;
     case Item::RenameResult::Ok:
+        break;
     case Item::RenameResult::NotValid:
         break;
     }
