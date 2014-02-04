@@ -46,6 +46,7 @@ private:
     Ui::AnimationListFrame *mUi;
     AnimationModel* mAnimationModel;
     QDataWidgetMapper* mAnimationDataMapper;
+    QDataWidgetMapper* mFrameDataMapper;
 };
 
 #endif // ANIMATIONLISTFRAME_H

@@ -24,7 +24,9 @@ SOURCES += src/main.cpp \
     src/framelistframe.cpp \
     src/framemodel.cpp \
     src/block.cpp \
-    src/item.cpp
+    src/item.cpp \
+    src/animationitemdelegate.cpp \
+    src/frameitemdelegate.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -38,7 +40,9 @@ HEADERS  += \
     src/framemodel.h \
     src/block.h \
     src/iteminterface.h \
-    src/item.h
+    src/item.h \
+    src/animationitemdelegate.h \
+    src/frameitemdelegate.h
 
 FORMS    += src/mainwindow.ui \
     src/newcharacterdialog.ui \

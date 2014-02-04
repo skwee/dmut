@@ -3,9 +3,12 @@
 #include "animationlistframe.h"
 #include "ui_animationlistframe.h"
 
+#include "animationitemdelegate.h"
+#include "frameitemdelegate.h"
+
 AnimationListFrame::AnimationListFrame(QWidget *parent) :
     QFrame(parent), mUi(new Ui::AnimationListFrame), mAnimationModel(nullptr),
-    mAnimationDataMapper(nullptr)
+    mAnimationDataMapper(nullptr), mFrameDataMapper(nullptr)
 {
     mUi->setupUi(this);
 
@@ -14,14 +17,23 @@ AnimationListFrame::AnimationListFrame(QWidget *parent) :
 
     mAnimationModel = new AnimationModel(mUi->animationList);
     mUi->animationList->setModel(mAnimationModel);
+    mUi->animationList->header()->hideSection(1);
 
     mAnimationDataMapper = new QDataWidgetMapper(mUi->animationProps);
     mAnimationDataMapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
     mAnimationDataMapper->setModel(mAnimationModel);
     mAnimationDataMapper->addMapping(mUi->animationNameTextArea, 0);
     mAnimationDataMapper->addMapping(mUi->animationFpsSpinbox, 1);
+    mAnimationDataMapper->setItemDelegate(new AnimationItemDelegate());
+
+    mFrameDataMapper = new QDataWidgetMapper(mUi->frameProps);
+    mFrameDataMapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
+    mFrameDataMapper->addMapping(mUi->frameNameTextArea, 0);
+    mFrameDataMapper->addMapping(mUi->frameHoldSpinBox, 1);
+    mFrameDataMapper->setItemDelegate(new FrameItemDelegate());
 
     mUi->animationProps->setVisible(false);
+    mUi->frameProps->setVisible(false);
 
     QObject::connect(
                 mUi->animationList->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
@@ -41,7 +53,16 @@ AnimationListFrame::AnimationListFrame(QWidget *parent) :
 
 AnimationListFrame::~AnimationListFrame()
 {
-    if(mAnimationDataMapper) delete mAnimationDataMapper;
+    if(mAnimationDataMapper) {
+        delete mAnimationDataMapper->itemDelegate();
+        delete mAnimationDataMapper;
+    }
+
+    if(mFrameDataMapper) {
+        delete mFrameDataMapper->itemDelegate();
+        delete mFrameDataMapper;
+    }
+
     if(mAnimationModel) delete mAnimationModel;
     delete mUi;
 }
@@ -118,12 +139,16 @@ void AnimationListFrame::on_removeAnimationButton_clicked() {
 
 void AnimationListFrame::onAnimationSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected) {
     bool showAnimProps = false;
+    bool showFrameProps = false;
+
     if(selected.indexes().length() > 0) {
         QModelIndex index = selected.indexes().first();
         if(index.isValid()) {
             Block::Type t = mAnimationModel->getBlockType(index);
             if(t == Block::Type::Animation) {
                 showAnimProps = true;
+            } else if(t == Block::Type::Frame) {
+                showFrameProps = true;
             }
         }
 
@@ -132,9 +157,16 @@ void AnimationListFrame::onAnimationSelectionChanged(const QItemSelection &selec
         } else {
             mAnimationDataMapper->setCurrentModelIndex(QModelIndex());
         }
+
+        if(showFrameProps) {
+            mFrameDataMapper->setCurrentModelIndex(index);
+        } else {
+            mFrameDataMapper->setCurrentModelIndex(QModelIndex());
+        }
     }
 
     mUi->animationProps->setVisible(showAnimProps);
+    mUi->frameProps->setVisible(showFrameProps);
     updateButtonsState();
 }
 

@@ -23,11 +23,12 @@ int AnimationModel::rowCount(const QModelIndex &parent) const {
 
 int AnimationModel::columnCount(const QModelIndex &parent) const {
     Q_UNUSED(parent);
-    return 1;
+    return 2;
 }
 
 QVariant AnimationModel::data(const QModelIndex &index, int role) const {
     if(!index.isValid()) return QVariant();
+    if(index.column() != 0) return QVariant();
 
     Item* item = static_cast<Item*>(index.internalPointer());
 
@@ -41,6 +42,7 @@ QVariant AnimationModel::data(const QModelIndex &index, int role) const {
 
 bool AnimationModel::setData(const QModelIndex &index, const QVariant &value, int role) {
     if(!index.isValid()) return false;
+    if(index.column() != 0) return false;
 
     Item* item = static_cast<Item*>(index.internalPointer());
 
