@@ -6,151 +6,100 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>353</width>
-    <height>146</height>
+    <width>360</width>
+    <height>142</height>
    </rect>
-  </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QDialogButtonBox" name="buttonBox">
-   <property name="geometry">
-    <rect>
-     <x>160</x>
-     <y>110</y>
-     <width>181</width>
-     <height>32</height>
-    </rect>
+  <layout class="QFormLayout" name="layout">
+   <property name="fieldGrowthPolicy">
+    <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
    </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-  </widget>
-  <widget class="QWidget" name="verticalLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>20</y>
-     <width>331</width>
-     <height>81</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="mainLayout" stretch="0,1">
-    <property name="spacing">
-     <number>2</number>
-    </property>
-    <property name="sizeConstraint">
-     <enum>QLayout::SetDefaultConstraint</enum>
-    </property>
-    <property name="bottomMargin">
-     <number>0</number>
-    </property>
-    <item>
-     <layout class="QHBoxLayout" name="characterNameLayout">
-      <property name="spacing">
-       <number>6</number>
-      </property>
-      <item>
-       <widget class="QLabel" name="characterNameLabel">
-        <property name="text">
-         <string>Character Name</string>
+   <item row="0" column="0">
+    <widget class="QLabel" name="nameLabel">
+     <property name="text">
+      <string>Character Name</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLineEdit" name="nameLineEdit"/>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <widget class="QGroupBox" name="frameSizeGroupBox">
+     <property name="title">
+      <string>Frame Size</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="1">
+       <widget class="QSpinBox" name="frameSizeWidthSpinBox">
+        <property name="suffix">
+         <string> px</string>
+        </property>
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>1024</number>
+        </property>
+        <property name="value">
+         <number>32</number>
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QLineEdit" name="characterNameEdit"/>
+      <item row="0" column="0">
+       <widget class="QLabel" name="frameSizeWidthLabel">
+        <property name="text">
+         <string>Width</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QLabel" name="frameSizeHeightLabel">
+        <property name="text">
+         <string>Height</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QSpinBox" name="frameSizeHeightSpinBox">
+        <property name="suffix">
+         <string> px</string>
+        </property>
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>1024</number>
+        </property>
+        <property name="value">
+         <number>32</number>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="Line" name="line">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
       </item>
      </layout>
-    </item>
-    <item>
-     <widget class="QGroupBox" name="frameSizeGroupBox">
-      <property name="title">
-       <string>Frame Size</string>
-      </property>
-      <widget class="QWidget" name="horizontalLayoutWidget">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>20</y>
-         <width>321</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <layout class="QHBoxLayout" name="frameSizeLayout_2">
-        <item>
-         <widget class="QLabel" name="frameWidthLabel">
-          <property name="text">
-           <string>Width</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="frameWidthBox">
-          <property name="suffix">
-           <string> px</string>
-          </property>
-          <property name="minimum">
-           <number>8</number>
-          </property>
-          <property name="maximum">
-           <number>1024</number>
-          </property>
-          <property name="value">
-           <number>32</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="frameSizeSpacer">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QLabel" name="frameHeightLabel">
-          <property name="text">
-           <string>Height</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="frameHeightBox">
-          <property name="suffix">
-           <string> px</string>
-          </property>
-          <property name="minimum">
-           <number>8</number>
-          </property>
-          <property name="maximum">
-           <number>1024</number>
-          </property>
-          <property name="value">
-           <number>32</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </widget>
-    </item>
-   </layout>
-  </widget>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections>

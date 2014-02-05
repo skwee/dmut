@@ -15,43 +15,20 @@ CONFIG	+= c++11
 
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
+    src/spriteatlasmodel.cpp \
     src/newcharacterdialog.cpp \
-    src/animationlistframe.cpp \
-    src/animation.cpp \
-    src/animationmodel.cpp \
-    src/spritefactory.cpp \
-    src/frame.cpp \
-    src/framelistframe.cpp \
-    src/framemodel.cpp \
-    src/block.cpp \
-    src/item.cpp \
-    src/animationitemdelegate.cpp \
-    src/frameitemdelegate.cpp \
-    src/dmut/frame.cpp \
-    src/dmut/animation.cpp
+    src/sprite.cpp \
+    src/spriteatlaswidget.cpp
 
 HEADERS  += \
     src/mainwindow.h \
+    src/spriteatlasmodel.h \
     src/newcharacterdialog.h \
-    src/animationlistframe.h \
-    src/animation.h \
-    src/animationmodel.h \
-    src/spritefactory.h \
-    src/frame.h \
-    src/framelistframe.h \
-    src/framemodel.h \
-    src/block.h \
-    src/iteminterface.h \
-    src/item.h \
-    src/animationitemdelegate.h \
-    src/frameitemdelegate.h \
-    src/dmut/frame.h \
-    src/dmut/animation.h
+    src/sprite.h \
+    src/spriteatlaswidget.h
 
 FORMS    += src/mainwindow.ui \
     src/newcharacterdialog.ui \
-    src/animationlistframe.ui \
-    src/framelistframe.ui
+    src/spriteatlaswidget.ui
 
-RESOURCES += \
-    iconset.qrc
+RESOURCES +=

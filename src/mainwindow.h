@@ -1,10 +1,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "newcharacterdialog.h"
-
 #include <QMainWindow>
 #include <QListWidgetItem>
+
+#include "sprite.h"
 
 namespace Ui {
 class MainWindow;
@@ -23,7 +23,7 @@ private slots:
     void on_actionNew_triggered();
 
 private:
-    void startNewSession(const QString& spriteFileName, const Frame::Options& frameOptions);
+    void startNewSession(const QString& fileName, const Sprite::Size& size);
 
     Ui::MainWindow *mUi;
 };

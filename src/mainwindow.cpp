@@ -3,27 +3,15 @@
 
 #include <QFileDialog>
 
+#include "newcharacterdialog.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     mUi(new Ui::MainWindow)
 {
     mUi->setupUi(this);
 
-    mUi->frameListFrame->setDisabled(true);
-    mUi->animationListFrame->setDisabled(true);
-
-    mUi->splitter->setStretchFactor(0, 1);
-    mUi->splitter->setStretchFactor(1, 2);
-
-    QObject::connect(
-                mUi->frameListFrame, SIGNAL(addFrameToAnimation(Block::ptr)),
-                mUi->animationListFrame, SLOT(addFrame(Block::ptr))
-                );
-
-    QObject::connect(
-                mUi->frameListFrame, SIGNAL(pleaseRefreshOtherElements()),
-                mUi->animationListFrame, SLOT(refresh())
-                );
+    mUi->spriteAtlas->setDisabled(true);
 }
 
 MainWindow::~MainWindow()
@@ -49,19 +37,16 @@ void MainWindow::on_actionNew_triggered()
 
     if(!fileInfo.exists()) return;
 
-    NewCharacterDialog ncDialog(this, fileInfo.baseName());
-    auto ret = ncDialog.exec();
+    NewCharacterDialog nc(fileInfo.baseName(), this);
+    auto ret = nc.exec();
     if(ret == QDialog::Accepted) {
-        startNewSession(file, ncDialog.getCharacterSpriteOptions());
-    } else if(ret == QDialog::Rejected) {
+        startNewSession(file, nc.getSpriteSize());
+    } else {
         return;
     }
 }
 
-void MainWindow::startNewSession(const QString &spriteFileName, const Frame::Options &frameOptions) {
-    mUi->frameListFrame->createSpriteList(spriteFileName, frameOptions);
-    mUi->animationListFrame->clear();
-
-    mUi->frameListFrame->setDisabled(false);
-    mUi->animationListFrame->setDisabled(false);
+void MainWindow::startNewSession(const QString &fileName, const Sprite::Size &size) {
+    mUi->spriteAtlas->setAtlas(fileName, size);
+    mUi->spriteAtlas->setDisabled(false);
 }

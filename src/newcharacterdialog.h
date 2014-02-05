@@ -2,7 +2,8 @@
 #define NEWCHARACTERDIALOG_H
 
 #include <QDialog>
-#include "frame.h"
+
+#include "spriteatlasmodel.h"
 
 namespace Ui {
 class NewCharacterDialog;
@@ -13,11 +14,11 @@ class NewCharacterDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit NewCharacterDialog(QWidget *parent, const QString &characterName);
+    explicit NewCharacterDialog(const QString& characterName, QWidget *parent = 0);
     ~NewCharacterDialog();
 
-    QString getCharacterName() const;
-    Frame::Options getCharacterSpriteOptions() const;
+    QString getSpriteName() const;
+    Sprite::Size getSpriteSize() const;
 
 private:
     Ui::NewCharacterDialog *mUi;

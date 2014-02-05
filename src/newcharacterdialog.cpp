@@ -1,12 +1,12 @@
 #include "newcharacterdialog.h"
 #include "ui_newcharacterdialog.h"
 
-NewCharacterDialog::NewCharacterDialog(QWidget *parent, const QString &characterName) :
+NewCharacterDialog::NewCharacterDialog(const QString& characterName, QWidget *parent) :
     QDialog(parent),
     mUi(new Ui::NewCharacterDialog)
 {
     mUi->setupUi(this);
-    mUi->characterNameEdit->setText(characterName);
+    mUi->nameLineEdit->setText(characterName);
 }
 
 NewCharacterDialog::~NewCharacterDialog()
@@ -14,15 +14,14 @@ NewCharacterDialog::~NewCharacterDialog()
     delete mUi;
 }
 
-Frame::Options NewCharacterDialog::getCharacterSpriteOptions() const {
-    Frame::Options o;
-
-    o.width = mUi->frameWidthBox->value();
-    o.height = mUi->frameHeightBox->value();
-
-    return o;
+QString NewCharacterDialog::getSpriteName() const {
+    return mUi->nameLineEdit->text();
 }
 
-QString NewCharacterDialog::getCharacterName() const {
-    return mUi->characterNameEdit->text();
+Sprite::Size NewCharacterDialog::getSpriteSize() const {
+    Sprite::Size s;
+    s.width = mUi->frameSizeWidthSpinBox->value();
+    s.height = mUi->frameSizeHeightSpinBox->value();
+
+    return s;
 }
