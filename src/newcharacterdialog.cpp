@@ -14,14 +14,14 @@ NewCharacterDialog::~NewCharacterDialog()
     delete mUi;
 }
 
-QString NewCharacterDialog::getSpriteName() const {
+QString NewCharacterDialog::getCharacterName() const {
     return mUi->nameLineEdit->text();
 }
 
-Sprite::Size NewCharacterDialog::getSpriteSize() const {
-    Sprite::Size s;
-    s.width = mUi->frameSizeWidthSpinBox->value();
-    s.height = mUi->frameSizeHeightSpinBox->value();
+//Sprite::Size NewCharacterDialog::getSpriteSize() const {
+//    Sprite::Size s;
+//    s.width = mUi->frameSizeWidthSpinBox->value();
+//    s.height = mUi->frameSizeHeightSpinBox->value();
 
-    return s;
-}
+//    return s;
+//}

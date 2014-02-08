@@ -25,7 +25,7 @@
      <enum>QLayout::SetDefaultConstraint</enum>
     </property>
     <item>
-     <widget class="QTabWidget" name="spriteAtlasTab">
+     <widget class="QTabWidget" name="characterTab">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -35,33 +35,9 @@
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="SpriteAtlasWidget" name="spriteAtlas">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
+      <widget class="CharacterHierarchyWidget" name="characterHierarchy">
        <attribute name="title">
-        <string>Sprite Atlas</string>
-       </attribute>
-      </widget>
-     </widget>
-    </item>
-    <item>
-     <widget class="QTabWidget" name="animationsTab">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="currentIndex">
-       <number>0</number>
-      </property>
-      <widget class="QWidget" name="animationList">
-       <attribute name="title">
-        <string>Animations</string>
+        <string>Character Hierarchy</string>
        </attribute>
       </widget>
      </widget>
@@ -113,9 +89,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>SpriteAtlasWidget</class>
+   <class>CharacterHierarchyWidget</class>
    <extends>QWidget</extends>
-   <header>src/spriteatlaswidget.h</header>
+   <header>src/characterhierarchywidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

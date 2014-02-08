@@ -18,17 +18,34 @@ SOURCES += src/main.cpp \
     src/spriteatlasmodel.cpp \
     src/newcharacterdialog.cpp \
     src/sprite.cpp \
-    src/spriteatlaswidget.cpp
+    src/spriteatlaswidget.cpp \
+    src/character.cpp \
+    src/item.cpp \
+    src/animation.cpp \
+    src/frame.cpp \
+    src/characterdocument.cpp \
+    src/charactermodel.cpp \
+    src/characterhierarchywidget.cpp \
+    src/namer.cpp
 
 HEADERS  += \
     src/mainwindow.h \
     src/spriteatlasmodel.h \
     src/newcharacterdialog.h \
     src/sprite.h \
-    src/spriteatlaswidget.h
+    src/spriteatlaswidget.h \
+    src/character.h \
+    src/item.h \
+    src/animation.h \
+    src/frame.h \
+    src/characterdocument.h \
+    src/charactermodel.h \
+    src/characterhierarchywidget.h \
+    src/namer.h
 
 FORMS    += src/mainwindow.ui \
     src/newcharacterdialog.ui \
-    src/spriteatlaswidget.ui
+    src/spriteatlaswidget.ui \
+    src/characterhierarchywidget.ui
 
 RESOURCES +=

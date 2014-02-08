@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QListWidgetItem>
 
-#include "sprite.h"
+#include "characterdocument.h"
 
 namespace Ui {
 class MainWindow;
@@ -23,9 +23,11 @@ private slots:
     void on_actionNew_triggered();
 
 private:
-    void startNewSession(const QString& fileName, const Sprite::Size& size);
+    void finishSession();
+    void startSession();
 
     Ui::MainWindow *mUi;
+    CharacterDocument* mCharacterDocument;
 };
 
 #endif // MAINWINDOW_H

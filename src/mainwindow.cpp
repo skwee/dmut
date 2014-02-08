@@ -7,15 +7,14 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    mUi(new Ui::MainWindow)
+    mUi(new Ui::MainWindow), mCharacterDocument(nullptr)
 {
     mUi->setupUi(this);
-
-    mUi->spriteAtlas->setDisabled(true);
 }
 
 MainWindow::~MainWindow()
 {
+    if(mCharacterDocument) delete mCharacterDocument;
     delete mUi;
 }
 
@@ -26,27 +25,18 @@ void MainWindow::on_actionQuit_triggered()
 
 void MainWindow::on_actionNew_triggered()
 {
-    auto file = QFileDialog::getOpenFileName(
-                this,
-                tr("Open sprite file"),
-                QDir::homePath(),
-                tr("Images (*.png)")
-                );
-
-    QFileInfo fileInfo(file);
-
-    if(!fileInfo.exists()) return;
-
-    NewCharacterDialog nc(fileInfo.baseName(), this);
-    auto ret = nc.exec();
-    if(ret == QDialog::Accepted) {
-        startNewSession(file, nc.getSpriteSize());
-    } else {
-        return;
-    }
+    finishSession();
+    mCharacterDocument = CharacterDocument::create(this);
+    startSession();
 }
 
-void MainWindow::startNewSession(const QString &fileName, const Sprite::Size &size) {
-    mUi->spriteAtlas->setAtlas(fileName, size);
-    mUi->spriteAtlas->setDisabled(false);
+void MainWindow::finishSession() {
+    mUi->characterHierarchy->finishSession();
+    if(mCharacterDocument) delete mCharacterDocument;
+}
+
+void MainWindow::startSession() {
+    if(mCharacterDocument) {
+        mUi->characterHierarchy->startSession(mCharacterDocument);
+    }
 }

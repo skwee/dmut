@@ -17,8 +17,7 @@ public:
     explicit NewCharacterDialog(const QString& characterName, QWidget *parent = 0);
     ~NewCharacterDialog();
 
-    QString getSpriteName() const;
-    Sprite::Size getSpriteSize() const;
+    QString getCharacterName() const;
 
 private:
     Ui::NewCharacterDialog *mUi;
