@@ -17,6 +17,16 @@ CharacterDocument::CharacterDocument(const QString &name) :
 {
     mCharacter = new Character(name);
     mModel = new CharacterModel(mCharacter);
+
+    QObject::connect(
+                this, SIGNAL(onAddItemAction(QModelIndex)),
+                mModel, SLOT(addItemTo(QModelIndex))
+                );
+
+    QObject::connect(
+                this, SIGNAL(onRemoveItemAction(QModelIndex)),
+                mModel, SLOT(removeItem(QModelIndex))
+                );
 }
 
 CharacterDocument::~CharacterDocument() {

@@ -3,13 +3,14 @@
 
 #include <QAbstractItemModel>
 
+#include "rootitem.h"
 #include "character.h"
 
 class CharacterModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
-    explicit CharacterModel(Character* root, QObject *parent = 0);
+    explicit CharacterModel(Character* character, QObject *parent = 0);
     ~CharacterModel();
 
     int rowCount(const QModelIndex &parent) const;
@@ -17,16 +18,18 @@ public:
     QModelIndex index(int row, int column, const QModelIndex &parent) const;
     QModelIndex parent(const QModelIndex &child) const;
     QVariant data(const QModelIndex &index, int role) const;
+    bool setData(const QModelIndex &index, const QVariant &value, int role);
     Qt::ItemFlags flags(const QModelIndex &index) const;
-
-signals:
-    void itemAdded(Item* parent, Item* child);
 
 public slots:
     void addItemTo(const QModelIndex& index);
+    void removeItem(const QModelIndex& index);
+
+signals:
+    void itemAdded(const QModelIndex& toIndex, Item* parent, Item* child);
 
 private:
-    Character* mRoot;
+    RootItem* mRoot;
 };
 
 #endif // CHARACTERMODEL_H

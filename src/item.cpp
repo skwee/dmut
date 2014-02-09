@@ -23,8 +23,12 @@ int Item::rowIndex() const {
 }
 
 QVariant Item::data(int role) const {
-    if(role == Qt::DisplayRole) return mName;
+    if((role == Qt::DisplayRole) || (role == Qt::EditRole)) return mName;
     return QVariant();
+}
+
+bool Item::setData(const QVariant &value, int column, int role) {
+    return false;
 }
 
 Qt::ItemFlags Item::flags() const {
@@ -39,4 +43,9 @@ Item* Item::at(int index) const {
 void Item::add(Item *item) {
     mChildren.push_back(item);
     item->mParent = this;
+}
+
+void Item::remove(Item *item) {
+    if(mChildren.removeOne(item))
+        delete item;
 }

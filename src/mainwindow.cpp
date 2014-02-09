@@ -38,5 +38,10 @@ void MainWindow::finishSession() {
 void MainWindow::startSession() {
     if(mCharacterDocument) {
         mUi->characterHierarchy->startSession(mCharacterDocument);
+
+        QObject::connect(
+                    mCharacterDocument, SIGNAL(onItemSelectionChanged(QModelIndex,QModelIndex)),
+                    mUi->itemProperties, SLOT(itemSelectionChanged(QModelIndex,QModelIndex))
+                    );
     }
 }

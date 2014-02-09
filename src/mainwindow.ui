@@ -20,26 +20,35 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <layout class="QHBoxLayout" name="mainWindowLayout">
-    <property name="sizeConstraint">
-     <enum>QLayout::SetDefaultConstraint</enum>
-    </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QTabWidget" name="characterTab">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
+     <widget class="QSplitter" name="splitter">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
       </property>
-      <property name="currentIndex">
-       <number>0</number>
+      <property name="handleWidth">
+       <number>8</number>
       </property>
-      <widget class="CharacterHierarchyWidget" name="characterHierarchy">
-       <attribute name="title">
-        <string>Character Hierarchy</string>
-       </attribute>
+      <property name="childrenCollapsible">
+       <bool>false</bool>
+      </property>
+      <widget class="QTabWidget" name="characterTab">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="CharacterHierarchyWidget" name="characterHierarchy">
+        <attribute name="title">
+         <string>Character Hierarchy</string>
+        </attribute>
+       </widget>
       </widget>
+      <widget class="ItemPropertiesWidget" name="itemProperties" native="true"/>
      </widget>
     </item>
    </layout>
@@ -92,6 +101,12 @@
    <class>CharacterHierarchyWidget</class>
    <extends>QWidget</extends>
    <header>src/characterhierarchywidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ItemPropertiesWidget</class>
+   <extends>QWidget</extends>
+   <header>src/itempropertieswidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

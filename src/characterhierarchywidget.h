@@ -2,6 +2,7 @@
 #define CHARACTERHIERARCHYWIDGET_H
 
 #include <QWidget>
+#include <QItemSelection>
 
 #include "characterdocument.h"
 
@@ -19,16 +20,20 @@ public:
     void finishSession();
     void startSession(CharacterDocument* document);
 
-signals:
-    void onAddItemAction(const QModelIndex& index);
-
 private slots:
     void onAddNewItem();
+    void onRemoveItem();
+    void onItemAdded(const QModelIndex& toIndex, Item* parent, Item* child);
+    void onSelectionChanged(const QItemSelection& current, const QItemSelection& previous);
+
+private:
+    QModelIndex currentSelectedIndex() const;
 
 private:
     Ui::CharacterHierarchyWidget *mUi;
     CharacterDocument* mDocument;
     QAction* mAddNewItemAction;
+    QAction* mRemoveItemAction;
 };
 
 #endif // CHARACTERHIERARCHYWIDGET_H

@@ -24,8 +24,11 @@ public:
     virtual QVariant data(int role) const;
     virtual Qt::ItemFlags flags() const;
 
+    virtual bool setData(const QVariant& value, int column, int role);
+
     Item* at(int index) const;
     void add(Item* item);
+    void remove(Item* item);
 
     virtual Item* getNewChild() = 0;
 
