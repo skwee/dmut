@@ -6,10 +6,6 @@ Character::Character(const QString &name) :
     Item(name)
 {}
 
-int Character::columnCount() const {
-    return Item::columnCount();
-}
-
 Qt::ItemFlags Character::flags() const {
     return Item::flags() | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }

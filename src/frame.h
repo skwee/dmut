@@ -13,10 +13,12 @@ public:
     inline Duration getDuration() const { return mDuration; }
     inline void setDuration(Duration duration) { mDuration = duration; }
 
-    int columnCount() const override;
     Qt::ItemFlags flags() const override;
 
-    Item* getNewChild();
+    Item* getNewChild() override;
+    Item::Type type() override {
+        return Item::Type::FRAME;
+    }
 
 private:
     Duration mDuration;

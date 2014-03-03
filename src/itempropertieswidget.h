@@ -2,7 +2,9 @@
 #define ITEMPROPERTIESWIDGET_H
 
 #include <QWidget>
+#include <QDataWidgetMapper>
 
+#include "characterdocument.h"
 #include "animation.h"
 #include "character.h"
 #include "frame.h"
@@ -19,11 +21,17 @@ public:
     explicit ItemPropertiesWidget(QWidget *parent = 0);
     ~ItemPropertiesWidget();
 
+    void startSession(CharacterDocument* document);
+    void finishSession();
+
 public slots:
     void itemSelectionChanged(const QModelIndex& selected, const QModelIndex& deselected);
 
 private:
     Ui::ItemPropertiesWidget *mUi;
+    QDataWidgetMapper* mCharacterMapper;
+    QDataWidgetMapper* mAnimationMapper;
+    QDataWidgetMapper* mFrameMapper;
 };
 
 #endif // ITEMPROPERTIESWIDGET_H

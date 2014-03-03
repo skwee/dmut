@@ -28,7 +28,10 @@ SOURCES += src/main.cpp \
     src/characterhierarchywidget.cpp \
     src/namer.cpp \
     src/rootitem.cpp \
-    src/itempropertieswidget.cpp
+    src/itempropertieswidget.cpp \
+    src/characterdetailseditor.cpp \
+    src/animationdetailseditor.cpp \
+    src/framedetailseditor.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -45,12 +48,18 @@ HEADERS  += \
     src/characterhierarchywidget.h \
     src/namer.h \
     src/rootitem.h \
-    src/itempropertieswidget.h
+    src/itempropertieswidget.h \
+    src/characterdetailseditor.h \
+    src/animationdetailseditor.h \
+    src/framedetailseditor.h
 
 FORMS    += src/mainwindow.ui \
     src/newcharacterdialog.ui \
     src/spriteatlaswidget.ui \
     src/characterhierarchywidget.ui \
-    src/itempropertieswidget.ui
+    src/itempropertieswidget.ui \
+    src/characterdetailseditor.ui \
+    src/animationdetailseditor.ui \
+    src/framedetailseditor.ui
 
 RESOURCES +=

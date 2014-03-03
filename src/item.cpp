@@ -14,7 +14,7 @@ int Item::rowCount() const {
 }
 
 int Item::columnCount() const {
-    return 1;
+    return 3;
 }
 
 int Item::rowIndex() const {
@@ -22,12 +22,19 @@ int Item::rowIndex() const {
     return 1;
 }
 
-QVariant Item::data(int role) const {
-    if((role == Qt::DisplayRole) || (role == Qt::EditRole)) return mName;
+QVariant Item::data(int column, int role) const {
+    if((column == 0) && ((role == Qt::DisplayRole) || (role == Qt::EditRole))) {
+        return mName;
+    }
     return QVariant();
 }
 
 bool Item::setData(const QVariant &value, int column, int role) {
+    if((column == 0) && (role == Qt::EditRole)) {
+        if(value.toString().length() == 0) return false;
+        rename(value.toString());
+        return true;
+    }
     return false;
 }
 

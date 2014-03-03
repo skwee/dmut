@@ -4,10 +4,18 @@
 #include <QString>
 #include <QList>
 #include <QVariant>
+#include <QModelIndex>
 
 class Item
 {
 public:
+    enum class Type{
+        ROOT,
+        CHARACTER,
+        ANIMATION,
+        FRAME
+    };
+
     Item(const QString& name);
     virtual ~Item();
 
@@ -17,11 +25,11 @@ public:
     inline Item* parent() const { return mParent; }
 
     int rowCount() const;
-    virtual int columnCount() const;
+    int columnCount() const;
 
     int rowIndex() const;
 
-    virtual QVariant data(int role) const;
+    virtual QVariant data(int column, int role) const;
     virtual Qt::ItemFlags flags() const;
 
     virtual bool setData(const QVariant& value, int column, int role);
@@ -31,6 +39,7 @@ public:
     void remove(Item* item);
 
     virtual Item* getNewChild() = 0;
+    virtual Type type() = 0;
 
 private:
     Item* mParent;

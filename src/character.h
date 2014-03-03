@@ -8,9 +8,12 @@ class Character: public Item
 public:
     Character(const QString& name);
 
-    int columnCount() const override;
     Qt::ItemFlags flags() const override;
     Item* getNewChild() override;
+
+    Item::Type type() override {
+        return Item::Type::CHARACTER;
+    }
 };
 
 #endif // CHARACTER_H

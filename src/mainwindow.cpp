@@ -32,12 +32,14 @@ void MainWindow::on_actionNew_triggered()
 
 void MainWindow::finishSession() {
     mUi->characterHierarchy->finishSession();
+    mUi->itemProperties->finishSession();
     if(mCharacterDocument) delete mCharacterDocument;
 }
 
 void MainWindow::startSession() {
     if(mCharacterDocument) {
         mUi->characterHierarchy->startSession(mCharacterDocument);
+        mUi->itemProperties->startSession(mCharacterDocument);
 
         QObject::connect(
                     mCharacterDocument, SIGNAL(onItemSelectionChanged(QModelIndex,QModelIndex)),

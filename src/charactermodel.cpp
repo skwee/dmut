@@ -51,7 +51,7 @@ QModelIndex CharacterModel::parent(const QModelIndex &child) const {
 
 QVariant CharacterModel::data(const QModelIndex &index, int role) const {
     if(!index.isValid()) return QVariant();
-    return static_cast<Item*>(index.internalPointer())->data(role);
+    return static_cast<Item*>(index.internalPointer())->data(index.column(), role);
 }
 
 bool CharacterModel::setData(const QModelIndex &index, const QVariant &value, int role) {

@@ -9,10 +9,17 @@ public:
     typedef unsigned char FramesPerSecond;
     const FramesPerSecond DEFAULT_FPS = 20;
 
-    enum class WrapMode{
-        Once,
-        Loop
+    typedef unsigned char WrapMode;
+    enum {
+        WrapOnce = 0,
+        WrapLoop = 1
     };
+
+    static QStringList getWrapModes() {
+        QStringList wrapModes;
+        wrapModes << QObject::tr("Once") << QObject::tr("Loop");
+        return wrapModes;
+    }
 
     Animation();
 
@@ -22,9 +29,15 @@ public:
     inline WrapMode getWrapMode() const { return mWrapMode; }
     void setWrapMode(WrapMode wrapMode) { mWrapMode = wrapMode; }
 
-    int columnCount() const override;
     Qt::ItemFlags flags() const override;
     Item* getNewChild() override;
+
+    QVariant data(int column, int role) const override;
+    bool setData(const QVariant& value, int column, int role) override;
+
+    Item::Type type() override {
+        return Item::Type::ANIMATION;
+    }
 
 private:
     FramesPerSecond mFps;

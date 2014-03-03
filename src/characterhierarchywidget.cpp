@@ -66,6 +66,9 @@ void CharacterHierarchyWidget::startSession(CharacterDocument *document) {
                 mUi->tree->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
                 this, SLOT(onSelectionChanged(QItemSelection,QItemSelection))
                 );
+
+    for(int c = 1; c <= document->model()->root()->columnCount(); ++c)
+        mUi->tree->hideColumn(c);
 }
 
 
