@@ -7,15 +7,16 @@ CharacterDocument* CharacterDocument::create(QWidget* parent) {
 
     NewCharacterDialog nc(Namer::generateCharacterName(), parent);
     if(nc.exec() == QDialog::Accepted) {
-        return new CharacterDocument(nc.getCharacterName());
+        return new CharacterDocument(nc.getCharacterName(), nc.getFrameSize());
     }
     return nullptr;
 }
 
-CharacterDocument::CharacterDocument(const QString &name) :
+CharacterDocument::CharacterDocument(const QString &name, const Sprite::Size& frameSize) :
     mCharacter(nullptr), mModel(nullptr)
 {
     mCharacter = new Character(name);
+    mFrameSize = frameSize;
     mModel = new CharacterModel(mCharacter);
 
     QObject::connect(

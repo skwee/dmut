@@ -11,6 +11,8 @@ public:
     Qt::ItemFlags flags() const override;
     Item* getNewChild() override;
 
+    virtual QVariant data(int column, int role) const;
+
     Item::Type type() override {
         return Item::Type::CHARACTER;
     }

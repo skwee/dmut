@@ -58,7 +58,10 @@ bool CharacterModel::setData(const QModelIndex &index, const QVariant &value, in
     if(!index.isValid()) return false;
     bool r = static_cast<Item*>(index.internalPointer())->setData(value, index.column(), role);
 
-    if(r) emit dataChanged(index, index);
+    if(r) {
+        emit dataChanged(index, index);
+        emit itemChanged(index);
+    }
 
     return r;
 }

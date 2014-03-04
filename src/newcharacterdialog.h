@@ -18,6 +18,7 @@ public:
     ~NewCharacterDialog();
 
     QString getCharacterName() const;
+    Sprite::Size getFrameSize() const;
 
 private:
     Ui::NewCharacterDialog *mUi;

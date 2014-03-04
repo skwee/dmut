@@ -1,34 +1,21 @@
 #ifndef SPRITEATLASMODEL_H
 #define SPRITEATLASMODEL_H
 
-#include <QAbstractItemModel>
+#include <QString>
+#include <QList>
 
 #include "sprite.h"
 
-class SpriteAtlasModel : public QAbstractItemModel
+class SpriteAtlasModel
 {
-    Q_OBJECT
 public:
-    explicit SpriteAtlasModel(QObject *parent = 0);
+    explicit SpriteAtlasModel(const QString &fileName, const Sprite::Size &size);
     ~SpriteAtlasModel();
 
-    void create(const QString &fileName, const Sprite::Size &size);
-    void clear();
-
-    inline Sprite::Size size() const { return mAtlasSize; }
-    inline Sprite::Size spriteSize() const { return mSpriteSize; }
-
-    int rowCount(const QModelIndex &parent) const;
-    int columnCount(const QModelIndex &parent) const;
-    QModelIndex index(int row, int column, const QModelIndex &parent) const;
-    QModelIndex parent(const QModelIndex &child) const;
-    QVariant data(const QModelIndex &index, int role) const;
-    Qt::ItemFlags flags(const QModelIndex &index) const;
+    inline const QList<Sprite*> items() const { return mAtlas; }
 
 private:
     QList<Sprite*> mAtlas;
-    Sprite::Size mSpriteSize;
-    Sprite::Size mAtlasSize;
 };
 
 #endif // SPRITEATLASMODEL_H

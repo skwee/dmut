@@ -2,8 +2,11 @@
 #include "frame.h"
 #include "namer.h"
 
+#include <QPixmap>
+#include <QPixmapCache>
+
 Animation::Animation() :
-    Item(Namer::generateAnimationName()), mFps(DEFAULT_FPS), mWrapMode(WrapOnce)
+    Item(Namer::generateAnimationName()), mWrapMode(WrapOnce)
 {}
 
 Qt::ItemFlags Animation::flags() const {
@@ -16,21 +19,45 @@ Item* Animation::getNewChild() {
 
 QVariant Animation::data(int column, int role) const {
     if((role == Qt::EditRole) || (role == Qt::DisplayRole)) {
-        if(column == 1) {
-            return mFps;
-        } else if (column == 2) {
+        if(column == Item::ColumnAnimationFps) {
+            double len = 0;
+            for(Item* f: children()) {
+                len += static_cast<Frame*>(f)->getDuration();
+            }
+
+            if(len == 0) return 0;
+            return static_cast<double>(children().length()) / static_cast<double>(len);
+        } else if (column == Item::ColumnAnimationWrapMode) {
             return static_cast<char>(mWrapMode);
+        } else if (column == Item::ColumnAnimationLength) {
+            double len = 0;
+            for(Item* f: children()) {
+                len += static_cast<Frame*>(f)->getDuration();
+            }
+            return len;
         }
+    } else if ((role == Qt::DecorationRole)) {
+        QString file;
+        if(mWrapMode == WrapOnce) {
+            file = ":/icons/wrapmode_once.png";
+        } else {
+            file = ":/icons/wrapmode_loop.png";
+        }
+
+        QPixmap pixmap;
+        if(!QPixmapCache::find(file, &pixmap)) {
+            pixmap.load(file);
+            QPixmapCache::insert(file, pixmap);
+        }
+
+        return pixmap;
     }
     return Item::data(column, role);
 }
 
 bool Animation::setData(const QVariant &value, int column, int role) {
     if(role == Qt::EditRole) {
-        if(column == 1) {
-            mFps = static_cast<FramesPerSecond>(value.toInt());
-            return true;
-        } else if(column == 2) {
+        if(column == Item::ColumnAnimationWrapMode) {
             mWrapMode = static_cast<WrapMode>(value.toInt());
             return true;
         }

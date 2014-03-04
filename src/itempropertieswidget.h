@@ -26,6 +26,7 @@ public:
 
 public slots:
     void itemSelectionChanged(const QModelIndex& selected, const QModelIndex& deselected);
+    void setSelectedItem(const QModelIndex& index);
 
 private:
     Ui::ItemPropertiesWidget *mUi;

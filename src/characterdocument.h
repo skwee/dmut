@@ -5,6 +5,7 @@
 
 #include "character.h"
 #include "charactermodel.h"
+#include "sprite.h"
 
 class CharacterDocument: public QObject
 {
@@ -13,7 +14,8 @@ public:
     static CharacterDocument* create(QWidget* parent = 0);
     ~CharacterDocument();
 
-    CharacterModel* model() const { return mModel; }
+    inline CharacterModel* model() const { return mModel; }
+    inline Sprite::Size frameSize() const { return mFrameSize; }
 
 signals:
     void onAddItemAction(const QModelIndex& index);
@@ -21,8 +23,9 @@ signals:
     void onItemSelectionChanged(const QModelIndex& selected, const QModelIndex& deselected);
 
 private:
-    CharacterDocument(const QString& name);
+    CharacterDocument(const QString& name, const Sprite::Size& frameSize);
 
+    Sprite::Size mFrameSize;
     Character* mCharacter;
     CharacterModel* mModel;
 };

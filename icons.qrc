@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/wrapmode_once.png</file>
+        <file>icons/wrapmode_loop.png</file>
+        <file>icons/exclamation.png</file>
+        <file>icons/stickman.png</file>
+    </qresource>
+</RCC>

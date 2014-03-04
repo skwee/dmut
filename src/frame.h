@@ -6,7 +6,7 @@
 class Frame: public Item
 {
 public:
-    typedef unsigned char Duration;
+    typedef double Duration;
 
     Frame();
 
@@ -16,6 +16,10 @@ public:
     Qt::ItemFlags flags() const override;
 
     Item* getNewChild() override;
+
+    QVariant data(int column, int role) const override;
+    bool setData(const QVariant& value, int column, int role) override;
+
     Item::Type type() override {
         return Item::Type::FRAME;
     }

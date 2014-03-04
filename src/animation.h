@@ -6,9 +6,6 @@
 class Animation: public Item
 {
 public:
-    typedef unsigned char FramesPerSecond;
-    const FramesPerSecond DEFAULT_FPS = 20;
-
     typedef unsigned char WrapMode;
     enum {
         WrapOnce = 0,
@@ -22,9 +19,6 @@ public:
     }
 
     Animation();
-
-    inline FramesPerSecond getFPS() const { return mFps; }
-    void setFPS(FramesPerSecond fps) { mFps = fps; }
 
     inline WrapMode getWrapMode() const { return mWrapMode; }
     void setWrapMode(WrapMode wrapMode) { mWrapMode = wrapMode; }
@@ -40,7 +34,6 @@ public:
     }
 
 private:
-    FramesPerSecond mFps;
     WrapMode mWrapMode;
 };
 

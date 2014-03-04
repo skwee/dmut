@@ -45,5 +45,10 @@ void MainWindow::startSession() {
                     mCharacterDocument, SIGNAL(onItemSelectionChanged(QModelIndex,QModelIndex)),
                     mUi->itemProperties, SLOT(itemSelectionChanged(QModelIndex,QModelIndex))
                     );
+
+        QObject::connect(
+                    mCharacterDocument->model(), SIGNAL(itemChanged(QModelIndex)),
+                    mUi->itemProperties, SLOT(setSelectedItem(QModelIndex))
+                    );
     }
 }

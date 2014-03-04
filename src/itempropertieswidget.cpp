@@ -26,7 +26,7 @@ void ItemPropertiesWidget::startSession(CharacterDocument *document) {
 
     mCharacterMapper = mUi->characterDataFrame->createMapper(document->model());
     mAnimationMapper = mUi->animationDataFrame->createMapper(document->model());
-    mFrameMapper = mUi->frameDataFrame->createMapper(document->model());
+    mFrameMapper = mUi->frameDataFrame->createMapper(document->model(), document->frameSize());
 }
 
 void ItemPropertiesWidget::finishSession() {
@@ -47,9 +47,13 @@ void ItemPropertiesWidget::finishSession() {
 }
 
 void ItemPropertiesWidget::itemSelectionChanged(const QModelIndex& selected, const QModelIndex& deselected) {
-    if(!selected.isValid()) return;
+    setSelectedItem(selected);
+}
 
-    Item* item = static_cast<Item*>(selected.internalPointer());
+void ItemPropertiesWidget::setSelectedItem(const QModelIndex& index) {
+    if(!index.isValid()) return;
+
+    Item* item = static_cast<Item*>(index.internalPointer());
 
     mUi->characterDataFrame->setDisabled(true);
     mUi->animationDataFrame->setDisabled(true);
@@ -59,17 +63,17 @@ void ItemPropertiesWidget::itemSelectionChanged(const QModelIndex& selected, con
     case Item::Type::CHARACTER:
         mUi->characterDataFrame->setDisabled(false);
 
-        mCharacterMapper->setCurrentModelIndex(selected);
+        mCharacterMapper->setCurrentModelIndex(index);
         break;
 
     case Item::Type::ANIMATION:
         mUi->characterDataFrame->setDisabled(false);
         mUi->animationDataFrame->setDisabled(false);
 
-        mCharacterMapper->setCurrentModelIndex(selected.parent());
+        mCharacterMapper->setCurrentModelIndex(index.parent());
 
-        mAnimationMapper->setRootIndex(selected.parent());
-        mAnimationMapper->setCurrentModelIndex(selected);
+        mAnimationMapper->setRootIndex(index.parent());
+        mAnimationMapper->setCurrentModelIndex(index);
         break;
 
     case Item::Type::FRAME:
@@ -77,13 +81,13 @@ void ItemPropertiesWidget::itemSelectionChanged(const QModelIndex& selected, con
         mUi->animationDataFrame->setDisabled(false);
         mUi->frameDataFrame->setDisabled(false);
 
-        mCharacterMapper->setCurrentModelIndex(selected.parent().parent());
+        mCharacterMapper->setCurrentModelIndex(index.parent().parent());
 
-        mAnimationMapper->setRootIndex(selected.parent().parent());
-        mAnimationMapper->setCurrentModelIndex(selected.parent());
+        mAnimationMapper->setRootIndex(index.parent().parent());
+        mAnimationMapper->setCurrentModelIndex(index.parent());
 
-        mFrameMapper->setRootIndex(selected.parent());
-        mFrameMapper->setCurrentModelIndex(selected);
+        mFrameMapper->setRootIndex(index.parent());
+        mFrameMapper->setCurrentModelIndex(index);
         break;
     }
 }

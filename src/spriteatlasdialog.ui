@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SpriteAtlasWidget</class>
- <widget class="QWidget" name="SpriteAtlasWidget">
+ <class>SpriteAtlasDialog</class>
+ <widget class="QDialog" name="SpriteAtlasDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -10,16 +10,13 @@
     <height>300</height>
    </rect>
   </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Select Sprite From Atlas</string>
   </property>
-  <layout class="QVBoxLayout" name="layout">
+  <property name="modal">
+   <bool>true</bool>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
    <property name="leftMargin">
     <number>0</number>
    </property>
@@ -33,18 +30,9 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QListView" name="spriteAtlasList">
+    <widget class="QGraphicsView" name="gview">
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
-     </property>
-     <property name="editTriggers">
-      <set>QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
-     </property>
-     <property name="viewMode">
-      <enum>QListView::IconMode</enum>
-     </property>
-     <property name="uniformItemSizes">
-      <bool>true</bool>
      </property>
     </widget>
    </item>

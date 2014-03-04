@@ -16,7 +16,7 @@ CharacterDetailsEditor::~CharacterDetailsEditor()
 QDataWidgetMapper* CharacterDetailsEditor::createMapper(CharacterModel* model) {
     QDataWidgetMapper* mapper = new QDataWidgetMapper(this);
     mapper->setModel(model);
-    mapper->addMapping(mUi->nameEdit, 0);
+    mapper->addMapping(mUi->nameEdit, Item::ColumnName);
 
     mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
     return mapper;

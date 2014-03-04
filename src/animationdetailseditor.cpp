@@ -49,9 +49,10 @@ AnimationDetailsEditor::~AnimationDetailsEditor()
 QDataWidgetMapper* AnimationDetailsEditor::createMapper(CharacterModel* model) {
     QDataWidgetMapper* mapper = new QDataWidgetMapper(this);
     mapper->setModel(model);
-    mapper->addMapping(mUi->nameEdit, 0);
-    mapper->addMapping(mUi->fpsEdit, 1);
-    mapper->addMapping(mUi->wrapModeCombo, 2);
+    mapper->addMapping(mUi->nameEdit, Item::ColumnName);
+    mapper->addMapping(mUi->fpsEdit, Item::ColumnAnimationFps);
+    mapper->addMapping(mUi->wrapModeCombo, Item::ColumnAnimationWrapMode);
+    mapper->addMapping(mUi->animationLenEdit, Item::ColumnAnimationLength);
     mapper->setItemDelegate(new AnimationWrapModeDelegate(mUi->wrapModeCombo, this));
 
     mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);

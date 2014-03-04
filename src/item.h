@@ -16,6 +16,15 @@ public:
         FRAME
     };
 
+    enum {
+        ColumnName = 0,
+        ColumnAnimationWrapMode = 1,
+        ColumnAnimationFps = 2,
+        ColumnAnimationLength = 3,
+        ColumnFrameDuration = 1,
+        _ColumnTotal = 4
+    };
+
     Item(const QString& name);
     virtual ~Item();
 
@@ -23,6 +32,7 @@ public:
     inline void rename(const QString& name) { mName = name; }
 
     inline Item* parent() const { return mParent; }
+    inline const QList<Item*>& children() const { return mChildren; }
 
     int rowCount() const;
     int columnCount() const;

@@ -14,7 +14,7 @@ int Item::rowCount() const {
 }
 
 int Item::columnCount() const {
-    return 3;
+    return Item::_ColumnTotal;
 }
 
 int Item::rowIndex() const {
@@ -30,7 +30,7 @@ QVariant Item::data(int column, int role) const {
 }
 
 bool Item::setData(const QVariant &value, int column, int role) {
-    if((column == 0) && (role == Qt::EditRole)) {
+    if((column == Item::ColumnName) && (role == Qt::EditRole)) {
         if(value.toString().length() == 0) return false;
         rename(value.toString());
         return true;
