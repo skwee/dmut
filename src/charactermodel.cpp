@@ -60,7 +60,7 @@ bool CharacterModel::setData(const QModelIndex &index, const QVariant &value, in
 
     if(r) {
         emit dataChanged(index, index);
-        emit itemChanged(index);
+        emit changed();
     }
 
     return r;

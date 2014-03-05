@@ -29,7 +29,7 @@ public slots:
 
 signals:
     void itemAdded(const QModelIndex& toIndex, Item* parent, Item* child);
-    void itemChanged(const QModelIndex& index);
+    void changed();
 
 private:
     RootItem* mRoot;

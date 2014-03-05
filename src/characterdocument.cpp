@@ -28,8 +28,17 @@ CharacterDocument::CharacterDocument(const QString &name, const Sprite::Size& fr
                 this, SIGNAL(onRemoveItemAction(QModelIndex)),
                 mModel, SLOT(removeItem(QModelIndex))
                 );
+
+    QObject::connect(
+                mModel, SIGNAL(changed()),
+                this, SLOT(modelChanged())
+                );
 }
 
 CharacterDocument::~CharacterDocument() {
     if(mModel) delete mModel;
+}
+
+void CharacterDocument::modelChanged() {
+    emit onModelChanged();
 }

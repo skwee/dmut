@@ -7,10 +7,12 @@ SpriteAtlasDialog::SpriteAtlasDialog(const QString &fileName, const Sprite::Size
 {
     mUi->setupUi(this);
 
-    //@TODO create custom scene with "selected" event
-    //connect scene to view
+    mScene = new SpriteAtlasScene();
 
-    mScene = new QGraphicsScene();
+    QObject::connect(
+                mScene, SIGNAL(onItemSelected()),
+                this, SLOT(itemSelected())
+                );
 
     SpriteAtlasModel atlas(fileName, size);
     for(Sprite* s : atlas.items()) {
@@ -24,4 +26,12 @@ SpriteAtlasDialog::~SpriteAtlasDialog()
 {
     if(mScene) delete mScene;
     delete mUi;
+}
+
+void SpriteAtlasDialog::itemSelected() {
+    Sprite* s = mScene->selectedItem();
+    if(s) {
+        emit onSpriteSelected(s);
+        done(1);
+    }
 }

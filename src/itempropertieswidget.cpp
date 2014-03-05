@@ -6,7 +6,8 @@
 ItemPropertiesWidget::ItemPropertiesWidget(QWidget *parent) :
     QWidget(parent),
     mUi(new Ui::ItemPropertiesWidget),
-    mCharacterMapper(nullptr), mAnimationMapper(nullptr), mFrameMapper(nullptr)
+    mCharacterMapper(nullptr), mAnimationMapper(nullptr), mFrameMapper(nullptr),
+    mSelectedItem(QModelIndex())
 {
     mUi->setupUi(this);
 
@@ -27,6 +28,11 @@ void ItemPropertiesWidget::startSession(CharacterDocument *document) {
     mCharacterMapper = mUi->characterDataFrame->createMapper(document->model());
     mAnimationMapper = mUi->animationDataFrame->createMapper(document->model());
     mFrameMapper = mUi->frameDataFrame->createMapper(document->model(), document->frameSize());
+
+    QObject::connect(
+                mUi->frameDataFrame, SIGNAL(onSpriteSelected(Sprite*)),
+                this, SLOT(spriteSelected(Sprite*))
+                );
 }
 
 void ItemPropertiesWidget::finishSession() {
@@ -53,11 +59,17 @@ void ItemPropertiesWidget::itemSelectionChanged(const QModelIndex& selected, con
 void ItemPropertiesWidget::setSelectedItem(const QModelIndex& index) {
     if(!index.isValid()) return;
 
+    mSelectedItem = index;
+
     Item* item = static_cast<Item*>(index.internalPointer());
 
     mUi->characterDataFrame->setDisabled(true);
     mUi->animationDataFrame->setDisabled(true);
     mUi->frameDataFrame->setDisabled(true);
+
+    mUi->characterDataFrame->clear();
+    mUi->animationDataFrame->clear();
+    mUi->frameDataFrame->clear();
 
     switch(item->type()) {
     case Item::Type::CHARACTER:
@@ -89,5 +101,14 @@ void ItemPropertiesWidget::setSelectedItem(const QModelIndex& index) {
         mFrameMapper->setRootIndex(index.parent());
         mFrameMapper->setCurrentModelIndex(index);
         break;
+    }
+}
+
+void ItemPropertiesWidget::spriteSelected(Sprite *sprite) {
+    if(mSelectedItem.isValid()) {
+        Item* item = static_cast<Item*>(mSelectedItem.internalPointer());
+        if(item->type() == Item::Type::FRAME) {
+            item->setData(QVariant::fromValue<Sprite*>(sprite), Item::ColumnFrameSprite, Qt::EditRole);
+        }
     }
 }

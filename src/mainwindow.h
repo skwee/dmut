@@ -22,6 +22,8 @@ private slots:
     void on_actionQuit_triggered();
     void on_actionNew_triggered();
 
+    void dataChanged();
+
 private:
     void finishSession();
     void startSession();

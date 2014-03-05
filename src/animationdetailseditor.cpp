@@ -30,7 +30,7 @@ void AnimationWrapModeDelegate::setModelData(QWidget *editor, QAbstractItemModel
 
 AnimationDetailsEditor::AnimationDetailsEditor(QWidget *parent) :
     QFrame(parent),
-    mUi(new Ui::AnimationDetailsEditor), mWrapModesModel(nullptr)
+    mUi(new Ui::AnimationDetailsEditor), mWrapModesModel(nullptr), mMapper(nullptr)
 {
     mUi->setupUi(this);
     mWrapModesModel = new QStringListModel(Animation::getWrapModes(), this);
@@ -39,6 +39,7 @@ AnimationDetailsEditor::AnimationDetailsEditor(QWidget *parent) :
 
 AnimationDetailsEditor::~AnimationDetailsEditor()
 {
+    mMapper = nullptr;
     if(mWrapModesModel) {
         delete mWrapModesModel;
         mWrapModesModel = nullptr;
@@ -47,14 +48,32 @@ AnimationDetailsEditor::~AnimationDetailsEditor()
 }
 
 QDataWidgetMapper* AnimationDetailsEditor::createMapper(CharacterModel* model) {
-    QDataWidgetMapper* mapper = new QDataWidgetMapper(this);
-    mapper->setModel(model);
-    mapper->addMapping(mUi->nameEdit, Item::ColumnName);
-    mapper->addMapping(mUi->fpsEdit, Item::ColumnAnimationFps);
-    mapper->addMapping(mUi->wrapModeCombo, Item::ColumnAnimationWrapMode);
-    mapper->addMapping(mUi->animationLenEdit, Item::ColumnAnimationLength);
-    mapper->setItemDelegate(new AnimationWrapModeDelegate(mUi->wrapModeCombo, this));
+    if(mMapper) return mMapper;
 
-    mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
-    return mapper;
+    mMapper = new QDataWidgetMapper(this);
+    mMapper->setModel(model);
+    mMapper->addMapping(mUi->nameEdit, Item::ColumnName);
+    mMapper->addMapping(mUi->fpsEdit, Item::ColumnAnimationFps);
+    mMapper->addMapping(mUi->wrapModeCombo, Item::ColumnAnimationWrapMode);
+    mMapper->addMapping(mUi->animationLenEdit, Item::ColumnAnimationLength);
+    mMapper->setItemDelegate(new AnimationWrapModeDelegate(mUi->wrapModeCombo, this));
+
+    QObject::connect(
+                mUi->wrapModeCombo, SIGNAL(currentIndexChanged(int)),
+                this, SLOT(submitChanges())
+                );
+
+    mMapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
+    return mMapper;
+}
+
+void AnimationDetailsEditor::clear() {
+    mUi->nameEdit->setText("");
+    mUi->fpsEdit->setValue(0);
+    mUi->wrapModeCombo->setCurrentIndex(Animation::WrapOnce);
+    mUi->animationLenEdit->setValue(0);
+}
+
+void AnimationDetailsEditor::submitChanges() {
+    if(mMapper) mMapper->submit();
 }

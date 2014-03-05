@@ -28,11 +28,15 @@ public slots:
     void itemSelectionChanged(const QModelIndex& selected, const QModelIndex& deselected);
     void setSelectedItem(const QModelIndex& index);
 
+private slots:
+    void spriteSelected(Sprite* sprite);
+
 private:
     Ui::ItemPropertiesWidget *mUi;
     QDataWidgetMapper* mCharacterMapper;
     QDataWidgetMapper* mAnimationMapper;
     QDataWidgetMapper* mFrameMapper;
+    QModelIndex mSelectedItem;
 };
 
 #endif // ITEMPROPERTIESWIDGET_H

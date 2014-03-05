@@ -5,6 +5,7 @@
 #include <QPixmap>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsScene>
+#include <QUuid>
 
 class Sprite: public QGraphicsPixmapItem
 {
@@ -23,12 +24,17 @@ public:
 
     inline Offset offset() const { return mOffset; }
 
+    inline QUuid uuid() const { return mUuid; }
+
     void mousePressEvent(QGraphicsSceneMouseEvent* event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event);
 
 private:
     Offset mOffset;
+    QUuid mUuid;
 };
+
+Q_DECLARE_METATYPE(Sprite*)
 
 #endif // SPRITE_H

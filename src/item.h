@@ -22,6 +22,8 @@ public:
         ColumnAnimationFps = 2,
         ColumnAnimationLength = 3,
         ColumnFrameDuration = 1,
+        ColumnFrameSprite = 2,
+        ColumnFrameSpriteIcon = 3,
         _ColumnTotal = 4
     };
 

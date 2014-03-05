@@ -5,6 +5,7 @@
 #include <QGraphicsScene>
 
 #include "spriteatlasmodel.h"
+#include "spriteatlasscene.h"
 
 namespace Ui {
 class SpriteAtlasDialog;
@@ -18,9 +19,15 @@ public:
     explicit SpriteAtlasDialog(const QString &fileName, const Sprite::Size &size, QWidget *parent = 0);
     ~SpriteAtlasDialog();
 
+signals:
+    void onSpriteSelected(Sprite* sprite);
+
+private slots:
+    void itemSelected();
+
 private:
     Ui::SpriteAtlasDialog *mUi;
-    QGraphicsScene* mScene;
+    SpriteAtlasScene* mScene;
 };
 
 #endif // SPRITEATLASDIALOG_H

@@ -21,3 +21,7 @@ QDataWidgetMapper* CharacterDetailsEditor::createMapper(CharacterModel* model) {
     mapper->setSubmitPolicy(QDataWidgetMapper::AutoSubmit);
     return mapper;
 }
+
+void CharacterDetailsEditor::clear() {
+    mUi->nameEdit->setText("");
+}

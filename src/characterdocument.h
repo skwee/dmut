@@ -21,6 +21,10 @@ signals:
     void onAddItemAction(const QModelIndex& index);
     void onRemoveItemAction(const QModelIndex& index);
     void onItemSelectionChanged(const QModelIndex& selected, const QModelIndex& deselected);
+    void onModelChanged();
+
+private slots:
+    void modelChanged();
 
 private:
     CharacterDocument(const QString& name, const Sprite::Size& frameSize);

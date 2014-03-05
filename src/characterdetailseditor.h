@@ -20,6 +20,8 @@ public:
 
     QDataWidgetMapper* createMapper(CharacterModel* model);
 
+    void clear();
+
 private:
     Ui::CharacterDetailsEditor *mUi;
 };

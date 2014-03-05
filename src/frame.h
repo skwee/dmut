@@ -2,6 +2,7 @@
 #define FRAME_H
 
 #include "item.h"
+#include "sprite.h"
 
 class Frame: public Item
 {
@@ -12,6 +13,8 @@ public:
 
     inline Duration getDuration() const { return mDuration; }
     inline void setDuration(Duration duration) { mDuration = duration; }
+
+    inline Sprite* getSprite() const { return mSprite; }
 
     Qt::ItemFlags flags() const override;
 
@@ -26,6 +29,7 @@ public:
 
 private:
     Duration mDuration;
+    Sprite* mSprite;
 };
 
 #endif // FRAME_H

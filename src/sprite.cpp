@@ -1,9 +1,11 @@
 #include "sprite.h"
+#include "spriteatlasscene.h"
 
 Sprite::Sprite(const QPixmap &pixmap, const Offset &offset, QGraphicsItem* parent) :
     QGraphicsPixmapItem(parent),
     mOffset(offset)
 {
+    mUuid = QUuid::createUuid();
     setPixmap(pixmap);
     setPos(offset.x, offset.y);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
@@ -27,8 +29,7 @@ void Sprite::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
 
 void Sprite::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
     mousePressEvent(event);
-    QList<QGraphicsItem*> selected = scene()->selectedItems();
-    if(selected.length() == 1) {
-        //TODO emit event on scene object
+    if(scene()->selectedItems().length() > 0) {
+        emit static_cast<SpriteAtlasScene*>(scene())->onItemSelected();
     }
 }

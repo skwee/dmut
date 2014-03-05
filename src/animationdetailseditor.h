@@ -35,9 +35,15 @@ public:
 
     QDataWidgetMapper* createMapper(CharacterModel* model);
 
+    void clear();
+
+private slots:
+    void submitChanges();
+
 private:
     Ui::AnimationDetailsEditor *mUi;
     QStringListModel* mWrapModesModel;
+    QDataWidgetMapper* mMapper;
 };
 
 #endif // ANIMATIONDETAILSEDITOR_H

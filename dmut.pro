@@ -31,7 +31,8 @@ SOURCES += src/main.cpp \
     src/characterdetailseditor.cpp \
     src/animationdetailseditor.cpp \
     src/framedetailseditor.cpp \
-    src/spriteatlasdialog.cpp
+    src/spriteatlasdialog.cpp \
+    src/spriteatlasscene.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -51,7 +52,8 @@ HEADERS  += \
     src/characterdetailseditor.h \
     src/animationdetailseditor.h \
     src/framedetailseditor.h \
-    src/spriteatlasdialog.h
+    src/spriteatlasdialog.h \
+    src/spriteatlasscene.h
 
 FORMS    += src/mainwindow.ui \
     src/newcharacterdialog.ui \
