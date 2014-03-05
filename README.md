@@ -7,7 +7,7 @@ THIS IS STILL WORK IN PROGRESS
 Everything is subject to change
 
 #### INTRO
-dmut - Is a content pipeline animation editor tool for 2D sprites. It comes as a layer between the artist and you game/simulation code.
+dmut - Is a content pipeline animation editor tool for 2D sprites. It comes as a layer between the artist and your game/simulation code.
 
 #### MOTIVATION
 duh, I just needed an animation editor for 2D sprites. Apparently there is no unified format or editor for that stuff, and when there is no tool to do the job, you just make one.
@@ -28,6 +28,9 @@ Fell free to share your ideas and needs about what would you like to see in the 
 + (?) Undo and Redo
 + About and credits
 + Documentation
++ Releasing binaries for
+  + Linux
+  + Windows
 + TAKE OVER TEH WORLD
 
 #### TEH PICZ
