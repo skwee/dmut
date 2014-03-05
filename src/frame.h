@@ -12,8 +12,6 @@ public:
     Frame();
 
     inline Duration getDuration() const { return mDuration; }
-    inline void setDuration(Duration duration) { mDuration = duration; }
-
     inline Sprite* getSprite() const { return mSprite; }
 
     Qt::ItemFlags flags() const override;

@@ -21,7 +21,9 @@ public:
     Animation();
 
     inline WrapMode getWrapMode() const { return mWrapMode; }
-    void setWrapMode(WrapMode wrapMode) { mWrapMode = wrapMode; }
+
+    double fps() const;
+    double length() const;
 
     Qt::ItemFlags flags() const override;
     Item* getNewChild() override;

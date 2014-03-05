@@ -67,13 +67,13 @@ void ItemPropertiesWidget::setSelectedItem(const QModelIndex& index) {
     mUi->animationDataFrame->setDisabled(true);
     mUi->frameDataFrame->setDisabled(true);
 
-    mUi->characterDataFrame->clear();
-    mUi->animationDataFrame->clear();
-    mUi->frameDataFrame->clear();
-
     switch(item->type()) {
     case Item::Type::CHARACTER:
         mUi->characterDataFrame->setDisabled(false);
+
+//        mUi->characterDataFrame->clear();
+        mUi->animationDataFrame->clear();
+        mUi->frameDataFrame->clear();
 
         mCharacterMapper->setCurrentModelIndex(index);
         break;
@@ -81,6 +81,8 @@ void ItemPropertiesWidget::setSelectedItem(const QModelIndex& index) {
     case Item::Type::ANIMATION:
         mUi->characterDataFrame->setDisabled(false);
         mUi->animationDataFrame->setDisabled(false);
+
+        mUi->frameDataFrame->clear();
 
         mCharacterMapper->setCurrentModelIndex(index.parent());
 

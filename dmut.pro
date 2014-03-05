@@ -32,7 +32,8 @@ SOURCES += src/main.cpp \
     src/animationdetailseditor.cpp \
     src/framedetailseditor.cpp \
     src/spriteatlasdialog.cpp \
-    src/spriteatlasscene.cpp
+    src/spriteatlasscene.cpp \
+    src/animationpreviewwidget.cpp
 
 HEADERS  += \
     src/mainwindow.h \
@@ -53,7 +54,8 @@ HEADERS  += \
     src/animationdetailseditor.h \
     src/framedetailseditor.h \
     src/spriteatlasdialog.h \
-    src/spriteatlasscene.h
+    src/spriteatlasscene.h \
+    src/animationpreviewwidget.h
 
 FORMS    += src/mainwindow.ui \
     src/newcharacterdialog.ui \
@@ -62,7 +64,8 @@ FORMS    += src/mainwindow.ui \
     src/characterdetailseditor.ui \
     src/animationdetailseditor.ui \
     src/framedetailseditor.ui \
-    src/spriteatlasdialog.ui
+    src/spriteatlasdialog.ui \
+    src/animationpreviewwidget.ui
 
 RESOURCES += \
     icons.qrc

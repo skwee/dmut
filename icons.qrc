@@ -4,5 +4,8 @@
         <file>icons/wrapmode_loop.png</file>
         <file>icons/exclamation.png</file>
         <file>icons/stickman.png</file>
+        <file>icons/control-pause.png</file>
+        <file>icons/control-stop-square.png</file>
+        <file>icons/control.png</file>
     </qresource>
 </RCC>

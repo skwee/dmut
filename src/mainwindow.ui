@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>640</width>
-    <height>480</height>
+    <width>669</width>
+    <height>624</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,11 +20,11 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
-     <widget class="QSplitter" name="splitter">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QSplitter" name="verticalSplitter">
       <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+       <enum>Qt::Vertical</enum>
       </property>
       <property name="handleWidth">
        <number>8</number>
@@ -32,23 +32,56 @@
       <property name="childrenCollapsible">
        <bool>false</bool>
       </property>
-      <widget class="QTabWidget" name="characterTab">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+      <widget class="QSplitter" name="horizontalSplitter">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
-       <property name="currentIndex">
-        <number>0</number>
+       <property name="handleWidth">
+        <number>8</number>
        </property>
-       <widget class="CharacterHierarchyWidget" name="characterHierarchy">
-        <attribute name="title">
-         <string>Character Hierarchy</string>
-        </attribute>
+       <property name="childrenCollapsible">
+        <bool>false</bool>
+       </property>
+       <widget class="QTabWidget" name="characterTab">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="CharacterHierarchyWidget" name="characterHierarchy">
+         <attribute name="title">
+          <string>Character Hierarchy</string>
+         </attribute>
+        </widget>
        </widget>
+       <widget class="ItemPropertiesWidget" name="itemProperties" native="true"/>
       </widget>
-      <widget class="ItemPropertiesWidget" name="itemProperties" native="true"/>
+      <widget class="QGroupBox" name="previewGroupBox">
+       <property name="title">
+        <string>Animation Preview</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="AnimationPreviewWidget" name="previewAnimation" native="true"/>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -58,7 +91,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>640</width>
+     <width>669</width>
      <height>20</height>
     </rect>
    </property>
@@ -107,6 +140,12 @@
    <class>ItemPropertiesWidget</class>
    <extends>QWidget</extends>
    <header>src/itempropertieswidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>AnimationPreviewWidget</class>
+   <extends>QWidget</extends>
+   <header>src/animationpreviewwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

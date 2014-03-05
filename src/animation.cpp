@@ -17,24 +17,27 @@ Item* Animation::getNewChild() {
     return new Frame();
 }
 
+double Animation::fps() const {
+    double len = length();
+    if(len == 0) return 0;
+    return static_cast<double>(children().length()) / static_cast<double>(len);
+}
+
+double Animation::length() const {
+    double len = 0;
+    for(Item* f: children())
+        len += static_cast<Frame*>(f)->getDuration();
+    return len;
+}
+
 QVariant Animation::data(int column, int role) const {
     if((role == Qt::EditRole) || (role == Qt::DisplayRole)) {
         if(column == Item::ColumnAnimationFps) {
-            double len = 0;
-            for(Item* f: children()) {
-                len += static_cast<Frame*>(f)->getDuration();
-            }
-
-            if(len == 0) return 0;
-            return static_cast<double>(children().length()) / static_cast<double>(len);
+            return fps();
         } else if (column == Item::ColumnAnimationWrapMode) {
             return static_cast<char>(mWrapMode);
         } else if (column == Item::ColumnAnimationLength) {
-            double len = 0;
-            for(Item* f: children()) {
-                len += static_cast<Frame*>(f)->getDuration();
-            }
-            return len;
+            return length();
         }
     } else if ((role == Qt::DecorationRole)) {
         QString file;

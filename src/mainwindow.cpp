@@ -47,6 +47,11 @@ void MainWindow::startSession() {
                     );
 
         QObject::connect(
+                    mCharacterDocument, SIGNAL(onItemSelectionChanged(QModelIndex,QModelIndex)),
+                    mUi->previewAnimation, SLOT(itemSelectionChanged(QModelIndex))
+                    );
+
+        QObject::connect(
                     mCharacterDocument, SIGNAL(onModelChanged()),
                     this, SLOT(dataChanged())
                     );
@@ -54,5 +59,7 @@ void MainWindow::startSession() {
 }
 
 void MainWindow::dataChanged() {
-    mUi->itemProperties->itemSelectionChanged(mUi->characterHierarchy->currentSelectedIndex(), QModelIndex());
+    QModelIndex index = mUi->characterHierarchy->currentSelectedIndex();
+    mUi->itemProperties->itemSelectionChanged(index, QModelIndex());
+    mUi->previewAnimation->itemSelectionChanged(index);
 }
