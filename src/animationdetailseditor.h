@@ -36,6 +36,7 @@ public:
     QDataWidgetMapper* createMapper(CharacterModel* model);
 
     void clear();
+    void disableFrameRelatedFields(bool disable);
 
 private slots:
     void submitChanges();

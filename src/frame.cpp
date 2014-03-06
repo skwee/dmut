@@ -5,7 +5,7 @@
 #include <QPixmapCache>
 
 Frame::Frame() :
-    Item(Namer::generateFrameName()), mDuration(1), mSprite(nullptr)
+    Item(Namer::generateFrameName()), mHold(1), mSprite(nullptr)
 {}
 
 Qt::ItemFlags Frame::flags() const {
@@ -18,8 +18,8 @@ Item* Frame::getNewChild() {
 
 QVariant Frame::data(int column, int role) const {
     if((role == Qt::EditRole) || (role == Qt::DisplayRole)) {
-        if(column == Item::ColumnFrameDuration) {
-            return mDuration;
+        if(column == Item::ColumnFrameHold) {
+            return mHold;
         } else if(column == Item::ColumnFrameSpriteIcon) {
             return QVariant::fromValue<Sprite*>(mSprite);
         }
@@ -44,8 +44,8 @@ QVariant Frame::data(int column, int role) const {
 
 bool Frame::setData(const QVariant &value, int column, int role) {
     if(role == Qt::EditRole) {
-        if(column == Item::ColumnFrameDuration) {
-            mDuration = static_cast<Duration>(value.toDouble());
+        if(column == Item::ColumnFrameHold) {
+            mHold = value.toInt();
             return true;
         } else if(column == Item::ColumnFrameSprite) {
             mSprite = value.value<Sprite*>();

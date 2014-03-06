@@ -7,11 +7,10 @@
 class Frame: public Item
 {
 public:
-    typedef double Duration;
-
     Frame();
 
-    inline Duration getDuration() const { return mDuration; }
+    inline int getHold() const { return mHold; }
+
     inline Sprite* getSprite() const { return mSprite; }
 
     Qt::ItemFlags flags() const override;
@@ -26,7 +25,7 @@ public:
     }
 
 private:
-    Duration mDuration;
+    int mHold;
     Sprite* mSprite;
 };
 

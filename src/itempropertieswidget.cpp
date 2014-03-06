@@ -88,6 +88,8 @@ void ItemPropertiesWidget::setSelectedItem(const QModelIndex& index) {
 
         mAnimationMapper->setRootIndex(index.parent());
         mAnimationMapper->setCurrentModelIndex(index);
+
+        mUi->animationDataFrame->disableFrameRelatedFields((static_cast<Animation*>(item)->children().length() == 0));
         break;
 
     case Item::Type::FRAME:
@@ -99,6 +101,8 @@ void ItemPropertiesWidget::setSelectedItem(const QModelIndex& index) {
 
         mAnimationMapper->setRootIndex(index.parent().parent());
         mAnimationMapper->setCurrentModelIndex(index.parent());
+
+        mUi->animationDataFrame->disableFrameRelatedFields((static_cast<Animation*>(item->parent())->children().length() == 0));
 
         mFrameMapper->setRootIndex(index.parent());
         mFrameMapper->setCurrentModelIndex(index);

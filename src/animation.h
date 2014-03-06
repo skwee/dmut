@@ -22,8 +22,9 @@ public:
 
     inline WrapMode getWrapMode() const { return mWrapMode; }
 
+    inline double spf() const { return 1.0f / fps(); }
     double fps() const;
-    double length() const;
+    inline double length() const { return mLength; }
 
     Qt::ItemFlags flags() const override;
     Item* getNewChild() override;
@@ -37,6 +38,7 @@ public:
 
 private:
     WrapMode mWrapMode;
+    double mLength;
 };
 
 #endif // ANIMATION_H

@@ -59,6 +59,11 @@ QDataWidgetMapper* AnimationDetailsEditor::createMapper(CharacterModel* model) {
     mMapper->setItemDelegate(new AnimationWrapModeDelegate(mUi->wrapModeCombo, this));
 
     QObject::connect(
+                mUi->animationLenEdit, SIGNAL(valueChanged(double)),
+                this, SLOT(submitChanges())
+                );
+
+    QObject::connect(
                 mUi->wrapModeCombo, SIGNAL(currentIndexChanged(int)),
                 this, SLOT(submitChanges())
                 );
@@ -69,9 +74,16 @@ QDataWidgetMapper* AnimationDetailsEditor::createMapper(CharacterModel* model) {
 
 void AnimationDetailsEditor::clear() {
     mUi->nameEdit->setText("");
-    mUi->fpsEdit->setValue(0);
+    mUi->fpsEdit->setValue(0.0);
     mUi->wrapModeCombo->setCurrentIndex(Animation::WrapOnce);
-    mUi->animationLenEdit->setValue(0);
+    mUi->animationLenEdit->setValue(0.0);
+    mUi->animationLenEdit->setDisabled(false);
+    mUi->fpsEdit->setDisabled(false);
+}
+
+void AnimationDetailsEditor::disableFrameRelatedFields(bool disable) {
+    mUi->animationLenEdit->setDisabled(disable);
+    mUi->fpsEdit->setDisabled(disable);
 }
 
 void AnimationDetailsEditor::submitChanges() {

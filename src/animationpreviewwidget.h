@@ -17,6 +17,7 @@ class AnimationPreviewWidget : public QWidget
     Q_OBJECT
 public:
     enum class AnimationState {
+        START,
         STOPPED,
         PAUSED,
         RUNNING
@@ -33,6 +34,10 @@ private slots:
 
     void on_buttonPlayPause_clicked();
 
+    void on_buttonStop_clicked();
+
+    void on_timeframeSlider_valueChanged(int value);
+
 private:
     void setActiveAnimation();
 
@@ -41,7 +46,6 @@ private:
     Ui::AnimationPreviewWidget *mUi;
     Animation* mAnimation;
     QGraphicsScene* mScene;
-    int mCurrentFrameIndex;
     QTimer* mTimer;
     AnimationState mAnimationState;
 };

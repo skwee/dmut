@@ -22,6 +22,9 @@ public:
 
     QModelIndex currentSelectedIndex() const;
 
+signals:
+    void itemAdded();
+
 private slots:
     void onAddNewItem();
     void onRemoveItem();

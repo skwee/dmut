@@ -21,7 +21,7 @@ public:
         ColumnAnimationWrapMode = 1,
         ColumnAnimationFps = 2,
         ColumnAnimationLength = 3,
-        ColumnFrameDuration = 1,
+        ColumnFrameHold = 1,
         ColumnFrameSprite = 2,
         ColumnFrameSpriteIcon = 3,
         _ColumnTotal = 4

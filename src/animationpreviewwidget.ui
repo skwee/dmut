@@ -36,6 +36,17 @@
    <item>
     <layout class="QHBoxLayout" name="controlsLayout">
      <item>
+      <widget class="QPushButton" name="buttonStop">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../icons.qrc">
+         <normaloff>:/icons/control-stop-square.png</normaloff>:/icons/control-stop-square.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="buttonPlayPause">
        <property name="text">
         <string/>

@@ -84,6 +84,7 @@ void CharacterHierarchyWidget::onRemoveItem() {
 
 void CharacterHierarchyWidget::onItemAdded(const QModelIndex &toIndex, Item *parent, Item *child) {
     mUi->tree->expand(toIndex);
+    emit itemAdded();
 }
 
 void CharacterHierarchyWidget::onSelectionChanged(const QItemSelection &current, const QItemSelection &previous) {

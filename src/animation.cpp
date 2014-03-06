@@ -6,7 +6,7 @@
 #include <QPixmapCache>
 
 Animation::Animation() :
-    Item(Namer::generateAnimationName()), mWrapMode(WrapOnce)
+    Item(Namer::generateAnimationName()), mWrapMode(WrapOnce), mLength(0.0f)
 {}
 
 Qt::ItemFlags Animation::flags() const {
@@ -18,16 +18,13 @@ Item* Animation::getNewChild() {
 }
 
 double Animation::fps() const {
-    double len = length();
-    if(len == 0) return 0;
-    return static_cast<double>(children().length()) / static_cast<double>(len);
-}
+    int totalFrames = 0;
+    for(Item* frame: children()) {
+        totalFrames += static_cast<Frame*>(frame)->getHold();
+    }
 
-double Animation::length() const {
-    double len = 0;
-    for(Item* f: children())
-        len += static_cast<Frame*>(f)->getDuration();
-    return len;
+    if(mLength == 0.0) return 0;
+    return static_cast<double>(totalFrames) / mLength;
 }
 
 QVariant Animation::data(int column, int role) const {
@@ -62,6 +59,9 @@ bool Animation::setData(const QVariant &value, int column, int role) {
     if(role == Qt::EditRole) {
         if(column == Item::ColumnAnimationWrapMode) {
             mWrapMode = static_cast<WrapMode>(value.toInt());
+            return true;
+        } else if(column == Item::ColumnAnimationLength) {
+            mLength = value.toDouble();
             return true;
         }
     }

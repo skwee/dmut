@@ -55,6 +55,11 @@ void MainWindow::startSession() {
                     mCharacterDocument, SIGNAL(onModelChanged()),
                     this, SLOT(dataChanged())
                     );
+
+        QObject::connect(
+                    mUi->characterHierarchy, SIGNAL(itemAdded()),
+                    this, SLOT(dataChanged())
+                    );
     }
 }
 

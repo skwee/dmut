@@ -6,8 +6,7 @@
 AnimationPreviewWidget::AnimationPreviewWidget(QWidget *parent) :
     QWidget(parent),
     mUi(new Ui::AnimationPreviewWidget), mAnimation(nullptr),
-    mScene(nullptr),
-    mCurrentFrameIndex(0), mTimer(nullptr), mAnimationState(AnimationState::STOPPED)
+    mScene(nullptr), mTimer(nullptr), mAnimationState(AnimationState::STOPPED)
 {
     mUi->setupUi(this);
 
@@ -60,69 +59,102 @@ void AnimationPreviewWidget::setActiveAnimation() {
 
 void AnimationPreviewWidget::updateAnimation() {
     QList<Item*> children = mAnimation->children();
-    mCurrentFrameIndex ++;
 
-    if(mCurrentFrameIndex >= children.length()) {
+    int frameIndex = mUi->timeframeSlider->value();
+
+    if(mAnimationState == AnimationState::START) {
+        mAnimationState = AnimationState::RUNNING;
+    } else if(mAnimationState == AnimationState::RUNNING) {
+        frameIndex ++;
+    }
+
+    if(frameIndex >= children.length()) {
         if(mAnimation->getWrapMode() == Animation::WrapLoop) {
-            mCurrentFrameIndex = -1;
-            updateAnimation();
+            setAnimationState(AnimationState::START);
         } else {
-            mTimer->stop();
-            mAnimationState = AnimationState::STOPPED;
+            setAnimationState(AnimationState::STOPPED);
         }
     } else {
-        mScene->clear();
-        mUi->timeframeSlider->setValue(mCurrentFrameIndex);
+        Frame* frame = static_cast<Frame*>(children.at(frameIndex));
+        mUi->timeframeSlider->setValue(frameIndex);
 
-        Frame* frame = static_cast<Frame*>(children.at(mCurrentFrameIndex));
-        Sprite* sprite = frame->getSprite();
-        if(sprite) {
-            QPixmap pixmap = sprite->pixmap();
-            QGraphicsPixmapItem* item = new QGraphicsPixmapItem();
-            item->setPixmap(pixmap);
-            item->setPos(0, 0);
-            mScene->addItem(item);
-        } else {
-            //@TODO add empty item
-        }
-
-        mTimer->start(frame->getDuration() * 1000);
+        mTimer->start((mAnimation->spf() * 1000) * frame->getHold());
     }
 }
 
-void AnimationPreviewWidget::on_buttonPlayPause_clicked()
-{
-    if(mAnimationState == AnimationState::STOPPED) {
-        setAnimationState(AnimationState::RUNNING);
-        mCurrentFrameIndex = -1;
+void AnimationPreviewWidget::on_buttonPlayPause_clicked() {
+    if((mAnimationState == AnimationState::RUNNING) || (mAnimationState == AnimationState::START)) {
+        setAnimationState(AnimationState::PAUSED);
     } else if(mAnimationState == AnimationState::PAUSED) {
         setAnimationState(AnimationState::RUNNING);
-    } else if(mAnimationState == AnimationState::RUNNING) {
-        setAnimationState(AnimationState::PAUSED);
+    } else if(mAnimationState == AnimationState::STOPPED) {
+        setAnimationState(AnimationState::START);
     }
 
-    if(mAnimationState == AnimationState::RUNNING) updateAnimation();
+    if((mAnimationState == AnimationState::RUNNING) || (mAnimationState == AnimationState::START))
+        updateAnimation();
+}
+
+void AnimationPreviewWidget::on_buttonStop_clicked() {
+    setAnimationState(AnimationState::STOPPED);
 }
 
 void AnimationPreviewWidget::setAnimationState(AnimationState state) {
     if(state == mAnimationState) return;
 
-    mAnimationState = state;
+    switch(state) {
+    case AnimationState::START:
+        mUi->timeframeSlider->setValue(0);
+        break;
+
+    case AnimationState::STOPPED:
+        mTimer->stop();
+        mUi->timeframeSlider->setValue(0);
+        break;
+
+    case AnimationState::PAUSED:
+        mTimer->stop();
+        break;
+
+    case AnimationState::RUNNING:
+        break;
+    }
 
     QString file;
-    if(state == AnimationState::RUNNING) {
-        file = ":/icons/control.png";
-    } else if (state == AnimationState::PAUSED) {
+    bool flag = false;
+    if((state == AnimationState::RUNNING) || (state == AnimationState::START)) {
         file = ":/icons/control-pause.png";
+        flag = true;
+    } else if ((state == AnimationState::PAUSED) || ((state == AnimationState::STOPPED) && (state != mAnimationState))) {
+        file = ":/icons/control.png";
+        flag = true;
+    }
+
+    if(flag) {
+        QPixmap pixmap;
+        if(!QPixmapCache::find(file, &pixmap)) {
+            pixmap.load(file);
+            QPixmapCache::insert(file, pixmap);
+        }
+        mUi->buttonPlayPause->setIcon(QIcon(pixmap));
+    }
+
+    mAnimationState = state;
+}
+
+void AnimationPreviewWidget::on_timeframeSlider_valueChanged(int value) {
+    Frame* frame = static_cast<Frame*>(mAnimation->children().at(value));
+    Sprite* sprite = frame->getSprite();
+
+    mScene->clear();
+
+    if(sprite) {
+        QPixmap pixmap = sprite->pixmap();
+        QGraphicsPixmapItem* item = new QGraphicsPixmapItem();
+        item->setPixmap(pixmap);
+        item->setPos(0, 0);
+        mScene->addItem(item);
     } else {
-        return;
+        //@TODO add empty item
     }
-
-    QPixmap pixmap;
-    if(!QPixmapCache::find(file, &pixmap)) {
-        pixmap.load(file);
-        QPixmapCache::insert(file, pixmap);
-    }
-
-    mUi->buttonPlayPause->setIcon(QIcon(pixmap));
 }

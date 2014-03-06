@@ -50,13 +50,13 @@ QDataWidgetMapper* FrameDetailsEditor::createMapper(CharacterModel* model, const
     mMapper = new QDataWidgetMapper(this);
     mMapper->setModel(model);
     mMapper->addMapping(mUi->nameEdit, Item::ColumnName);
-    mMapper->addMapping(mUi->durationEdit, Item::ColumnFrameDuration);
+    mMapper->addMapping(mUi->holdEdit, Item::ColumnFrameHold);
     mMapper->addMapping(mUi->spriteSelectButton, Item::ColumnFrameSpriteIcon);
     mUi->spriteSelectButton->setIconSize(QSize(frameSize.width, frameSize.height));
     mMapper->setItemDelegate(new FrameSpriteIconDelegate(mUi->spriteSelectButton, this));
 
     QObject::connect(
-                mUi->durationEdit, SIGNAL(valueChanged(double)),
+                mUi->holdEdit, SIGNAL(valueChanged(int)),
                 this, SLOT(submitChanges())
                 );
 
@@ -66,7 +66,7 @@ QDataWidgetMapper* FrameDetailsEditor::createMapper(CharacterModel* model, const
 
 void FrameDetailsEditor::clear() {
     mUi->nameEdit->setText("");
-    mUi->durationEdit->setValue(1);
+    mUi->holdEdit->setValue(1);
     mUi->spriteSelectButton->setIcon(QIcon());
     mUi->spriteSelectButton->setText("...");
 }
