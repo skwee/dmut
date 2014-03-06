@@ -21,6 +21,7 @@ public:
     Animation();
 
     inline WrapMode getWrapMode() const { return mWrapMode; }
+    inline double getLength() const { return mLength; }
 
     inline double spf() const { return 1.0f / fps(); }
     double fps() const;

@@ -38,6 +38,7 @@ public:
 
 signals:
     void onSpriteSelected(Sprite* sprite);
+    void onSpriteAtlasOpened(const QString& name);
 
 private slots:
     void submitChanges();

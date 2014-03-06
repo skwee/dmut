@@ -14,6 +14,11 @@ ItemPropertiesWidget::ItemPropertiesWidget(QWidget *parent) :
     mUi->characterDataFrame->setDisabled(true);
     mUi->animationDataFrame->setDisabled(true);
     mUi->frameDataFrame->setDisabled(true);
+
+    QObject::connect(
+                mUi->frameDataFrame, SIGNAL(onSpriteAtlasOpened(QString)),
+                this, SIGNAL(onSpriteAtlasCreated(QString))
+                );
 }
 
 ItemPropertiesWidget::~ItemPropertiesWidget()

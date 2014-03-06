@@ -24,6 +24,9 @@ public:
     void startSession(CharacterDocument* document);
     void finishSession();
 
+signals:
+    void onSpriteAtlasCreated(const QString& name);
+
 public slots:
     void itemSelectionChanged(const QModelIndex& selected, const QModelIndex& deselected);
     void setSelectedItem(const QModelIndex& index);

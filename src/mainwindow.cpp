@@ -27,6 +27,10 @@ void MainWindow::on_actionNew_triggered()
 {
     finishSession();
     mCharacterDocument = CharacterDocument::create(this);
+    QObject::connect(
+                mUi->itemProperties, SIGNAL(onSpriteAtlasCreated(QString)),
+                mCharacterDocument, SLOT(spriteAtlasCreated(QString))
+                );
     startSession();
 }
 
@@ -67,4 +71,16 @@ void MainWindow::dataChanged() {
     QModelIndex index = mUi->characterHierarchy->currentSelectedIndex();
     mUi->itemProperties->itemSelectionChanged(index, QModelIndex());
     mUi->previewAnimation->itemSelectionChanged(index);
+}
+
+void MainWindow::on_actionSave_triggered() {
+    if(mCharacterDocument) {
+        mCharacterDocument->save(false, this);
+    }
+}
+
+void MainWindow::on_actionSaveAs_triggered() {
+    if(mCharacterDocument) {
+        mCharacterDocument->save(true, this);
+    }
 }

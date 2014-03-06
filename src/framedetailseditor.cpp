@@ -89,6 +89,9 @@ void FrameDetailsEditor::on_spriteSelectButton_clicked() {
             mUi->spriteFileLabel->setText(file.fileName());
             mSpriteAtlas = new SpriteAtlasDialog(file.fileName(), mFrameSize, mUi->spriteSelectButton);
 
+            QFileInfo finfo(file);
+            emit onSpriteAtlasOpened(finfo.fileName());
+
             QObject::connect(
                         mSpriteAtlas, SIGNAL(onSpriteSelected(Sprite*)),
                         this, SIGNAL(onSpriteSelected(Sprite*))

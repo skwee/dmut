@@ -22,9 +22,9 @@ Fell free to share your ideas and needs about what would you like to see in the 
   + ~~Frame~~
 + ~~Loading and selecting sprites for frames using sprite atlas selection~~
 + ~~Aimation Preview Player~~
-+ __Defining Binary format for dmut__
-+ Save and Save As
-+ Load from file
++ ~~Defining Binary format for dmut~~
++ ~~Save and Save As~~
++ __Load from file__
 + (?) Undo and Redo
 + About and credits
 + Documentation

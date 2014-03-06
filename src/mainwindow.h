@@ -24,6 +24,10 @@ private slots:
 
     void dataChanged();
 
+    void on_actionSave_triggered();
+
+    void on_actionSaveAs_triggered();
+
 private:
     void finishSession();
     void startSession();
