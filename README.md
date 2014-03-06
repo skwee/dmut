@@ -21,8 +21,8 @@ Fell free to share your ideas and needs about what would you like to see in the 
   + ~~Animation~~
   + ~~Frame~~
 + ~~Loading and selecting sprites for frames using sprite atlas selection~~
-+ __Aimation Preview Player__
-+ Defining Binary format for dmut
++ ~~Aimation Preview Player~~
++ __Defining Binary format for dmut__
 + Save and Save As
 + Load from file
 + (?) Undo and Redo
